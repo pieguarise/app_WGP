@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:app_calorie/models/training.dart';
 
 
-
 Widget _toDisplayText(List<Training> recentTrainings){
   if (compareTrainings(recentTrainings)){
     return Padding(

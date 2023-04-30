@@ -1,5 +1,8 @@
+import 'package:app_calorie/pages/aboutUsPage.dart';
 import 'package:app_calorie/pages/homePage.dart';
+import 'package:app_calorie/pages/userPage.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 
 class Home extends StatefulWidget {
@@ -39,7 +42,7 @@ class _HomeState extends State<Home> {
       case 0:
         return const HomePage();
       case 1:
-        return const HomePage();
+        return UserPage();
       default:
         return const HomePage();
     }
@@ -50,65 +53,31 @@ class _HomeState extends State<Home> {
     return Scaffold(
         backgroundColor: Colors.white,
         drawer: Drawer(
-          /*
+          
           child: ListView(
             children: [
+              const SizedBox(height: 30,),
               ListTile(
-                  leading: const Icon(MdiIcons.logout),
-                  title: const Text('Logout'),
-                  // delete all data from the database
-                  onTap: () => {}),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text('About'),
-              ),
+                  leading: const Icon(MdiIcons.logout, color: Colors.orange,size: 35,),
+                  title: const Text('Logout',style: TextStyle(fontSize: 20),),
+                  onTap: () => {
+                    //Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage())),
+                  }),
               ListTile(
-                  leading: const Icon(MdiIcons.imageFilterDrama),
-                  title: const Text('Pollution Information'),
-                  // delete all data from the database
+                  leading: const Icon(MdiIcons.informationOutline,color: Colors.orange,size: 35,),
+                  title: const Text('About Us',style: TextStyle(fontSize: 20),),
                   onTap: () => {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => InfoPollutants(),
-                        ))
-                      }),
-              ListTile(
-                  leading: const Icon(MdiIcons.dotsHexagon),
-                  title: const Text('Exposure Information'),
-                  // delete all data from the database
-                  onTap: () => {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => InfoExposure(),
+                          builder: (context) => AboutUsPage(),
                         ))
                       }),
             ],
           ),
-          */
         ),
         appBar: AppBar(
           backgroundColor: Colors.orange.shade300,
-          /*
-          iconTheme: const IconThemeData(color: Color(0xFF89453C)),
-          elevation: 0,
-          backgroundColor: const Color(0xFFE4DFD4),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            fullscreenDialog: true,
-                            builder: (context) => Profile()));
-                  },
-                  icon: const Icon(
-                    MdiIcons.accountCircle,
-                    size: 40,
-                    color: Color(0xFF89453C),
-                  )),
-            )
-          ],
-          */
+          
+          iconTheme: const IconThemeData(color: Color.fromARGB(255, 230, 81, 0)),
         ),
         body: _selectPage(index: _selIdx),
         bottomNavigationBar: BottomNavigationBar(
