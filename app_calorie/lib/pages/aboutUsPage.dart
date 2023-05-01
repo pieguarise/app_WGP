@@ -38,23 +38,30 @@ class AboutUsPage extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Column(
               children: [
-                CircleAvatar(
-                  radius: 50,
-                  backgroundColor: Colors.white,
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Image.asset('assets/barilla.png')),
-                ),
-                SizedBox(width: 100),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 60,
+                      backgroundColor: Colors.transparent,
+                      child: Image.asset('assets/bottecchia.png')),
+                    
+                    SizedBox(width: 100),
 
-                CircleAvatar(
-                  radius: 50,
-                  child: Image.asset('assets/nike.png'),
-                  backgroundColor: Colors.transparent,
-                )
+                    CircleAvatar(
+                      radius: 60,
+                      backgroundColor: Colors.transparent,
+                      child: Image.asset('assets/nike.png'),
+                    )
+                  ],
+                ),
+                Center(child: CircleAvatar(
+                      radius: 60,
+                      backgroundColor: Colors.transparent,
+                      child: Image.asset('assets/lowa.png'),
+                    ),)
               ],
             )
           ],
