@@ -1,4 +1,4 @@
-import 'package:app_calorie/pages/cuponsPage.dart';
+import 'package:app_calorie/pages/couponsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -117,7 +117,7 @@ class _UserPageState extends State<UserPage> {
                   iconSize: 50,
                   onPressed: () {
                     Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => CuponsPage()));
+                        MaterialPageRoute(builder: (context) => CouponsPage()));
                   },
                   icon: Icon(MdiIcons.gift),
                   color: Color.fromARGB(255, 230, 81, 1),

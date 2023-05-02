@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class CuponsPage extends StatefulWidget {
-  CuponsPage({Key? key}) : super(key: key);
+class CouponsPage extends StatefulWidget {
+  CouponsPage({Key? key}) : super(key: key);
 
-  //static const CuponspageName = 'CuponsPage';
+  //static const CouponspageName = 'CouponsPage';
 
   @override
-  State<CuponsPage> createState() => _CuponsPageState();
+  State<CouponsPage> createState() => _CouponsPageState();
 }
 
-class _CuponsPageState extends State<CuponsPage> {
+class _CouponsPageState extends State<CouponsPage> {
   @override
   Widget build(BuildContext context) {
-    //print('${CuponsPage.CuponspageName} built');
+    //print('${CouponsPage.CouponspageName} built');
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Cupons'),
+        title: const Text('My Coupons'),
       ),
-      body: cupons(),
+      body: coupons(),
       );
   } 
  //build
 
-Widget cupons() => ListView(children:  const [
+Widget coupons() => ListView(children:  const [
         ListTile(
           leading: Icon(Icons.card_giftcard),
           title: Text('Nike: 25%'),
@@ -60,4 +60,4 @@ Widget cupons() => ListView(children:  const [
           //onTap: () {},
         )
       ]);
-}//CuponsPage
+}//CouponsPage

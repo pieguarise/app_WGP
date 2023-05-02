@@ -34,31 +34,31 @@ class AboutUsPage extends StatelessWidget {
               'In Collaboration With',
               style: TextStyle(
                   fontSize: 30,
-                  color: Colors.orange,
+                  color: Colors.black,
                   fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 20),
             Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      radius: 60,
+                      radius: 50,
                       backgroundColor: Colors.transparent,
                       child: Image.asset('assets/bottecchia.png')),
                     
                     SizedBox(width: 100),
 
                     CircleAvatar(
-                      radius: 60,
+                      radius: 50,
                       backgroundColor: Colors.transparent,
                       child: Image.asset('assets/nike.png'),
                     )
                   ],
                 ),
                 Center(child: CircleAvatar(
-                      radius: 60,
+                      radius: 50,
                       backgroundColor: Colors.transparent,
                       child: Image.asset('assets/lowa.png'),
                     ),)
