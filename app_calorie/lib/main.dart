@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_calorie/pages/home.dart';
+
 void main() {
   runApp(const MyApp());
 }
