@@ -12,17 +12,11 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
-  final String name = 'Bruce Wayne (Batman)';
-
-  final DateTime date = DateTime.now();
-
-  final double amount = 100;
-
-  final int age = 30;
-
-  double weigth = 100;
-
-  List<Widget> _listTiles = [];
+  final TextEditingController? name = TextEditingController(); 
+  final TextEditingController? age = TextEditingController(); 
+  final TextEditingController? weigth = TextEditingController(); 
+  final TextEditingController? heigth = TextEditingController(); 
+  //String? profile='';
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +50,7 @@ class _UserPageState extends State<UserPage> {
                       height: 20,
                     ),
                     Text(
-                      '$name',
+                      'Batman',
                       style: const TextStyle(
                           fontSize: 30, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.start,
@@ -78,27 +72,42 @@ class _UserPageState extends State<UserPage> {
                     TextFormField(
                         decoration: const InputDecoration(
                       icon: Icon(
+                        MdiIcons.human,
+                        color: Colors.orange,
+                      ),
+                      hintText: 'Name',),
+                    controller: name,
+                    //initialValue: profile,
+                    //onChanged: (val) { 
+                      //setState(() {
+                      
+                    //});}
+                    ),
+                    TextFormField(
+                        decoration: const InputDecoration(
+                      icon: Icon(
                         MdiIcons.cake,
                         color: Colors.orange,
                       ),
-                      hintText: 'Age',
-                    )),
+                      hintText: 'Age',),
+                      controller: age,
+                    ),
                     TextFormField(
                         decoration: const InputDecoration(
                       icon: Icon(
                         MdiIcons.weightKilogram,
                         color: Colors.orange,
                       ),
-                      hintText: 'Weigth',
-                    )),
+                      hintText: 'Weigth',),
+                    controller: weigth,),
                     TextFormField(
                         decoration: const InputDecoration(
                       icon: Icon(
                         MdiIcons.tapeMeasure,
                         color: Colors.orange,
                       ),
-                      hintText: 'Heigth',
-                    )),
+                      hintText: 'Heigth',),
+                    controller: heigth,),
                   ])),
               const SizedBox(
                 height: 40,
