@@ -50,8 +50,8 @@ class _DonationPageState extends State<DonationPage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const Row(
-                    children: [
+                  Row(
+                    children: const [
                       SizedBox(
                         width: 20,
                       ),
