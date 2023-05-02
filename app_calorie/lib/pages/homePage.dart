@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:app_calorie/models/training.dart';
+import 'package:app_calorie/widgets/caloriesPlot.dart';
 import 'package:app_calorie/pages/donationPage.dart';
 
-Widget _toDisplayText(List<Training> recentTrainings) {
-  if (compareTrainings(recentTrainings)) {
+Widget _toDisplayText(List<Training> recentTrainings){
+  if (compareTrainings(recentTrainings)){
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Column(
@@ -67,77 +68,92 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-                textAlign: TextAlign.center,
-                'Calories consumed in your last training session:',
-                style: TextStyle(color: Color(0xFF424242), fontSize: 20)),
-            const SizedBox(height: 10),
-            Text(
-              '${sessions1[0].calories} calories',
-              style: TextStyle(
-                  color: Colors.orange,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const Text(
+            'Trainings',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 30,
+              fontWeight: FontWeight.bold
+              ),
+            textAlign: TextAlign.left),
+
+          Text(
+            'Calories consumption',
+            style: TextStyle(
+              color: Colors.grey.shade700,
+              fontSize: 25,
+              fontWeight: FontWeight.bold
+              )),    
+
+          const SizedBox(height: 30),
+          
+          const Text(
+            "Your last 5 training sessions:",
+            style: TextStyle(
+              color: Colors.orange,
+              fontSize: 20,
+              fontWeight: FontWeight.bold 
             ),
+          ),
 
-            const SizedBox(height: 20),
 
-            Container(
-              color: Colors.orange.shade200,
-              child: Center(child: const Text("Graph here")),
-              height: 280,
-              width: 400,
+          Container(
+            height: 280,
+            width: 400,
+            child: const LineChartSample(),
             ),
+          
 
-            const SizedBox(height: 10),
+          const SizedBox(height: 10),
 
-            _toDisplayText(sessions1),
+          _toDisplayText(sessions2),
 
-            const SizedBox(height: 25),
-
-            SizedBox(
-              width: 200,
-              height: 50,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(32.0))),
-                onPressed: () => _toDonationPage(
+          const SizedBox(height: 20),
+    
+          SizedBox(
+            width:200,
+            height:50,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(32.0))),
+              onPressed: () => _toDonationPage(
                   context,
                   //Provider.of<>(context, listen: false), -1)
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text('DONATE  ',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w800)),
-                    Icon(
-                      Icons.monetization_on_outlined,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text(
+                    'DONATE  ',
+                    style: TextStyle(
                       color: Colors.white,
-                      size: 33,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w800
+                      )),
+                  Icon(
+                    Icons.monetization_on_outlined,
+                    color: Colors.white,
+                    size: 33,
                     )
-                  ],
-                ),
+                ],
               ),
-            )
-            //CustomPlot(data: data)
-          ],
-        ),
+            ),
+          )
+          
+        ],
       ),
     );
   }
+}
 
-  void _toDonationPage(
+void _toDonationPage(
     BuildContext context,
     // MealDB mealDB, int mealIndex
   ) {
@@ -149,4 +165,4 @@ class _HomePageState extends State<HomePage> {
                 //mealIndex: mealIndex,
                 )));
   } //_toDonationPage
-}
+
