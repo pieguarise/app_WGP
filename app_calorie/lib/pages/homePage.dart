@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app_calorie/models/training.dart';
 import 'package:app_calorie/widgets/caloriesPlot.dart';
-
+import 'package:app_calorie/pages/donationPage.dart';
 
 Widget _toDisplayText(List<Training> recentTrainings){
   if (compareTrainings(recentTrainings)){
@@ -133,7 +133,10 @@ class _HomePageState extends State<HomePage> {
                 backgroundColor: Colors.orange,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(32.0))),
-              onPressed: () {},
+              onPressed: () => _toDonationPage(
+                  context,
+                  //Provider.of<>(context, listen: false), -1)
+                ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
@@ -160,3 +163,16 @@ class _HomePageState extends State<HomePage> {
   
   }
 }
+
+void _toDonationPage(
+    BuildContext context,
+    // MealDB mealDB, int mealIndex
+  ) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => DonationPage(
+                //mealDB: mealDB,
+                //mealIndex: mealIndex,
+                )));
+  } //_toDonationPage
