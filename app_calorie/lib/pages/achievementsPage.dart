@@ -149,8 +149,8 @@ class _listViewMembers extends StatefulWidget {
 }
 
 class __listViewMembersState extends State<_listViewMembers> {
-  final List<String> members = ['Nike', 'Lowa', 'Bottecchia'];
-  List<double> memb_num = [1, 2, 3];
+  final List<String> _members = ['Nike', 'Lowa', 'Bottecchia'];
+  List<double> _membNum = [1, 2, 3];
   //final List<bool> members_bool = [false, false, false];
   List<String> pathsImages = [
     'assets/nike.png',
@@ -162,15 +162,15 @@ class __listViewMembersState extends State<_listViewMembers> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: members.length,
+      itemCount: _members.length,
       itemBuilder: (BuildContext context, int index) {
         return ListTile(
           minVerticalPadding: 0.5,
-          title: Text(members[index]),
+          title: Text(_members[index]),
           leading: Radio(
             fillColor: MaterialStateColor.resolveWith(
                 (states) => const Color(0xFF89453C)),
-            value: memb_num[index],
+            value: _membNum[index],
             groupValue: radioValue,
             onChanged: (val) {
               setState(() {
