@@ -28,6 +28,10 @@ class _UserPageState extends State<UserPage> {
   Widget build(BuildContext context) {
     //print('${UserPage.UserpageName} built');
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.orange.shade300,
+        iconTheme: const IconThemeData(color: Color.fromARGB(255, 230, 81, 0)),
+      ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Column(
