@@ -3,33 +3,22 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:app_calorie/pages/homePage.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-class DonationPage extends StatefulWidget {
-  DonationPage({Key? key}) : super(key: key);
+class AchievementsPage extends StatefulWidget {
+  AchievementsPage({Key? key}) : super(key: key);
 
-  static const DonationPageName = 'DonationPage';
+  static const AchievementsPageName = 'AchievementsPage';
 
   @override
-  State<DonationPage> createState() => _DonationPageState();
+  State<AchievementsPage> createState() => _AchievementsPageState();
 }
 
-class _DonationPageState extends State<DonationPage> {
+class _AchievementsPageState extends State<AchievementsPage> {
   final DateTime date = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
-    //print('${DonationPage.DonationPageName} built');
+    //print('${AchievementsPage.AchievementsPageName} built');
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.orange.shade300,
-        iconTheme: const IconThemeData(color: Color.fromARGB(255, 230, 81, 0)),
-        actions: [
-          IconButton(
-              onPressed: () => Navigator.pop(context),
-              //Provider.of<Cart>(context, listen: false).clearCart(),
-              icon: const Icon(Icons.done))
-        ],
-      ),
-      backgroundColor: Colors.white,
       body: Column(children: [
         Container(
             width: 700,
@@ -82,8 +71,11 @@ class _DonationPageState extends State<DonationPage> {
               ),
               */
                 ])),
-        _bottomDonationPage(),
+        _bottomAchievementsPage(),
       ]),
+      floatingActionButton: FloatingActionButton(onPressed: () => Navigator.pop(context),child: Icon(Icons.done),
+              //Provider.of<Cart>(context, listen: false).clearCart(),
+              )
     );
   }
 } //Page
@@ -119,14 +111,14 @@ Widget _scoreBoard(BuildContext context, {required double kCal}) {
   ));
 }
 
-class _bottomDonationPage extends StatefulWidget {
-  const _bottomDonationPage({super.key});
+class _bottomAchievementsPage extends StatefulWidget {
+  const _bottomAchievementsPage({super.key});
 
   @override
-  State<_bottomDonationPage> createState() => __bottomDonationPageState();
+  State<_bottomAchievementsPage> createState() => __bottomAchievementsPageState();
 }
 
-class __bottomDonationPageState extends State<_bottomDonationPage> {
+class __bottomAchievementsPageState extends State<_bottomAchievementsPage> {
   @override
   Widget build(BuildContext context) {
     return Padding(

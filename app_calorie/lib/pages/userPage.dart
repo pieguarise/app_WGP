@@ -99,30 +99,7 @@ class _UserPageState extends State<UserPage> {
               const SizedBox(
                 height: 40,
               ),
-              const Text(
-                'My Cupons',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.orange,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              CircleAvatar(
-                radius: 50,
-                backgroundColor: Colors.orange.shade200,
-                child: IconButton(
-                  iconSize: 50,
-                  onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => CouponsPage()));
-                  },
-                  icon: Icon(MdiIcons.gift),
-                  color: Color.fromARGB(255, 230, 81, 1),
-                ),
-              ),
+              
             ],
           ),
         ));

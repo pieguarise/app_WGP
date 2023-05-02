@@ -1,4 +1,6 @@
 import 'package:app_calorie/pages/aboutUsPage.dart';
+import 'package:app_calorie/pages/achievementsPage.dart';
+import 'package:app_calorie/pages/couponsPage.dart';
 import 'package:app_calorie/pages/homePage.dart';
 import 'package:app_calorie/pages/userPage.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +26,8 @@ class _HomeState extends State<Home> {
       label: 'Home',
     ),
     const BottomNavigationBarItem(
-      icon: Icon(Icons.person_outlined),
-      label: 'User',
+      icon: Icon(MdiIcons.trophyOutline),
+      label: 'Achievements',
     ),
   ];
 
@@ -42,7 +44,7 @@ class _HomeState extends State<Home> {
       case 0:
         return const HomePage();
       case 1:
-        return UserPage();
+        return AchievementsPage();
       default:
         return const HomePage();
     }
@@ -76,7 +78,16 @@ class _HomeState extends State<Home> {
         ),
         appBar: AppBar(
           backgroundColor: Colors.orange.shade300,
-          
+          actions: [
+              IconButton(onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => CouponsPage()));
+                  }, icon: Icon(MdiIcons.gift)),
+              IconButton(onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => UserPage()));
+                  }, icon: Icon(Icons.person_2_outlined)),  
+          ],
           iconTheme: const IconThemeData(color: Color.fromARGB(255, 230, 81, 0)),
         ),
         body: _selectPage(index: _selIdx),
