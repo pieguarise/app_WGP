@@ -31,6 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   material_design_icons_flutter: ^6.0.7096
+  syncfusion_flutter_gauges: ^21.1.41
 
 
   # The following adds the Cupertino Icons font to your application.
