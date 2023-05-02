@@ -1,3 +1,4 @@
+import 'package:app_calorie/pages/couponsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:app_calorie/pages/homePage.dart';
@@ -40,8 +41,8 @@ class _AchievementsPageState extends State<AchievementsPage> {
                     const SizedBox(
                       height: 20,
                     ),
-                    const Row(
-                      children: [
+                    Row(
+                      children: const [
                         SizedBox(
                           width: 20,
                         ),
@@ -66,7 +67,8 @@ class _AchievementsPageState extends State<AchievementsPage> {
           const _bottomAchievementsPage(),
         ]),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => CouponsPage())),
           child: const Icon(Icons.done),
           //Provider.of<Cart>(context, listen: false).clearCart(),
         ));
@@ -113,7 +115,7 @@ class _bottomAchievementsPage extends StatefulWidget {
 }
 
 class __bottomAchievementsPageState extends State<_bottomAchievementsPage> {
-  int? radioValue;
+  int? currentValue;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -133,8 +135,8 @@ class __bottomAchievementsPageState extends State<_bottomAchievementsPage> {
           height: 10,
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(height: 250, child: _listViewMembers()),
+          padding: const EdgeInsets.all(8),
+          child: Container(height: 250, width: 350, child: _listViewMembers()),
         ),
       ],
     );
@@ -150,7 +152,7 @@ class _listViewMembers extends StatefulWidget {
 
 class __listViewMembersState extends State<_listViewMembers> {
   final List<String> _members = ['Nike', 'Lowa', 'Bottecchia'];
-  List<double> _membNum = [1, 2, 3];
+  final List<double> _membNum = [1, 2, 3];
   //final List<bool> members_bool = [false, false, false];
   List<String> pathsImages = [
     'assets/nike.png',
@@ -158,7 +160,7 @@ class __listViewMembersState extends State<_listViewMembers> {
     'assets/bottecchia.png',
   ];
 
-  num? radioValue;
+  num? currentValue;
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -171,10 +173,10 @@ class __listViewMembersState extends State<_listViewMembers> {
             fillColor: MaterialStateColor.resolveWith(
                 (states) => const Color(0xFF89453C)),
             value: _membNum[index],
-            groupValue: radioValue,
+            groupValue: currentValue,
             onChanged: (val) {
               setState(() {
-                radioValue = val;
+                currentValue = val;
               });
             },
           ),
@@ -185,7 +187,7 @@ class __listViewMembersState extends State<_listViewMembers> {
               pathsImages[index],
             ),
           ),
-          visualDensity: VisualDensity(horizontal: 0),
+          visualDensity: VisualDensity(horizontal: -2),
         );
       },
     );
@@ -196,10 +198,10 @@ Radio(
                           fillColor: MaterialStateColor.resolveWith(
                               (states) => const Color(0xFF89453C)),
                           value: 0,
-                          groupValue: radioValue,
+                          groupValue: currentValue,
                           onChanged: (val) {
                             setState(() {
-                              radioValue = val;
+                              currentValue = val;
                             });
                           },
                         ),
