@@ -18,7 +18,7 @@ class AchievementsPage extends StatefulWidget {
 class _AchievementsPageState extends State<AchievementsPage> {
   int _barFull = 0;
 
-  int _maxRange = 180 * 5;
+  final int _maxRange = 180 * 5;
   // è impostato anche su radialScoreBoard quindi se messa una vriabile vanno cambiati entrambi
 
   // qui ci va di sicuro un CONSUMER LA CUI CLASS PROVIDER è LA QUANTITà DI CALORIE CONSUMATE
@@ -48,52 +48,54 @@ class _AchievementsPageState extends State<AchievementsPage> {
     //print('${AchievementsPage.AchievementsPageName} built');
     return Scaffold(
         backgroundColor: Colors.white,
-        body: Column(children: [
-          Container(
-              width: 700,
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.orange.shade200,
-                    const Color.fromARGB(255, 255, 255, 255)
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
+        body: SingleChildScrollView(
+          child: Column(children: [
+            Container(
+                width: 700,
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.orange.shade200,
+                      const Color.fromARGB(255, 255, 255, 255)
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
                 ),
-              ),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      children: const [
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'YOUR KCAL COUNTER',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                        width: 280,
-                        height: 280,
-                        child: scoreBoard(context, session: sessions2))
-                  ])),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        children: const [
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            'YOUR KCAL COUNTER',
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.italic),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                          width: 280,
+                          height: 280,
+                          child: scoreBoard(context, session: sessions2))
+                    ])),
 
-          //QUI VA CONTROLLATA LA COSA DEL PROVIDER
-          _selectBottomSection(fullness: _barFull),
-        ]),
+            //QUI VA CONTROLLATA LA COSA DEL PROVIDER
+            _selectBottomSection(fullness: _barFull),
+          ]),
+        ),
         floatingActionButton: FloatingActionButton(
           onPressed: () => Navigator.of(context)
               .push(MaterialPageRoute(builder: (context) => CouponsPage())),

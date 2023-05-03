@@ -24,19 +24,15 @@ class bottomBarNotFullSection extends StatelessWidget {
       ),
       Padding(
           padding: const EdgeInsets.all(8),
-          child: Container(
-              color: Colors.grey,
-              height: 80,
-              width: 380,
-              child: TextFormField(
-                  decoration: const InputDecoration(
-                icon: Icon(
-                  Icons.monetization_on,
-                  color: Colors.orange,
-                ),
-                hintText:
-                    "Select the import - TO DO - IMPLEMENTAZIONE DEL CONTROLLO SULL'IMPORTO",
-              ))))
+          child: TextFormField(
+              decoration: const InputDecoration(
+            icon: Icon(
+              Icons.monetization_on,
+              color: Colors.orange,
+            ),
+            hintText:
+                "Select the import - TO DO - IMPLEMENTAZIONE DEL CONTROLLO SULL'IMPORTO",
+          )))
     ]);
   }
 }
