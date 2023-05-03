@@ -1,20 +1,12 @@
 import 'package:app_calorie/pages/couponsPage.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:app_calorie/pages/homePage.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:app_calorie/widgets/radialScoreBoard.dart';
+import 'package:app_calorie/models/training.dart';
 
-class AchievementsPage extends StatefulWidget {
+class AchievementsPage extends StatelessWidget {
   AchievementsPage({Key? key}) : super(key: key);
 
   static const AchievementsPageName = 'AchievementsPage';
-
-  @override
-  State<AchievementsPage> createState() => _AchievementsPageState();
-}
-
-class _AchievementsPageState extends State<AchievementsPage> {
-  final DateTime date = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -59,12 +51,11 @@ class _AchievementsPageState extends State<AchievementsPage> {
                       height: 10,
                     ),
                     SizedBox(
-                      width: 280,
-                      height: 280,
-                      child: _scoreBoard(context, kCal: 80),
-                    )
+                        width: 280,
+                        height: 280,
+                        child: scoreBoard(context, session: sessions2))
                   ])),
-          const _bottomAchievementsPage(),
+          bottomFullBarSection(),
         ]),
         floatingActionButton: FloatingActionButton(
           onPressed: () => Navigator.of(context)
@@ -73,49 +64,15 @@ class _AchievementsPageState extends State<AchievementsPage> {
           //Provider.of<Cart>(context, listen: false).clearCart(),
         ));
   }
-} //Page
-
-Widget _scoreBoard(BuildContext context, {required double kCal}) {
-  return Center(
-      child: SfRadialGauge(
-    axes: <RadialAxis>[
-      RadialAxis(
-          axisLineStyle: const AxisLineStyle(thickness: 30),
-          showTicks: false,
-          pointers: <GaugePointer>[
-            NeedlePointer(
-                value: kCal,
-                enableAnimation: true,
-                needleStartWidth: 0,
-                needleEndWidth: 5,
-                needleColor: const Color(0xFFDADADA),
-                knobStyle: const KnobStyle(
-                    color: Colors.white,
-                    borderColor: Color(0xFFDADADA),
-                    knobRadius: 0.06,
-                    borderWidth: 0.04),
-                tailStyle: const TailStyle(
-                    color: Color(0xFFDADADA), width: 5, length: 0.15)),
-            RangePointer(
-                value: kCal,
-                width: 30,
-                enableAnimation: true,
-                color: Colors.orange)
-          ])
-    ],
-  ));
 }
 
-class _bottomAchievementsPage extends StatefulWidget {
-  const _bottomAchievementsPage({super.key});
+//Page
 
-  @override
-  State<_bottomAchievementsPage> createState() =>
-      __bottomAchievementsPageState();
-}
+class bottomFullBarSection extends StatelessWidget {
+  bottomFullBarSection({super.key});
 
-class __bottomAchievementsPageState extends State<_bottomAchievementsPage> {
   int? currentValue;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -136,21 +93,22 @@ class __bottomAchievementsPageState extends State<_bottomAchievementsPage> {
         ),
         Padding(
           padding: const EdgeInsets.all(8),
-          child: Container(height: 250, width: 350, child: _listViewMembers()),
+          child: Container(
+              height: 250, width: 350, child: const listViewMembers()),
         ),
       ],
     );
   }
 }
 
-class _listViewMembers extends StatefulWidget {
-  const _listViewMembers({super.key});
+class listViewMembers extends StatefulWidget {
+  const listViewMembers({super.key});
 
   @override
-  State<_listViewMembers> createState() => __listViewMembersState();
+  State<listViewMembers> createState() => _listViewMembersState();
 }
 
-class __listViewMembersState extends State<_listViewMembers> {
+class _listViewMembersState extends State<listViewMembers> {
   final List<String> _members = ['Nike', 'Lowa', 'Bottecchia'];
   final List<double> _membNum = [1, 2, 3];
   //final List<bool> members_bool = [false, false, false];
@@ -187,22 +145,9 @@ class __listViewMembersState extends State<_listViewMembers> {
               pathsImages[index],
             ),
           ),
-          visualDensity: VisualDensity(horizontal: -2),
+          visualDensity: const VisualDensity(horizontal: -2),
         );
       },
     );
   }
 }
-/*
-Radio(
-                          fillColor: MaterialStateColor.resolveWith(
-                              (states) => const Color(0xFF89453C)),
-                          value: 0,
-                          groupValue: currentValue,
-                          onChanged: (val) {
-                            setState(() {
-                              currentValue = val;
-                            });
-                          },
-                        ),
-                        */
