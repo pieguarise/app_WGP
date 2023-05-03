@@ -1,17 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
-import 'dart:math';
-import 'package:app_calorie/models/training.dart';
+import 'package:app_calorie/functions.dart/sumCalories.dart';
 
-Widget scoreBoard(BuildContext context, {required List<Training> session}) {
-  double _sumCalLast5trainings(List<Training> sess) {
-    double somma = 0;
-    for (var i = 0; i <= 4; i++) {
-      somma += sess[i].calories;
-    } //for
-    return somma;
-  } //_sumCalLast5trainings
-
+Widget scoreBoard(BuildContext context, {required List session}) {
   const double maxRange = 180 * 5; //for graph visualization range
 
   return Center(
@@ -26,7 +17,7 @@ Widget scoreBoard(BuildContext context, {required List<Training> session}) {
         showTicks: false,
         pointers: <GaugePointer>[
           MarkerPointer(
-              value: _sumCalLast5trainings(session),
+              value: sumCalLast5trainings(sessions: session),
               enableDragging: true,
               enableAnimation: true,
               markerWidth: 15,
@@ -50,11 +41,11 @@ Widget scoreBoard(BuildContext context, {required List<Training> session}) {
                   color: Color(0xFFDADADA), width: 5, length: 0.15)),
           */
           RangePointer(
-              value: _sumCalLast5trainings(session),
+              value: sumCalLast5trainings(sessions: session),
               //kCal,
               enableDragging: true,
               gradient: const SweepGradient(colors: <Color>[
-                Color.fromARGB(255, 255, 234, 0),
+                Color.fromARGB(255, 255, 179, 0),
                 Color.fromARGB(255, 248, 99, 7)
               ], stops: <double>[
                 0.25,
