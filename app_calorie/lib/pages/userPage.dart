@@ -1,6 +1,7 @@
 import 'package:app_calorie/pages/couponsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPage extends StatefulWidget {
   UserPage({Key? key}) : super(key: key);
@@ -12,11 +13,18 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
-  final TextEditingController? name = TextEditingController(); 
-  final TextEditingController? age = TextEditingController(); 
-  final TextEditingController? weigth = TextEditingController(); 
-  final TextEditingController? heigth = TextEditingController(); 
-  //String? profile='';
+
+  final TextEditingController nameController = TextEditingController(); 
+  final TextEditingController nickNameController = TextEditingController(); 
+  final TextEditingController ageController = TextEditingController(); 
+  final TextEditingController weigthController = TextEditingController(); 
+  final TextEditingController heigthController = TextEditingController(); 
+
+  @override
+  void initState() {
+    super.initState();
+    retrieveValues();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +58,7 @@ class _UserPageState extends State<UserPage> {
                       height: 20,
                     ),
                     Text(
-                      'Batman',
+                      '${nameController.text} (${nickNameController.text})',
                       style: const TextStyle(
                           fontSize: 30, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.start,
@@ -76,12 +84,16 @@ class _UserPageState extends State<UserPage> {
                         color: Colors.orange,
                       ),
                       hintText: 'Name',),
-                    controller: name,
-                    //initialValue: profile,
-                    //onChanged: (val) { 
-                      //setState(() {
-                      
-                    //});}
+                    controller: nameController,
+                    ),
+                    TextFormField(
+                        decoration: const InputDecoration(
+                      icon: Icon(
+                        MdiIcons.emoticonCoolOutline,
+                        color: Colors.orange,
+                      ),
+                      hintText: 'NickName',),
+                    controller: nickNameController,   
                     ),
                     TextFormField(
                         decoration: const InputDecoration(
@@ -90,7 +102,8 @@ class _UserPageState extends State<UserPage> {
                         color: Colors.orange,
                       ),
                       hintText: 'Age',),
-                      controller: age,
+                      controller: ageController,
+                      
                     ),
                     TextFormField(
                         decoration: const InputDecoration(
@@ -98,23 +111,47 @@ class _UserPageState extends State<UserPage> {
                         MdiIcons.weightKilogram,
                         color: Colors.orange,
                       ),
+                      suffix: Text('kg',style: TextStyle(color: Colors.black),),
                       hintText: 'Weigth',),
-                    controller: weigth,),
+                    controller: weigthController,),
                     TextFormField(
                         decoration: const InputDecoration(
                       icon: Icon(
                         MdiIcons.tapeMeasure,
                         color: Colors.orange,
                       ),
+                      suffix: Text('cm', style: TextStyle(color: Colors.black),),
                       hintText: 'Heigth',),
-                    controller: heigth,),
+                    controller: heigthController,),
+                    const SizedBox(
+                height: 40,),
+                    ElevatedButton(onPressed: () async{
+                      SharedPreferences ps = await SharedPreferences.getInstance();
+                      ps.setString('name', nameController.text);
+                      ps.setString('nickName', nickNameController.text);
+                      ps.setString('age', ageController.text);
+                      ps.setString('weigth', weigthController.text);
+                      ps.setString('heigth', heigthController.text);
+                      setState(() {
+                        
+                      });
+                    }, child: const Text('Save', style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold),))
                   ])),
-              const SizedBox(
-                height: 40,
-              ),
-              
             ],
           ),
         ));
   }
+  void retrieveValues() async {
+    final ps = await SharedPreferences.getInstance();
+    setState(() {
+      nameController.text=ps.getString('name') ?? '';
+      nickNameController.text=ps.getString('nickName') ?? '';
+      ageController.text=ps.getString('age') ?? '';
+      weigthController.text=ps.getString('weigth') ?? '';
+      heigthController.text=ps.getString('heigth') ?? '';
+    });
+  }
+  
+  
+ 
 }
