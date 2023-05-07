@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:app_calorie/models/training.dart';
+import 'package:intl/intl.dart';
 
 class LineChartSample extends StatelessWidget {
   const LineChartSample({super.key});
@@ -10,9 +11,9 @@ class LineChartSample extends StatelessWidget {
     return Stack(
       children: <Widget>[
         AspectRatio(
-          aspectRatio: 1.30,
+          aspectRatio: 1.9,
           child: Padding(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.only(right: 40, left:10, bottom: 10, top: 10 ),
             child: LineChart(
               mainData(),
             ),
@@ -107,12 +108,45 @@ class LineChartSample extends StatelessWidget {
         enabled: true,
         touchTooltipData: LineTouchTooltipData(
           tooltipBgColor: Colors.amber.shade50,
-          // getTooltipItems: 
-         )
-       ),
-
-      // backgroundColor: Colors.amber[50],
-
+          getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
+            return touchedBarSpots.map((barSpot) {
+              final flSpot = barSpot;
+              return LineTooltipItem(
+                'Calories: ${sessions2[5-flSpot.x.toInt()].calories} \n',
+                const TextStyle(
+                  color: Colors.orange,
+                  fontWeight: FontWeight.w600
+                ),
+                textAlign: TextAlign.left,
+                children: [
+                  TextSpan(
+                    text: 'Technique: ${sessions2[5-flSpot.x.toInt()].technique} \n',
+                    style: const TextStyle(
+                      color: Colors.orange,
+                      fontWeight: FontWeight.w600
+                      ),
+                  ),
+                  TextSpan(
+                    text: 'Date: ${DateFormat('dd-MM-yyyy').format(sessions2[5-flSpot.x.toInt()].date)} \n',
+                    style: const TextStyle(
+                      color: Colors.orange,
+                      fontWeight: FontWeight.w600
+                    ),
+                  ),
+                  TextSpan(
+                    text: 'Time: ${DateFormat.jm().format(sessions2[5-flSpot.x.toInt()].date)}',
+                    style: const TextStyle(
+                      color: Colors.orange,
+                      fontWeight: FontWeight.w600
+                    ),
+                  ),
+                ],
+              );
+            }).toList();
+          },
+        )
+      ),
+      
       lineBarsData: [
         LineChartBarData(
           spots: [
