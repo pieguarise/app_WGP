@@ -1,6 +1,6 @@
+import 'package:app_calorie/models/training.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
-import 'package:app_calorie/functions.dart/sumCalories.dart';
 
 Widget scoreBoard(BuildContext context, {required List session}) {
   const double maxRange = 180 * 5; //for graph visualization range

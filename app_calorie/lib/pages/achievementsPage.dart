@@ -1,4 +1,3 @@
-import 'package:app_calorie/functions.dart/sumCalories.dart';
 import 'package:app_calorie/pages/couponsPage.dart';
 import 'package:app_calorie/widgets/bottomNotFull.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,7 @@ class AchievementsPage extends StatefulWidget {
 }
 
 class _AchievementsPageState extends State<AchievementsPage> {
-  int _barFull = 1;
+  int _barFull = 0;
 
   final int _maxRange = 180 * 5;
   // è impostato anche su radialScoreBoard quindi se messa una vriabile vanno cambiati entrambi

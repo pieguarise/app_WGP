@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:app_calorie/functions.dart/sumCalories.dart';
 import 'package:app_calorie/models/training.dart';
 
 class ProgressBar extends StatelessWidget {

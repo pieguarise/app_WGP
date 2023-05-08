@@ -1,7 +1,9 @@
+import 'package:app_calorie/models/totalCal.dart';
 import 'package:flutter/material.dart';
 import 'package:app_calorie/models/training.dart';
 import 'package:app_calorie/widgets/caloriesPlot.dart';
 import 'package:app_calorie/widgets/progressBar.dart';
+import 'package:provider/provider.dart';
 
 Widget _toDisplayText(List<Training> recentTrainings) {
   if (compareTrainings(recentTrainings)) {
@@ -109,7 +111,11 @@ class _HomePageState extends State<HomePage> {
                   fontSize: 25,
                   fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
-          Column(children: const [SizedBox(height: 5), ProgressBar()]),
+          Column(children: [
+            SizedBox(height: 5), 
+          Consumer<TotalCal>(
+            builder: (context, totalCalories, child) {
+            return ProgressBar();})]),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: const [
@@ -123,25 +129,6 @@ class _HomePageState extends State<HomePage> {
                       fontStyle: FontStyle.italic))
             ],
           ),
-          const SizedBox(height: 15),
-          Text('Donation history',
-              style: TextStyle(
-                  color: Colors.grey.shade700,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold)),
-          Align(
-            alignment: Alignment.center,
-            child: Column(children: const [
-              SizedBox(height: 5),
-              Text(
-                "You've already donated: 28€",
-                style: TextStyle(
-                    color: Colors.orange,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500),
-              )
-            ]),
-          )
         ],
       ),
     );
