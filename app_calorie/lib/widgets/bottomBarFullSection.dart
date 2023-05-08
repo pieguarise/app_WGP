@@ -1,4 +1,4 @@
-import 'package:app_calorie/widgets/listRadioMembers.dart';
+import 'package:app_calorie/widgets/ListRadioMembers.dart';
 import 'package:flutter/material.dart';
 
 class bottomBarFullSection extends StatelessWidget {
@@ -27,7 +27,7 @@ class bottomBarFullSection extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8),
           child: Container(
-              height: 250, width: 350, child: const listRadioMembers()),
+              height: 250, width: 350, child: const ListRadioMembers()),
         ),
       ],
     );

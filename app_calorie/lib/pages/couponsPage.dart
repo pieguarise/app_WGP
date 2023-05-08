@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CouponsPage extends StatefulWidget {
   CouponsPage({Key? key}) : super(key: key);
@@ -19,11 +18,11 @@ class _CouponsPageState extends State<CouponsPage> {
         title: const Text('My Coupons'),
       ),
       body: coupons(),
-      );
-  } 
- //build
+    );
+  }
+  //build
 
-Widget coupons() => ListView(children:  const [
+  Widget coupons() => ListView(children: const [
         ListTile(
           leading: Icon(Icons.card_giftcard),
           title: Text('Nike: 25%'),

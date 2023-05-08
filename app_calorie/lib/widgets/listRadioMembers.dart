@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class listRadioMembers extends StatefulWidget {
-  const listRadioMembers({super.key});
+class ListRadioMembers extends StatefulWidget {
+  const ListRadioMembers({super.key});
 
   @override
-  State<listRadioMembers> createState() => _listRadioMembersState();
+  State<ListRadioMembers> createState() => _listRadioMembersState();
 }
 
-class _listRadioMembersState extends State<listRadioMembers> {
+class _listRadioMembersState extends State<ListRadioMembers> {
   final List<String> _members = ['Nike', 'Lowa', 'Bottecchia'];
   final List<double> _membNum = [1, 2, 3];
   List<String> pathsImages = [

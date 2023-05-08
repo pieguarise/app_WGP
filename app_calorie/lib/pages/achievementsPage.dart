@@ -16,7 +16,7 @@ class AchievementsPage extends StatefulWidget {
 }
 
 class _AchievementsPageState extends State<AchievementsPage> {
-  int _barFull = 0;
+  int _barFull = 1;
 
   final int _maxRange = 180 * 5;
   // è impostato anche su radialScoreBoard quindi se messa una vriabile vanno cambiati entrambi

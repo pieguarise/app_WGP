@@ -3,27 +3,27 @@ import 'package:app_calorie/models/training.dart';
 import 'package:app_calorie/widgets/caloriesPlot.dart';
 import 'package:app_calorie/widgets/progressBar.dart';
 
-
-Widget _toDisplayText(List<Training> recentTrainings){
-  if (compareTrainings(recentTrainings)){
+Widget _toDisplayText(List<Training> recentTrainings) {
+  if (compareTrainings(recentTrainings)) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: const [
-          Text("Congratulations! Your last session was the best among your last five.",
-          textAlign: TextAlign.center,
+          Text(
+              "Congratulations! Your last session was the best among your last five.",
+              textAlign: TextAlign.center,
               style: TextStyle(
                   color: Color(0xFF424242),
                   fontSize: 20,
                   fontStyle: FontStyle.italic)),
           Text(" WE WILL DOUBLE YOUR LAST SESSION'S CALORIES!",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.orange,
-              fontSize: 20,
-              fontWeight: FontWeight.bold)),
-          ],
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.orange,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold)),
+        ],
       ),
     );
   } else {
@@ -31,13 +31,12 @@ Widget _toDisplayText(List<Training> recentTrainings){
       mainAxisAlignment: MainAxisAlignment.start,
       children: const [
         Text(
-          "Reminder: When your most recent training session is the best among your last 5, we will DOUBLE the calories consumed in that session",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Color(0xFF424242),
-            fontSize: 18,
-            fontStyle: FontStyle.italic)
-        )
+            "Reminder: When your most recent training session is the best among your last 5, we will DOUBLE the calories consumed in that session",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Color(0xFF424242),
+                fontSize: 18,
+                fontStyle: FontStyle.italic))
       ],
     );
   }
@@ -67,20 +66,16 @@ class _HomePageState extends State<HomePage> {
             style: TextStyle(
               color: Colors.black,
               fontSize: 30,
-              fontWeight: FontWeight.bold
-              ),
+              fontWeight: FontWeight.bold,
+              //fontStyle: FontStyle.italic
             ),
-    
-          Text(
-            'Calories consumption',
-            style: TextStyle(
-              color: Colors.grey.shade700,
-              fontSize: 25,
-              fontWeight: FontWeight.bold
-              )),    
-    
+          ),
+          Text('Calories consumption',
+              style: TextStyle(
+                  color: Colors.grey.shade700,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold)),
           const SizedBox(height: 3),
-          
           Align(
             alignment: Alignment.center,
             child: Column(
@@ -88,87 +83,67 @@ class _HomePageState extends State<HomePage> {
                 const Text(
                   "Your last 5 training sessions:",
                   style: TextStyle(
-                    color: Colors.orange,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold
-                  ),
+                      color: Colors.orange,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
                 ),
-    
                 const LineChartSample(),
-    
                 _toDisplayText(sessions2),
               ],
             ),
           ),
-
           const SizedBox(height: 20),
-
           const Text(
             'Donations',
             textAlign: TextAlign.left,
             style: TextStyle(
               color: Colors.black,
               fontSize: 30,
-              fontWeight: FontWeight.bold
-              ),
+              fontWeight: FontWeight.bold,
+              //fontStyle: FontStyle.italic
             ),
-    
-          Text(
-            'Current progress',
-            style: TextStyle(
-              color: Colors.grey.shade700,
-              fontSize: 25,
-              fontWeight: FontWeight.bold
-              )),
-            const SizedBox(height: 10),
-           
-            Column(
-              children: const [
-                SizedBox(height: 5),
-                ProgressBar()
-              ]),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: const [
-                SizedBox(height: 10),
-                Text(
+          ),
+          Text('Current progress',
+              style: TextStyle(
+                  color: Colors.grey.shade700,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold)),
+          const SizedBox(height: 10),
+          Column(children: const [SizedBox(height: 5), ProgressBar()]),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: const [
+              SizedBox(height: 10),
+              Text(
                   "You can go to Achievements to donate. When you fill the bar we will make a donation and you'll get a coupon!",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Color(0xFF424242),
-                    fontSize: 18,
-                    fontStyle: FontStyle.italic)
-                )
-              ],
-            ),   
-            const SizedBox(height: 15),
-    
-            Text(
-            'Donation history',
-            style: TextStyle(
-              color: Colors.grey.shade700,
-              fontSize: 25,
-              fontWeight: FontWeight.bold
-              )),
-            
-            Align(
-              alignment: Alignment.center,
-              child: Column(
-                children: const [
-                  SizedBox(height: 5),
-                  Text(
-                    "You've already donated: 28€",
-                    style: TextStyle(
-                      color: Colors.orange,
+                      color: Color(0xFF424242),
                       fontSize: 18,
-                      fontWeight: FontWeight.w500
-                    ),
-                    )
-                ]),
-            )
+                      fontStyle: FontStyle.italic))
+            ],
+          ),
+          const SizedBox(height: 15),
+          Text('Donation history',
+              style: TextStyle(
+                  color: Colors.grey.shade700,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold)),
+          Align(
+            alignment: Alignment.center,
+            child: Column(children: const [
+              SizedBox(height: 5),
+              Text(
+                "You've already donated: 28€",
+                style: TextStyle(
+                    color: Colors.orange,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500),
+              )
+            ]),
+          )
         ],
       ),
     );
   }
 }
-
