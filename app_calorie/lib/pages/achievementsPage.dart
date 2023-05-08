@@ -45,63 +45,59 @@ class _AchievementsPageState extends State<AchievementsPage> {
   @override
   Widget build(BuildContext context) {
     //print('${AchievementsPage.AchievementsPageName} built');
-    return Scaffold(
-        backgroundColor: Colors.white,
-        body: SingleChildScrollView(
-          child: Column(children: [
-            Container(
-                width: 700,
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.orange.shade200,
-                      const Color.fromARGB(255, 255, 255, 255)
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
+    return SingleChildScrollView(
+      child: Column(children: [
+        Container(
+            width: 700,
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              gradient: LinearGradient(
+                colors: [
+                  Colors.orange.shade200,
+                  const Color.fromARGB(255, 255, 255, 255)
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 20,
                   ),
-                ),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: const [
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Text(
-                            'YOUR KCAL COUNTER',
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                fontStyle: FontStyle.italic),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                  Row(
+                    children: const [
                       SizedBox(
-                          width: 280,
-                          height: 280,
-                          child: scoreBoard(context, session: sessions2))
-                    ])),
-
-            //QUI VA CONTROLLATA LA COSA DEL PROVIDER
-            _selectBottomSection(fullness: _barFull),
-          ]),
+                        width: 20,
+                      ),
+                      Text(
+                        'YOUR KCAL COUNTER',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                      width: 280,
+                      height: 280,
+                      child: scoreBoard(context, session: sessions2))
+                ])),
+        _selectBottomSection(fullness: _barFull),
+        SizedBox(
+          height: 5,
         ),
-        floatingActionButton: FloatingActionButton(
+        ElevatedButton(
           onPressed: () => Navigator.of(context)
               .push(MaterialPageRoute(builder: (context) => CouponsPage())),
-          child: const Icon(Icons.done),
-          //Provider.of<Cart>(context, listen: false).clearCart(),
-        ));
+          child: Icon(Icons.done),
+        )
+      ]),
+    );
   }
 }
-
-//Page
