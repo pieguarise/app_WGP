@@ -12,13 +12,21 @@ Widget _toDisplayText(List<Training> recentTrainings) {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: const [
+          Text("Good job!",
+            style: TextStyle(
+              color: Colors.orange,
+              fontWeight: FontWeight.bold,
+              fontSize: 20
+            ),
+          ),
+          SizedBox(height: 5),
           Text(
-              "Congratulations! Your last session was the best among your last five.",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Color(0xFF424242),
-                  fontSize: 20,
-                  fontStyle: FontStyle.italic)),
+            "Last session was the best among your last 5",
+            style: TextStyle(
+              color: Color(0xFF424242),
+              fontSize: 18,
+            ),
+          ),  
           Text(" WE WILL DOUBLE YOUR LAST SESSION'S CALORIES!",
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -33,12 +41,11 @@ Widget _toDisplayText(List<Training> recentTrainings) {
       mainAxisAlignment: MainAxisAlignment.start,
       children: const [
         Text(
-            "Reminder: When your most recent training session is the best among your last 5, we will DOUBLE the calories consumed in that session",
+            "Reminder: If the most recent training session is the best among your last 5, we will DOUBLE the calories consumed in that session",
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: Color(0xFF424242),
-                fontSize: 18,
-                fontStyle: FontStyle.italic))
+                fontSize: 17))
       ],
     );
   }
@@ -57,80 +64,88 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const Text(
-            'Trainings',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              //fontStyle: FontStyle.italic
-            ),
-          ),
-          Text('Calories consumption',
-              style: TextStyle(
-                  color: Colors.grey.shade700,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold)),
-          const SizedBox(height: 3),
-          Align(
-            alignment: Alignment.center,
-            child: Column(
-              children: [
-                const Text(
-                  "Your last 5 training sessions:",
-                  style: TextStyle(
-                      color: Colors.orange,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
-                const LineChartSample(),
-                _toDisplayText(sessions2),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-          const Text(
-            'Donations',
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              //fontStyle: FontStyle.italic
-            ),
-          ),
-          Text('Current progress',
-              style: TextStyle(
-                  color: Colors.grey.shade700,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold)),
-          const SizedBox(height: 10),
-          Column(children: [
-            SizedBox(height: 5), 
-          Consumer<TotalCal>(
-            builder: (context, totalCalories, child) {
-            return ProgressBar();})]),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
-              SizedBox(height: 10),
-              Text(
-                  "You can go to Achievements to donate. When you fill the bar we will make a donation and you'll get a coupon!",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Color(0xFF424242),
-                      fontSize: 18,
-                      fontStyle: FontStyle.italic))
-            ],
-          ),
-        ],
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors:[
+            Colors.orange.shade100,
+            const Color.fromARGB(255, 255, 255, 255)],
+          begin: Alignment.topCenter,
+          end: Alignment.center
+        )
       ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            const SizedBox(height: 5,),
+            const Text(
+              'Trainings',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                //fontStyle: FontStyle.italic
+              ),
+            ),
+            Text('Calories consumption',
+                style: TextStyle(
+                    color: Colors.grey.shade700,
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold)),
+            const SizedBox(height: 10),
+            Align(
+              alignment: Alignment.center,
+              child: Column(
+                children: [
+                  const Text(
+                    "Your last 5 training sessions:",
+                    style: TextStyle(
+                        color: Colors.orange,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const LineChartSample(),
+                  _toDisplayText(sessions2),
+                ],
+              ),
+            ),
+            const SizedBox(height: 25),
+            const Text(
+              'Donations',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text('Current progress',
+                style: TextStyle(
+                    color: Colors.grey.shade700,
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold)),
+            const SizedBox(height: 10),
+            Column(children: [
+              const SizedBox(height: 5), 
+              Consumer<TotalCal>(
+                builder: (context, totalCalories, child) {
+                return const ProgressBar();
+              })]),
+              const SizedBox(height: 10),
+              const Text(
+              "You can go to ACHIEVEMENTS to donate. \nFill the bar to get a branded COUPON and the brand will DONATE food correspondent consumed calories",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color(0xFF424242),
+                fontSize: 17,
+              )
+            ),   
+          ]
+        )
+      )
     );
   }
 }
