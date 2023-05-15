@@ -1,9 +1,11 @@
+import 'package:app_calorie/models/totalCal.dart';
 import 'package:app_calorie/pages/couponsPage.dart';
 import 'package:app_calorie/widgets/bottomNotFull.dart';
 import 'package:flutter/material.dart';
 import 'package:app_calorie/widgets/radialScoreBoard.dart';
 import 'package:app_calorie/widgets/bottomBarFullSection.dart';
 import 'package:app_calorie/models/training.dart';
+import 'package:provider/provider.dart';
 
 class AchievementsPage extends StatefulWidget {
   const AchievementsPage({Key? key}) : super(key: key);
@@ -15,7 +17,7 @@ class AchievementsPage extends StatefulWidget {
 }
 
 class _AchievementsPageState extends State<AchievementsPage> {
-  int _barFull = 0;
+  int _barFull = 1;
 
   final int _maxRange = 180 * 5;
   // è impostato anche su radialScoreBoard quindi se messa una vriabile vanno cambiati entrambi
@@ -45,59 +47,57 @@ class _AchievementsPageState extends State<AchievementsPage> {
   @override
   Widget build(BuildContext context) {
     //print('${AchievementsPage.AchievementsPageName} built');
-    return SingleChildScrollView(
-      child: Column(children: [
-        Container(
-            width: 700,
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              gradient: LinearGradient(
-                colors: [
-                  Colors.orange.shade200,
-                  const Color.fromARGB(255, 255, 255, 255)
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
+    return Consumer<TotalCal>(builder: (context, TotalCalories, child) {
+      return SingleChildScrollView(
+        child: Column(children: [
+          Container(
+              width: 700,
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.orange.shade200,
+                    const Color.fromARGB(255, 255, 255, 255)
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
               ),
-            ),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    children: const [
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        'YOUR KCAL COUNTER',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.italic),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                      width: 280,
-                      height: 280,
-                      child: scoreBoard(context, session: sessions2))
-                ])),
-        _selectBottomSection(fullness: _barFull),
-        SizedBox(
-          height: 5,
-        ),
-        ElevatedButton(
-          onPressed: () => Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => CouponsPage())),
-          child: Icon(Icons.done),
-        )
-      ]),
-    );
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: const [
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          'YOUR KCAL COUNTER',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                        width: 280,
+                        height: 280,
+                        child: scoreBoard(context, session: sessions2))
+                  ])),
+          _selectBottomSection(fullness: _barFull),
+          SizedBox(
+            height: 5,
+          ),
+          
+        ]),
+      );
+    });
   }
 }

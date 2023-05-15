@@ -30,6 +30,7 @@ class _listRadioMembersState extends State<ListRadioMembers> {
                 (states) => const Color(0xFF89453C)),
             value: _membNum[index],
             groupValue: currentValue,
+            
             onChanged: (val) {
               setState(() {
                 currentValue = val;

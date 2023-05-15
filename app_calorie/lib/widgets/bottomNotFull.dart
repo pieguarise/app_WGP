@@ -1,3 +1,4 @@
+import 'package:app_calorie/pages/couponsPage.dart';
 import 'package:flutter/material.dart';
 
 class bottomBarNotFullSection extends StatelessWidget {
@@ -27,7 +28,7 @@ class bottomBarNotFullSection extends StatelessWidget {
       ),
       Container(
         width: 320,
-        height: 200,
+        height: 250,
         child: Card(
             color: Colors.orange.shade100,
             elevation: 10,
@@ -71,7 +72,14 @@ class bottomBarNotFullSection extends StatelessWidget {
               Text(
                 'Equivalenza kcal-€ -TODO......',
                 style: TextStyle(fontSize: 20),
-              )
+              ),
+              
+              ElevatedButton(
+            onPressed: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => CouponsPage())),
+            child: Icon(Icons.done),
+          )
+          
             ])),
       )
     ]);

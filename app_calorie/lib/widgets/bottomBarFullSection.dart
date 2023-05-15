@@ -1,3 +1,4 @@
+import 'package:app_calorie/pages/couponsPage.dart';
 import 'package:app_calorie/widgets/ListRadioMembers.dart';
 import 'package:flutter/material.dart';
 
@@ -24,10 +25,11 @@ class bottomBarFullSection extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        Padding(
-          padding: const EdgeInsets.all(8),
-          child: Container(
-              height: 250, width: 350, child: const ListRadioMembers()),
+        Container(height:200 ,child: const ListRadioMembers()),
+        ElevatedButton(
+          onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => CouponsPage())),
+          child: Icon(Icons.done),
         ),
       ],
     );
