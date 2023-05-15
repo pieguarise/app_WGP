@@ -21,7 +21,7 @@ class bottomBarNotFullSection extends StatelessWidget {
       const Text(
         "DON'T WORRY you can still donate money if you want!",
         style: TextStyle(
-            fontSize: 15, color: Colors.grey, fontStyle: FontStyle.italic),
+            fontSize: 15, color: Color.fromARGB(255, 90, 88, 88), fontStyle: FontStyle.italic),
       ),
       SizedBox(
         height: 18,
@@ -36,7 +36,7 @@ class bottomBarNotFullSection extends StatelessWidget {
               SizedBox(
                 height: 5,
               ),
-              Text('Donation history',
+              Text('Donate',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 25,
@@ -45,7 +45,7 @@ class bottomBarNotFullSection extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                "You've already donated: 28€",
+                "Fight with us against hunger!!",
                 style: TextStyle(
                     color: Colors.orange,
                     fontSize: 18,
@@ -73,7 +73,7 @@ class bottomBarNotFullSection extends StatelessWidget {
                 'Equivalenza kcal-€ -TODO......',
                 style: TextStyle(fontSize: 20),
               ),
-              
+              SizedBox(height: 10,),
               ElevatedButton(
             onPressed: () => Navigator.of(context)
                 .push(MaterialPageRoute(builder: (context) => CouponsPage())),
