@@ -1,4 +1,4 @@
-import 'package:app_calorie/models/totalCal.dart';
+import 'package:app_calorie/models/couponsList.dart';
 import 'package:flutter/material.dart';
 import 'package:app_calorie/pages/home.dart';
 import 'package:provider/provider.dart';
@@ -11,8 +11,8 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<TotalCal>(
-      create: (context) => TotalCal(),
+    return ChangeNotifierProvider<CouponsList>(
+      create: (context) => CouponsList(),
       child: MaterialApp(
         title: 'APP WGP',
         theme: ThemeData(

@@ -7,18 +7,21 @@ class Coupon{
   Coupon({required this.coup});
 }
 
-Coupon generateCoupon(int val){
+Coupon generateCoupon(double val){
   String title="Nike";
-  if (val==1){
+  if (val==2){
     title="Lowa";
-  } else if (val == 2){
+  } else if (val == 3){
     title = "Bottecchia";
   }
   String description = "fu";
   ListTile coup = ListTile (
           leading: Icon(Icons.card_giftcard),
           title: Text(title),
-          subtitle: Text(description));
+          subtitle: Text(description),     
+  
+          );
+
   return Coupon(coup: coup);
 
 }

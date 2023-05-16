@@ -1,3 +1,5 @@
+import 'package:app_calorie/models/couponsList.dart';
+import 'package:app_calorie/models/totalCal.dart';
 import 'package:app_calorie/pages/aboutUsPage.dart';
 import 'package:app_calorie/pages/achievementsPage.dart';
 import 'package:app_calorie/pages/couponsPage.dart';
@@ -5,6 +7,7 @@ import 'package:app_calorie/pages/homePage.dart';
 import 'package:app_calorie/pages/userPage.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   static const route = '/home/';
@@ -51,7 +54,9 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ChangeNotifierProvider<TotalCal>(
+      create: (context) => TotalCal(),
+      child: Scaffold(
         backgroundColor: Colors.white,
         drawer: Drawer(
           child: ListView(
@@ -116,6 +121,6 @@ class _HomeState extends State<Home> {
           items: _navBarItems,
           currentIndex: _selIdx,
           onTap: _onItemTapped,
-        ));
+        )));
   }
 }

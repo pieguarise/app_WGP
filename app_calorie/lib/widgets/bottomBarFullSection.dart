@@ -1,12 +1,14 @@
+import 'package:app_calorie/models/coupon.dart';
+import 'package:app_calorie/models/couponsList.dart';
 import 'package:app_calorie/pages/couponsPage.dart';
 import 'package:app_calorie/widgets/ListRadioMembers.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class bottomBarFullSection extends StatelessWidget {
   bottomBarFullSection({super.key});
 
   int? currentValue;
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -25,12 +27,7 @@ class bottomBarFullSection extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        Container(height:200 ,child: const ListRadioMembers()),
-        ElevatedButton(
-          onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => CouponsPage())),
-          child: Icon(Icons.done),
-        ),
+        ListRadioMembers(),
       ],
     );
   }
