@@ -17,8 +17,8 @@ class AchievementsPage extends StatefulWidget {
 }
 
 class _AchievementsPageState extends State<AchievementsPage> {
-  int _barFull = 1;
-  List<int> _variables = [];  
+  int _barFull = 0;
+  List<int> _variables = [];
 
   final int _maxRange = 180 * 5;
   // è impostato anche su radialScoreBoard quindi se messa una vriabile vanno cambiati entrambi
@@ -27,8 +27,7 @@ class _AchievementsPageState extends State<AchievementsPage> {
   void _onfullBar() {
     if (sumCalLast5trainings(sessions: sessions2) == _maxRange) {
       setState(() {
-        _barFull = 1;
-
+        _barFull = 0;
       });
     }
   }
@@ -69,10 +68,10 @@ class _AchievementsPageState extends State<AchievementsPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(
-                      height: 20,
+                      height: 5,
                     ),
                     Row(
-                      children: const [
+                      children: [
                         SizedBox(
                           width: 20,
                         ),
@@ -83,10 +82,17 @@ class _AchievementsPageState extends State<AchievementsPage> {
                               fontWeight: FontWeight.bold,
                               fontStyle: FontStyle.italic),
                         ),
+                        IconButton(
+                            icon: Icon(Icons.change_circle),
+                            onPressed: () {
+                              setState(() {
+                                _barFull == 0 ? _barFull = 1 : _barFull = 0;
+                              });
+                            }),
                       ],
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 5,
                     ),
                     SizedBox(
                         width: 280,
@@ -97,7 +103,6 @@ class _AchievementsPageState extends State<AchievementsPage> {
           SizedBox(
             height: 5,
           ),
-          
         ]),
       );
     });
