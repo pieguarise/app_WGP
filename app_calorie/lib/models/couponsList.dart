@@ -12,4 +12,9 @@ class CouponsList extends ChangeNotifier{
     //Call the notifyListeners() method to alert that something happened.
     notifyListeners();
   }
+
+  void deleteCoupon(int index){
+    myCoupons.removeAt(index);
+    notifyListeners();
+  }
 }//CouponsList
