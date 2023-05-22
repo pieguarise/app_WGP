@@ -97,7 +97,8 @@ class _AchievementsPageState extends State<AchievementsPage> {
                     SizedBox(
                         width: 280,
                         height: 280,
-                        child: scoreBoard(context, session: sessions2))
+                        // se non piena, calcola il valore dalla lista degli allenamenti, altrimenti riempie la barra secondo il massimo definito in scoreBoard
+                        child: scoreBoard(context, totale: _barFull == 0 ? sumCalLast5trainings(sessions: sessions2) : 180*5)),
                   ])),
           _selectBottomSection(fullness: _barFull),
           SizedBox(

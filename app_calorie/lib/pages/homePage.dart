@@ -90,6 +90,7 @@ class _HomePageState extends State<HomePage> {
                 //fontStyle: FontStyle.italic
               ),
             ),
+            SizedBox(height: 10,),
             Text('Calories consumption',
                 style: TextStyle(
                     color: Colors.grey.shade700,
@@ -112,16 +113,8 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            const SizedBox(height: 25),
-            const Text(
-              'Donations',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            const SizedBox(height: 40),
+
             Text('Current progress',
                 style: TextStyle(
                     color: Colors.grey.shade700,

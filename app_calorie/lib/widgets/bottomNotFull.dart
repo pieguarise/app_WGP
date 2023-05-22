@@ -1,9 +1,10 @@
 import 'package:app_calorie/pages/couponsPage.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class bottomBarNotFullSection extends StatelessWidget {
   bottomBarNotFullSection({super.key});
-
+  final TextEditingController donationValue = TextEditingController();
   int? currentValue;
 
   @override
@@ -25,7 +26,7 @@ class bottomBarNotFullSection extends StatelessWidget {
             color: Color.fromARGB(255, 90, 88, 88),
             fontStyle: FontStyle.italic),
       ),
-      SizedBox(
+      const SizedBox(
         height: 18,
       ),
       Container(
@@ -35,53 +36,69 @@ class bottomBarNotFullSection extends StatelessWidget {
             color: Colors.orange.shade100,
             elevation: 10,
             child: Column(children: [
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
-              Text('Donate',
+              const Text('Donate',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 25,
                       fontWeight: FontWeight.bold)),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
-              Text(
+              const Text(
                 "Fight with us against hunger!!",
                 style: TextStyle(
                     color: Colors.orange,
                     fontSize: 18,
                     fontWeight: FontWeight.w500),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               SizedBox(
                 width: 280,
                 child: TextFormField(
+                    controller: donationValue,
                     decoration: const InputDecoration(
-                  icon: Icon(
-                    Icons.monetization_on,
-                    color: Colors.orange,
-                  ),
-                  hintText:
-                      "Select the import - TO DO - IMPLEMENTAZIONE DEL CONTROLLO SULL'IMPORTO",
-                )),
+                      icon: Icon(
+                        Icons.monetization_on,
+                        color: Colors.orange,
+                      ),
+                      hintText:
+                          "Select the import",
+                    )),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Text(
+              const Text(
                 'Equivalenza kcal-€ -TODO......',
                 style: TextStyle(fontSize: 20),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               ElevatedButton(
-                onPressed: () => Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => CouponsPage())),
-                child: Icon(Icons.done),
+                onPressed: () async {
+                  if (double.tryParse(donationValue.text) == null) {
+                    ScaffoldMessenger.of(
+                      context,
+                    )
+                      ..removeCurrentSnackBar()
+                      ..showSnackBar(
+                          const SnackBar(content: Text('Insert a number')));
+                  } else {
+                    SharedPreferences ps = await SharedPreferences.getInstance();
+                    ps.setDouble('donation', double.parse(donationValue.text));
+                    ps.remove('donation');
+                    print('${ps.getDouble('donation')}');
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => CouponsPage()));
+                  }
+                },
+                child: const Icon(Icons.done),
               )
             ])),
       )
