@@ -22,7 +22,7 @@ class CouponsPage extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 //return totalCoupons.myCoupons[index].coup;
                 return ListTile(
-                  leading: Icon(Icons.card_giftcard),
+                  leading: (totalCoupons.myCoupons[index].immagine),
                   title: Text(totalCoupons.myCoupons[index].title),
                   subtitle: Text(totalCoupons.myCoupons[index].description),     
                   onTap: () => Provider.of<CouponsList>(context, listen: false).deleteCoupon(index)
