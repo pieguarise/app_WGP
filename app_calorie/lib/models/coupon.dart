@@ -1,10 +1,13 @@
+
+import 'package:app_calorie/models/couponsList.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Coupon{
-  ListTile coup;
-  //String title;
+  String title;
+  String description;
   //String description;
-  Coupon({required this.coup});
+  Coupon({required this.title, required this.description});
 }
 
 Coupon generateCoupon(double val){
@@ -15,13 +18,16 @@ Coupon generateCoupon(double val){
     title = "Bottecchia";
   }
   String description = "fu";
+  /*
   ListTile coup = ListTile (
           leading: Icon(Icons.card_giftcard),
           title: Text(title),
           subtitle: Text(description),     
-  
+          onTap: deleteCoupon(int index),
           );
-
-  return Coupon(coup: coup);
+  */
+  return Coupon(title: title, description: description);
 
 }
+
+
