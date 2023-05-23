@@ -98,7 +98,7 @@ class bottomBarNotFullSection extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => CouponsPage()));
                   }
                 },
-                child: const Icon(Icons.done),
+                child: Text('Dona',style: TextStyle(color: Colors.white,fontSize: 15),),
               )
             ])),
       )

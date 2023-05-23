@@ -1,25 +1,21 @@
 import 'package:app_calorie/pages/home.dart';
 import 'package:app_calorie/pages/homePage.dart';
-import 'package:app_calorie/pages/impactAuth.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({Key? key}) : super(key: key);
+class ImpactAuth extends StatelessWidget {
+  ImpactAuth({Key? key}) : super(key: key);
 
-  static const routename = 'LoginPage';
+  static const routename = 'ImpactAuth';
 
   final _textController1 = TextEditingController();
 
   final _textController2 = TextEditingController();
 
-  void checkUser(BuildContext context) async {
+  void checkUser(BuildContext context) {
     String _id = _textController1.text;
     String _psw = _textController2.text;
-    if (_id == "wgp" && _psw == "0000") {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => ImpactAuth()));
-      SharedPreferences ps = await SharedPreferences.getInstance();
-      ps.setBool('login', true);
+    if (_id == "name" && _psw == "password") {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -51,9 +47,8 @@ class LoginPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              child: Image.asset('assets/wgp.png'),
+              child: Image.asset('assets/impact_logo.png'),
             ),
-            SizedBox(height: 40,),
             SizedBox(
               width: 300,
               child: TextField(
@@ -83,7 +78,7 @@ class LoginPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-                child: Text('LOGIN',style: TextStyle(color: Colors.white),),
+                child: Text('AUTHENTICATE',style: TextStyle(color: Colors.white),),
                 onPressed: () {
                   checkUser(context);
                 }),
@@ -94,4 +89,4 @@ class LoginPage extends StatelessWidget {
   }
 
 // checkUser
-} //LoginPage
+} //ImpactAuth

@@ -4,6 +4,8 @@ import 'package:app_calorie/pages/aboutUsPage.dart';
 import 'package:app_calorie/pages/achievementsPage.dart';
 import 'package:app_calorie/pages/couponsPage.dart';
 import 'package:app_calorie/pages/homePage.dart';
+import 'package:app_calorie/pages/impactAuth.dart';
+import 'package:app_calorie/pages/loginPage.dart';
 import 'package:app_calorie/pages/userPage.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -75,7 +77,7 @@ class _HomeState extends State<Home> {
                     style: TextStyle(fontSize: 20),
                   ),
                   onTap: () => {
-                        //Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage())),
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage())),
                       }),
               ListTile(
                   leading: const Icon(

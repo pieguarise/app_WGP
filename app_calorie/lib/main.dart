@@ -1,4 +1,7 @@
 import 'package:app_calorie/models/couponsList.dart';
+import 'package:app_calorie/pages/impactAuth.dart';
+import 'package:app_calorie/pages/loginPage.dart';
+import 'package:app_calorie/pages/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:app_calorie/pages/home.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +21,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.orange,
         ),
-        home: Home(),
+        home: Splash(),
       ),
     );    
   }
