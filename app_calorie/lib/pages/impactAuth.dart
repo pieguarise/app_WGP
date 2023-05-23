@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:app_calorie/pages/home.dart';
 import 'package:app_calorie/pages/homePage.dart';
+import 'package:app_calorie/utils/impact.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ImpactAuth extends StatelessWidget {
   ImpactAuth({Key? key}) : super(key: key);
@@ -11,11 +15,18 @@ class ImpactAuth extends StatelessWidget {
 
   final _textController2 = TextEditingController();
 
-  void checkUser(BuildContext context) {
+  void checkAuth(BuildContext context) async {
     String _id = _textController1.text;
     String _psw = _textController2.text;
     if (_id == "name" && _psw == "password") {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+      final result = await _getAndStoreTokens();
+      if (result==200){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+      }
+      else {ScaffoldMessenger.of(context)
+          ..removeCurrentSnackBar()
+          ..showSnackBar(SnackBar(content: Text('Request failed')));
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -80,7 +91,7 @@ class ImpactAuth extends StatelessWidget {
             ElevatedButton(
                 child: Text('AUTHENTICATE',style: TextStyle(color: Colors.white),),
                 onPressed: () {
-                  checkUser(context);
+                 checkAuth(context);
                 }),
           ],
         )),
@@ -88,5 +99,28 @@ class ImpactAuth extends StatelessWidget {
     );
   }
 
-// checkUser
+// changeAuth
 } //ImpactAuth
+/*
+Future<int> _getAndStoreTokens() async {
+
+    //Create the request
+    final url = Impact.baseUrl + Impact.tokenEndpoint;
+    final body = {'username': Impact.username, 'password': Impact.password};
+
+    //Get the response
+    print('Calling: $url');
+    final response = await http.post(Uri.parse(url), body: body);
+
+    //If response is OK, decode it and store the tokens. Otherwise do nothing.
+    if (response.statusCode == 200) {
+      final decodedResponse = jsonDecode(response.body);
+      final sp = await SharedPreferences.getInstance();
+      await sp.setString('access', decodedResponse['access']);
+      await sp.setString('refresh', decodedResponse['refresh']);
+    } //if
+
+    //Just return the status code
+    return response.statusCode;
+  } //_getAndStoreTokens
+  */
