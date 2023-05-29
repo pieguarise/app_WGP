@@ -12,21 +12,24 @@ class bottomBarFullSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
-        const Text(
+      children: const[
+        Text(
           'Congratulations!',
           style: TextStyle(
-            fontSize: 25,
-          ),
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
+          color: Colors.orange
         ),
-        const Text(
-          'select the member to get the discount!',
+        ),
+        SizedBox(height: 8),
+        Text(
+          'Choose which brand will help World Food Program, donating 900 Kcal of food. You will get a Coupon!',
           style: TextStyle(
-              fontSize: 15, color: Colors.grey, fontStyle: FontStyle.italic),
+            fontSize: 17,
+            color:Color(0xFF424242)),
+          textAlign: TextAlign.center,
         ),
-        const SizedBox(
-          height: 10,
-        ),
+        SizedBox(height: 5),
         ListRadioMembers(),
       ],
     );

@@ -21,18 +21,18 @@ class ImpactAuth extends StatelessWidget {
     String _psw = _textController2.text;
     if (_id == Impact.username && _psw == Impact.password) {
       final result = await _getAndStoreTokens();
-      if (result==200){
-            if (sp.getBool('firstTime')==null){
-              Future.delayed(const Duration(seconds: 1), () {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder:((context) => UserPage())));});
-            }
-        else{ 
-              Navigator.of(context).pushReplacement( MaterialPageRoute(builder: (context) => Home()));
-
-              }
-      }
-      else {ScaffoldMessenger.of(context)
+      if (result == 200) {
+        if (sp.getBool('firstTime') == null) {
+          Future.delayed(const Duration(seconds: 1), () {
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: ((context) => UserPage())));
+          });
+        } else {
+          Navigator.of(context)
+              .pushReplacement(MaterialPageRoute(builder: (context) => Home()));
+        }
+      } else {
+        ScaffoldMessenger.of(context)
           ..removeCurrentSnackBar()
           ..showSnackBar(SnackBar(content: Text('Request failed')));
       }
@@ -73,7 +73,8 @@ class ImpactAuth extends StatelessWidget {
               width: 300,
               child: TextField(
                 decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                     labelText: "Username",
                     labelStyle: TextStyle(
                       fontSize: 15,
@@ -87,7 +88,8 @@ class ImpactAuth extends StatelessWidget {
               width: 300,
               child: TextField(
                 decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                     labelText: "Password",
                     labelStyle: TextStyle(
                       fontSize: 15,
@@ -98,9 +100,12 @@ class ImpactAuth extends StatelessWidget {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-                child: Text('AUTHENTICATE',style: TextStyle(color: Colors.white),),
+                child: Text(
+                  'AUTHENTICATE',
+                  style: TextStyle(color: Colors.white),
+                ),
                 onPressed: () {
-                 checkAuth(context);
+                  checkAuth(context);
                 }),
           ],
         )),
@@ -112,24 +117,23 @@ class ImpactAuth extends StatelessWidget {
 } //ImpactAuth
 
 Future<int> _getAndStoreTokens() async {
+  //Create the request
+  final url = Impact.baseUrl + Impact.tokenEndpoint;
+  final body = {'username': Impact.username, 'password': Impact.password};
 
-    //Create the request
-    final url = Impact.baseUrl + Impact.tokenEndpoint;
-    final body = {'username': Impact.username, 'password': Impact.password};
+  //Get the response
+  print('Calling: $url');
+  final response = await http.post(Uri.parse(url), body: body);
 
-    //Get the response
-    print('Calling: $url');
-    final response = await http.post(Uri.parse(url), body: body);
+  //If response is OK, decode it and store the tokens. Otherwise do nothing.
+  if (response.statusCode == 200) {
+    final decodedResponse = jsonDecode(response.body);
+    final sp = await SharedPreferences.getInstance();
+    await sp.setString('access', decodedResponse['access']);
+    await sp.setString('refresh', decodedResponse['refresh']);
+  } //if
 
-    //If response is OK, decode it and store the tokens. Otherwise do nothing.
-    if (response.statusCode == 200) {
-      final decodedResponse = jsonDecode(response.body);
-      final sp = await SharedPreferences.getInstance();
-      await sp.setString('access', decodedResponse['access']);
-      await sp.setString('refresh', decodedResponse['refresh']);
-    } //if
-
-    //Just return the status code
-    return response.statusCode;
-  } //_getAndStoreTokens
+  //Just return the status code
+  return response.statusCode;
+} //_getAndStoreTokens
   

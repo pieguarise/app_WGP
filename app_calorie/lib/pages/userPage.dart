@@ -1,4 +1,5 @@
 import 'package:app_calorie/pages/couponsPage.dart';
+import 'package:app_calorie/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,12 +14,11 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
-
-  final TextEditingController nameController = TextEditingController(); 
-  final TextEditingController nickNameController = TextEditingController(); 
-  final TextEditingController ageController = TextEditingController(); 
-  final TextEditingController weigthController = TextEditingController(); 
-  final TextEditingController heigthController = TextEditingController(); 
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController nickNameController = TextEditingController();
+  final TextEditingController ageController = TextEditingController();
+  final TextEditingController weigthController = TextEditingController();
+  final TextEditingController heigthController = TextEditingController();
 
   @override
   void initState() {
@@ -30,10 +30,11 @@ class _UserPageState extends State<UserPage> {
   Widget build(BuildContext context) {
     //print('${UserPage.UserpageName} built');
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.orange.shade300,
-        iconTheme: const IconThemeData(color: Color.fromARGB(255, 230, 81, 0)),
-      ),
+        appBar: AppBar(
+          backgroundColor: Colors.orange.shade300,
+          iconTheme:
+              const IconThemeData(color: Color.fromARGB(255, 230, 81, 0)),
+        ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Column(
@@ -78,81 +79,110 @@ class _UserPageState extends State<UserPage> {
                   decoration: const BoxDecoration(color: Colors.white),
                   child: Column(children: [
                     TextFormField(
-                        decoration: const InputDecoration(
-                      icon: Icon(
-                        MdiIcons.human,
-                        color: Colors.orange,
+                      decoration: const InputDecoration(
+                        icon: Icon(
+                          MdiIcons.human,
+                          color: Colors.orange,
+                        ),
+                        hintText: 'Name',
                       ),
-                      hintText: 'Name',),
-                    controller: nameController,
+                      controller: nameController,
                     ),
                     TextFormField(
-                        decoration: const InputDecoration(
-                      icon: Icon(
-                        MdiIcons.emoticonCoolOutline,
-                        color: Colors.orange,
+                      decoration: const InputDecoration(
+                        icon: Icon(
+                          MdiIcons.emoticonCoolOutline,
+                          color: Colors.orange,
+                        ),
+                        hintText: 'NickName',
                       ),
-                      hintText: 'NickName',),
-                    controller: nickNameController,   
+                      controller: nickNameController,
                     ),
                     TextFormField(
-                        decoration: const InputDecoration(
-                      icon: Icon(
-                        MdiIcons.cake,
-                        color: Colors.orange,
+                      decoration: const InputDecoration(
+                        icon: Icon(
+                          MdiIcons.cake,
+                          color: Colors.orange,
+                        ),
+                        hintText: 'Age',
                       ),
-                      hintText: 'Age',),
                       controller: ageController,
-                      
                     ),
                     TextFormField(
-                        decoration: const InputDecoration(
-                      icon: Icon(
-                        MdiIcons.weightKilogram,
-                        color: Colors.orange,
+                      decoration: const InputDecoration(
+                        icon: Icon(
+                          MdiIcons.weightKilogram,
+                          color: Colors.orange,
+                        ),
+                        suffix: Text(
+                          'kg',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        hintText: 'Weigth',
                       ),
-                      suffix: Text('kg',style: TextStyle(color: Colors.black),),
-                      hintText: 'Weigth',),
-                    controller: weigthController,),
+                      controller: weigthController,
+                    ),
                     TextFormField(
-                        decoration: const InputDecoration(
-                      icon: Icon(
-                        MdiIcons.tapeMeasure,
-                        color: Colors.orange,
+                      decoration: const InputDecoration(
+                        icon: Icon(
+                          MdiIcons.tapeMeasure,
+                          color: Colors.orange,
+                        ),
+                        suffix: Text(
+                          'cm',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        hintText: 'Heigth',
                       ),
-                      suffix: Text('cm', style: TextStyle(color: Colors.black),),
-                      hintText: 'Heigth',),
-                    controller: heigthController,),
+                      controller: heigthController,
+                    ),
                     const SizedBox(
-                height: 40,),
-                    ElevatedButton(onPressed: () async{
-                      SharedPreferences ps = await SharedPreferences.getInstance();
-                      ps.setString('name', nameController.text);
-                      ps.setString('nickName', nickNameController.text);
-                      ps.setString('age', ageController.text);
-                      ps.setString('weigth', weigthController.text);
-                      ps.setString('heigth', heigthController.text);
-                      
-                      setState(() {
-                        
-                      });
-                    }, child: const Text('Save', style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold),))
+                      height: 40,
+                    ),
+                    ElevatedButton(
+                        onPressed: () async {
+                          SharedPreferences ps =
+                              await SharedPreferences.getInstance();
+                          ps.setString('name', nameController.text);
+                          ps.setString('nickName', nickNameController.text);
+                          ps.setString('age', ageController.text);
+                          ps.setString('weigth', weigthController.text);
+                          ps.setString('heigth', heigthController.text);
+
+                          setState(() {});
+                          // if first time using, after inputing data I go to Home, and finish firstTime
+                          if (ps.getBool('firstTime') == null) {
+                            ps.setBool('firstTime', false);
+                            ScaffoldMessenger.of(context)
+                              ..removeCurrentSnackBar()
+                              ..showSnackBar(
+                                  SnackBar(content: Text("You are ready to use the app for the first time!")));
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => const Home()));
+                          }
+                        },
+                        child: const Text(
+                          'Save',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ))
                   ])),
             ],
           ),
         ));
   }
+
   void retrieveValues() async {
     final ps = await SharedPreferences.getInstance();
     setState(() {
-      nameController.text=ps.getString('name') ?? '';
-      nickNameController.text=ps.getString('nickName') ?? '';
-      ageController.text=ps.getString('age') ?? '';
-      weigthController.text=ps.getString('weigth') ?? '';
-      heigthController.text=ps.getString('heigth') ?? '';
+      nameController.text = ps.getString('name') ?? '';
+      nickNameController.text = ps.getString('nickName') ?? '';
+      ageController.text = ps.getString('age') ?? '';
+      weigthController.text = ps.getString('weigth') ?? '';
+      heigthController.text = ps.getString('heigth') ?? '';
     });
   }
-  
-  
- 
 }

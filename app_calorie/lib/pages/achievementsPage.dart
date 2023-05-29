@@ -57,7 +57,7 @@ class _AchievementsPageState extends State<AchievementsPage> {
                 shape: BoxShape.rectangle,
                 gradient: LinearGradient(
                   colors: [
-                    Colors.orange.shade200,
+                    Colors.orange.shade100,
                     const Color.fromARGB(255, 255, 255, 255)
                   ],
                   begin: Alignment.topCenter,
@@ -73,14 +73,14 @@ class _AchievementsPageState extends State<AchievementsPage> {
                     Row(
                       children: [
                         SizedBox(
-                          width: 20,
+                          width: 10,
                         ),
-                        Text(
-                          'YOUR KCAL COUNTER',
+                        const Text(
+                          'Your Kcal counter',
                           style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic),
+                            color: Colors.black,
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,),
                         ),
                         IconButton(
                             icon: Icon(Icons.change_circle),

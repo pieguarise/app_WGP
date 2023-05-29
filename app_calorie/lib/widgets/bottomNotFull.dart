@@ -13,24 +13,20 @@ class bottomBarNotFullSection extends StatelessWidget {
       const Text(
         'Train More!',
         style: TextStyle(
-          fontSize: 25,
-        ),
+            fontSize: 22, fontWeight: FontWeight.bold, color: Colors.orange),
       ),
       const SizedBox(
         height: 5,
       ),
       const Text(
-        "DON'T WORRY you can still donate money if you want!",
-        style: TextStyle(
-            fontSize: 15,
-            color: Color.fromARGB(255, 90, 88, 88),
-            fontStyle: FontStyle.italic),
+        "To make a FREE DONATION and get a COUPON ",
+        style: TextStyle(fontSize: 17, color: Color(0xFF424242)),
       ),
       const SizedBox(
         height: 18,
       ),
       Container(
-        width: 320,
+        width: 340,
         height: 250,
         child: Card(
             color: Colors.orange.shade100,
@@ -39,7 +35,7 @@ class bottomBarNotFullSection extends StatelessWidget {
               const SizedBox(
                 height: 5,
               ),
-              const Text('Donate',
+              const Text('Donate now',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 25,
@@ -47,11 +43,11 @@ class bottomBarNotFullSection extends StatelessWidget {
               const SizedBox(
                 height: 5,
               ),
-              const Text(
-                "Fight with us against hunger!!",
+              Text(
+                "Help World Food Program against hunger",
                 style: TextStyle(
-                    color: Colors.orange,
-                    fontSize: 18,
+                    color: Colors.orange.shade700,
+                    fontSize: 17,
                     fontWeight: FontWeight.w500),
               ),
               const SizedBox(
@@ -66,8 +62,7 @@ class bottomBarNotFullSection extends StatelessWidget {
                         Icons.monetization_on,
                         color: Colors.orange,
                       ),
-                      hintText:
-                          "Select the import",
+                      hintText: "Select the import",
                     )),
               ),
               const SizedBox(
@@ -90,15 +85,23 @@ class bottomBarNotFullSection extends StatelessWidget {
                       ..showSnackBar(
                           const SnackBar(content: Text('Insert a number')));
                   } else {
-                    SharedPreferences ps = await SharedPreferences.getInstance();
-                    ps.setDouble('donation', double.parse(donationValue.text));
-                    ps.remove('donation');
-                    print('${ps.getDouble('donation')}');
+                    SharedPreferences ps =
+                        await SharedPreferences.getInstance();
+                    // check if i've already made a donation
+                    if (ps.getDouble("donation") == null) {
+                      ps.setDouble(
+                          'donation', double.parse(donationValue.text));
+                    } else {
+                      double donationAmount = ps.getDouble("donation")!;
+                      ps.setDouble('donation',
+                          donationAmount + double.parse(donationValue.text));
+                    }
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => CouponsPage()));
                   }
                 },
-                child: Text('Dona',style: TextStyle(color: Colors.white,fontSize: 15),),
+                child: Text('Donate',
+                    style: TextStyle(color: Colors.white, fontSize: 15)),
               )
             ])),
       )

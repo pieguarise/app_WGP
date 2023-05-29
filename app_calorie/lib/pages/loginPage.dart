@@ -39,11 +39,11 @@ class LoginPage extends StatelessWidget {
           shape: BoxShape.rectangle,
           gradient: LinearGradient(
             colors: [
-              Colors.orange.shade200,
+              Colors.orange.shade100,
               const Color.fromARGB(255, 255, 255, 255)
             ],
             begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+            end: Alignment.center,
           ),
         ),
         child: Center(

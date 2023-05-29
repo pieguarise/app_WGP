@@ -1,4 +1,5 @@
 import 'package:app_calorie/models/couponsList.dart';
+import 'package:app_calorie/models/totalCal.dart';
 import 'package:app_calorie/pages/impactAuth.dart';
 import 'package:app_calorie/pages/loginPage.dart';
 import 'package:app_calorie/pages/splash.dart';
@@ -14,14 +15,17 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<CouponsList>(
-      create: (context) => CouponsList(),
+    return MultiProvider(
+      providers:[
+        ChangeNotifierProvider<CouponsList>(create: (context) => CouponsList()),
+        ChangeNotifierProvider<TotalCal>(create: (context) => TotalCal())
+        ],
       child: MaterialApp(
         title: 'APP WGP',
         theme: ThemeData(
           primarySwatch: Colors.orange,
         ),
-        home: Splash(),
+        home: const Splash(),
       ),
     );    
   }

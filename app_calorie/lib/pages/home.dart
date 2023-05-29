@@ -57,75 +57,75 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<TotalCal>(
-      create: (context) => TotalCal(),
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        drawer: Drawer(
-          child: ListView(
-            children: [
-              const SizedBox(
-                height: 30,
-              ),
-              ListTile(
-                  leading: const Icon(
-                    MdiIcons.logout,
-                    color: Colors.orange,
-                    size: 35,
-                  ),
-                  title: const Text(
-                    'Logout',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  onTap: () async {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
-                        SharedPreferences ps = await SharedPreferences.getInstance();
-                        ps.setBool('login', false);
-                      }),
-              ListTile(
-                  leading: const Icon(
-                    MdiIcons.informationOutline,
-                    color: Colors.orange,
-                    size: 35,
-                  ),
-                  title: const Text(
-                    'About Us',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  onTap: () => {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => AboutUsPage(),
-                        ))
-                      }),
-            ],
-          ),
-        ),
-        appBar: AppBar(
-          backgroundColor: Colors.orange.shade300,
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => CouponsPage()));
-                },
-                icon: Icon(MdiIcons.gift)),
-            IconButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => UserPage()));
-                },
-                icon: Icon(Icons.person_2_outlined)),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            const SizedBox(
+              height: 30,
+            ),
+            ListTile(
+                leading: const Icon(
+                  MdiIcons.logout,
+                  color: Colors.orange,
+                  size: 35,
+                ),
+                title: const Text(
+                  'Logout',
+                  style: TextStyle(fontSize: 20),
+                ),
+                onTap: () async {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
+                      SharedPreferences ps = await SharedPreferences.getInstance();
+                      ps.remove('login');
+                      ps.remove('access');
+                      ps.remove('refresh');
+                    }),
+            ListTile(
+                leading: const Icon(
+                  MdiIcons.informationOutline,
+                  color: Colors.orange,
+                  size: 35,
+                ),
+                title: const Text(
+                  'About Us',
+                  style: TextStyle(fontSize: 20),
+                ),
+                onTap: () => {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => AboutUsPage(),
+                      ))
+                    }),
           ],
-          iconTheme:
-              const IconThemeData(color: Color.fromARGB(255, 230, 81, 0)),
         ),
-        body: _selectPage(index: _selIdx),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.orange.shade300,
-          selectedItemColor: Colors.orange.shade900,
-          items: _navBarItems,
-          currentIndex: _selIdx,
-          onTap: _onItemTapped,
-        )));
+      ),
+      appBar: AppBar(
+        backgroundColor: Colors.orange.shade300,
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => CouponsPage()));
+              },
+              icon: Icon(MdiIcons.gift)),
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => UserPage()));
+              },
+              icon: Icon(Icons.person_2_outlined)),
+        ],
+        iconTheme:
+            const IconThemeData(color: Color.fromARGB(255, 230, 81, 0)),
+      ),
+      body: _selectPage(index: _selIdx),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.orange.shade300,
+        selectedItemColor: Colors.orange.shade900,
+        items: _navBarItems,
+        currentIndex: _selIdx,
+        onTap: _onItemTapped,
+      ));
   }
 }
