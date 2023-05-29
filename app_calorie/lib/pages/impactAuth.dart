@@ -1,10 +1,11 @@
 import 'dart:convert';
-
 import 'package:app_calorie/pages/home.dart';
 import 'package:app_calorie/pages/homePage.dart';
+import 'package:app_calorie/pages/userPage.dart';
 import 'package:app_calorie/utils/impact.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class ImpactAuth extends StatelessWidget {
   ImpactAuth({Key? key}) : super(key: key);
@@ -12,16 +13,24 @@ class ImpactAuth extends StatelessWidget {
   static const routename = 'ImpactAuth';
 
   final _textController1 = TextEditingController();
-
   final _textController2 = TextEditingController();
 
   void checkAuth(BuildContext context) async {
+    final sp = await SharedPreferences.getInstance();
     String _id = _textController1.text;
     String _psw = _textController2.text;
-    if (_id == "name" && _psw == "password") {
+    if (_id == Impact.username && _psw == Impact.password) {
       final result = await _getAndStoreTokens();
       if (result==200){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+            if (sp.getBool('firstTime')==null){
+              Future.delayed(const Duration(seconds: 1), () {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder:((context) => UserPage())));});
+            }
+        else{ 
+              Navigator.of(context).pushReplacement( MaterialPageRoute(builder: (context) => Home()));
+
+              }
       }
       else {ScaffoldMessenger.of(context)
           ..removeCurrentSnackBar()
@@ -101,7 +110,7 @@ class ImpactAuth extends StatelessWidget {
 
 // changeAuth
 } //ImpactAuth
-/*
+
 Future<int> _getAndStoreTokens() async {
 
     //Create the request
@@ -123,4 +132,4 @@ Future<int> _getAndStoreTokens() async {
     //Just return the status code
     return response.statusCode;
   } //_getAndStoreTokens
-  */
+  

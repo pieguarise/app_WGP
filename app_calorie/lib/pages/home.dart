@@ -10,6 +10,7 @@ import 'package:app_calorie/pages/userPage.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   static const route = '/home/';
@@ -76,8 +77,10 @@ class _HomeState extends State<Home> {
                     'Logout',
                     style: TextStyle(fontSize: 20),
                   ),
-                  onTap: () => {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage())),
+                  onTap: () async {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
+                        SharedPreferences ps = await SharedPreferences.getInstance();
+                        ps.setBool('login', false);
                       }),
               ListTile(
                   leading: const Icon(

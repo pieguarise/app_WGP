@@ -17,7 +17,7 @@ class LoginPage extends StatelessWidget {
     String _id = _textController1.text;
     String _psw = _textController2.text;
     if (_id == "wgp" && _psw == "0000") {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => ImpactAuth()));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: ((context) => ImpactAuth())));
       SharedPreferences ps = await SharedPreferences.getInstance();
       ps.setBool('login', true);
     } else {

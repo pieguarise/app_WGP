@@ -132,6 +132,7 @@ class _UserPageState extends State<UserPage> {
                       ps.setString('age', ageController.text);
                       ps.setString('weigth', weigthController.text);
                       ps.setString('heigth', heigthController.text);
+                      
                       setState(() {
                         
                       });
