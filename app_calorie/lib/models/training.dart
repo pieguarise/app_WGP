@@ -1,14 +1,26 @@
 import 'dart:math';
+import 'package:intl/intl.dart';
+
 
 class Training {
   // Instance variables
   DateTime date;
   String technique;
-  int calories;
+  //int calories;
   // Constructor
-  Training({required this.date,required this.technique, required this.calories});
+  Training({required this.date,required this.technique, 
+  //required this.calories
+  });
+
+  Training.fromJson(String date, Map<String, dynamic> json) :
+      date = DateFormat('yyyy-MM-dd HH:mm:ss').parse('$date ${json["time"]}'),
+      technique = json['activityName'].toString();
+      //calories = int.parse(json["calories"]);
+      
+
 }
 
+/*
 // Creo lista di 5 con ultimo come migliore
 List<Training> sessions1 = List.generate(
   5, (index) => Training(
@@ -42,4 +54,4 @@ double sumCalLast5trainings({required List sessions}) {
     somma += sessions[i].calories;
   } //for
   return somma;
-} //sumCalLast5trainings
+} //sumCalLast5trainings*/
