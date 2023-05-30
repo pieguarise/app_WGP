@@ -16,65 +16,44 @@ class CouponsPage extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.orange.shade300,
         ),
-        body: Consumer<CouponsList>(builder: (context, totalCoupons, child) {
-          return Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [
-              Colors.orange.shade100,
-              const Color.fromARGB(255, 255, 255, 255)
-            ], begin: Alignment.topCenter, end: Alignment.center)),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 5,
+        body: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [
+            Colors.orange.shade100,
+            const Color.fromARGB(255, 255, 255, 255)
+          ], begin: Alignment.topCenter, end: Alignment.center)),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 5,
+                ),
+                const Text(
+                  'Achievements',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const Text(
-                    'Achievements',
+                ),
+                SizedBox(height: 10),
+                Text('Donations',
                     style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Text('Donations',
-                      style: TextStyle(
-                          color: Colors.grey.shade700,
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold)),
-                  SizedBox(height: 5),
-                  Center(
-                    child: FutureBuilder(
-                        future: SharedPreferences.getInstance(),
-                        builder: ((context, snapshot) {
-                          if (snapshot.hasData) {
-                            final sp = snapshot.data as SharedPreferences;
-                            if (sp.getDouble('donation') == null) {
-                              sp.setDouble('donation', 0);
-                              return const Text(
-                                "You've totally donated:  0\$",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.orange,
-                                ),
-                              );
-                            } else {
-                              final donat = sp.getDouble('donation')!;
-                              return Text(
-                                "You've totally donated:  $donat\$",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.orange,
-                                ),
-                              );
-                            }
-                          } else {
+                        color: Colors.grey.shade700,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold)),
+                SizedBox(height: 5),
+                Center(
+                  child: FutureBuilder(
+                      future: SharedPreferences.getInstance(),
+                      builder: ((context, snapshot) {
+                        if (snapshot.hasData) {
+                          final sp = snapshot.data as SharedPreferences;
+                          if (sp.getDouble('donation') == null) {
+                            sp.setDouble('donation', 0);
                             return const Text(
                               "You've totally donated:  0\$",
                               style: TextStyle(
@@ -83,22 +62,42 @@ class CouponsPage extends StatelessWidget {
                                 color: Colors.orange,
                               ),
                             );
+                          } else {
+                            final donat = sp.getDouble('donation')!;
+                            return Text(
+                              "You've totally donated:  $donat\$",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.orange,
+                              ),
+                            );
                           }
-                        })),
-                  ),
-                  SizedBox(height: 20),
-                  Text('Coupons',
-                      style: TextStyle(
-                          color: Colors.grey.shade700,
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold)),
-                  SizedBox(height: 5),
-                  toDisplayCoupons(totalCoupons),
-                ],
-              ),
+                        } else {
+                          return const Text(
+                            "You've totally donated:  0\$",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.orange,
+                            ),
+                          );
+                        }
+                      })),
+                ),
+                SizedBox(height: 20),
+                Text('Coupons',
+                    style: TextStyle(
+                        color: Colors.grey.shade700,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold)),
+                SizedBox(height: 5),
+                Consumer<CouponsList>(builder: (context, totalCoupons, child) {
+                  return toDisplayCoupons(totalCoupons);}),
+              ],
             ),
-          );
-        }));
+          ),
+        ));
   }
 
   Widget toDisplayCoupons(CouponsList totalCoupons) {
@@ -111,7 +110,7 @@ class CouponsPage extends StatelessWidget {
             return ListTile(
               leading: (totalCoupons.myCoupons[index].immagine),
               trailing: ElevatedButton(
-                  child: const Text('USE', style: TextStyle(fontSize: 13)),
+                  child: const Text('USE', style: TextStyle(fontSize: 13,color: Colors.white)),
                   onPressed: () {
                     String message =
                         'Congratulations, you used the ${totalCoupons.myCoupons[index].title} coupon';

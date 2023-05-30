@@ -6,7 +6,7 @@ class Impact{
   static String exerciseEndpoint = 'data/v1/exercise/patients/';
   
   static String patientUsername = 'Jpefaq6m58';
-  static String username = 'name';
-  static String password = 'psw';
+  static String username = 'id';
+  static String password = 'pwd';
 
 }//Impact

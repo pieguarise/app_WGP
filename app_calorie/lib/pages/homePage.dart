@@ -122,10 +122,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 10),
             Column(children: [
               const SizedBox(height: 5), 
-              Consumer<TotalCal>(
-                builder: (context, totalCalories, child) {
-                return const ProgressBar();
-              })]),
+              const ProgressBar()]),
               const SizedBox(height: 10),
               const Text(
               "You can go to ACHIEVEMENTS to donate. \nFill the bar to get a branded COUPON and the brand will DONATE food correspondent consumed calories",
