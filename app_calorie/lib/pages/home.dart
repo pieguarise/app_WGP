@@ -1,16 +1,24 @@
+import 'dart:io';
+import 'dart:convert';
+
 import 'package:app_calorie/models/couponsList.dart';
 import 'package:app_calorie/models/totalCal.dart';
+import 'package:app_calorie/models/training.dart';
 import 'package:app_calorie/pages/aboutUsPage.dart';
 import 'package:app_calorie/pages/achievementsPage.dart';
 import 'package:app_calorie/pages/couponsPage.dart';
 import 'package:app_calorie/pages/homePage.dart';
 import 'package:app_calorie/pages/impactAuth.dart';
 import 'package:app_calorie/pages/loginPage.dart';
+import 'package:app_calorie/pages/splash.dart';
 import 'package:app_calorie/pages/userPage.dart';
+import 'package:app_calorie/utils/impact.dart';
 import 'package:flutter/material.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
   static const route = '/home/';
@@ -106,16 +114,16 @@ class _HomeState extends State<Home> {
           backgroundColor: Colors.orange.shade300,
           actions: [
             IconButton(
-              onPressed: ()async{
-                final result = await _getData();
-                print(result);
-               final message =
+                onPressed: () async {
+                  final result = await _requestData();
+                  print(result);
+                  final message =
                       result == null ? 'Request failed' : 'Request successful';
                   ScaffoldMessenger.of(context)
                     ..removeCurrentSnackBar()
                     ..showSnackBar(SnackBar(content: Text(message)));
                 },
-              icon: Icon(MdiIcons.trayArrowDown)),
+                icon: Icon(MdiIcons.trayArrowDown)),
             IconButton(
                 onPressed: () {
                   Navigator.of(context).push(
@@ -143,43 +151,49 @@ class _HomeState extends State<Home> {
   }
 }
 
-  //This method allows to obtain the JWT token pair from IMPACT and store it in SharedPreferences
-  Future<List<Training>?> _getData() async {
-    //Initialize the result
-    List<Training>? result;
+//This method allows to obtain the JWT token pair from IMPACT and store it in SharedPreferences
+Future<List<Training>?> _requestData() async {
+  //Initialize the result
+  List<Training>? result;
 
- //Get the stored access token (Note that this code does not work if the tokens are null)
-    final sp = await SharedPreferences.getInstance();
-    var access = sp.getString('access');
+  //Get the stored access token (Note that this code does not work if the tokens are null)
+  final sp = await SharedPreferences.getInstance();
+  var access = sp.getString('access');
+  var refresh = sp.getString('refresh');
 
-    //If access token is expired, refresh it
-    if(JwtDecoder.isExpired(access!)){
-      await _refreshTokens();
-      access = sp.getString('access');
-    }//if
+  //If access token is expired, refresh it
+  if (JwtDecoder.isExpired(access!)) {
+    await refreshTokens(refresh);
+    access = sp.getString('access');
+  } //if
 
-    //Create the (representative) request
-    final day = '2023-05-04';
-    final url = Impact.baseUrl + Impact.stepsEndpoint + Impact.patientUsername + '/day/$day/';
-    final headers = {HttpHeaders.authorizationHeader: 'Bearer $access'};
+  //Create the (representative) request
+  final day = '2023-04-18';
+  final url = Impact.baseUrl +
+      Impact.exerciseEndpoint +
+      Impact.patientUsername +
+      '/day/$day/';
+  final headers = {HttpHeaders.authorizationHeader: 'Bearer $access'};
 
-    //Get the response
-    print('Calling: $url');
-    final response = await http.get(Uri.parse(url), headers: headers);
-    
-    //if OK parse the response, otherwise return null
-    if (response.statusCode == 200) {
-      final decodedResponse = jsonDecode(response.body);
-      result = [];
-      for (var i = 0; i < decodedResponse['data']['data'].length; i++) {
-        result.add(Steps.fromJson(decodedResponse['data']['date'], decodedResponse['data']['data'][i]));
-      }//for
-    } //if
-    else{
-      result = null;
-    }//else
+  //Get the response
+  print('Calling: $url per richiesta dati');
+  final response = await http.get(Uri.parse(url), headers: headers);
+  print('${response.body}');
+  print('La risposta è: $response');
+  //if OK parse the response, otherwise return null
+  if (response.statusCode == 200) {
+    print('miao');
+    final decodedResponse = jsonDecode(response.body);
+    result = [];
+    for (var i = 0; i < decodedResponse['data']['data'].length; i++) {
+      result.add(Training.fromJson(
+          decodedResponse['data']['date'], decodedResponse['data']['data'][i]));
+    } //for
+  } //if
+  else {
+    result = null;
+  } //else
 
-    //Return the result
-    return result;
-
-  } //_requestData
+  //Return the result
+  return result;
+} //_requestData

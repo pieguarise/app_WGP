@@ -39,7 +39,7 @@ class Splash extends StatelessWidget {
         // if our access token isn't expired --> HomePage/UserPage
       } else {
         if (JwtDecoder.isExpired(access)) {
-          _refreshTokens(refresh);
+          refreshTokens(refresh);
         }
         Future.delayed(const Duration(seconds: 1), () {
           Navigator.of(context).pushReplacement(
@@ -78,7 +78,7 @@ class Splash extends StatelessWidget {
   }
 }
 
-Future<void> _refreshTokens(refresh) async {
+Future<void> refreshTokens(refresh) async {
   final url = Impact.baseUrl + Impact.refreshEndpoint;
   final body = {'refresh': refresh};
   //print('Calling: $url');
@@ -94,4 +94,4 @@ Future<void> _refreshTokens(refresh) async {
     await sp.setString('refresh', refresh);
   }
   return;
-} //
+} //refreshTokens
