@@ -36,11 +36,18 @@ class Splash extends StatelessWidget {
           Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: ((context) => ImpactAuth())));
         });
-        // if our access token isn't expired --> HomePage/UserPage
       } else {
+        // new tokens if refresh is expired
+        if(JwtDecoder.isExpired(refresh)){
+          Future.delayed(const Duration(seconds: 1), () {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: ((context) => ImpactAuth())));
+        });}
+        // refresh tokens if only access is expired
         if (JwtDecoder.isExpired(access)) {
           refreshTokens(refresh);
         }
+        // if our access token isn't expired --> Home
         Future.delayed(const Duration(seconds: 1), () {
           Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: ((context) => Home())));
