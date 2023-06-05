@@ -42,7 +42,9 @@ class Splash extends StatelessWidget {
           Future.delayed(const Duration(seconds: 1), () {
           Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: ((context) => ImpactAuth())));
-        });}
+        });
+        }
+        else {
         // refresh tokens if only access is expired
         if (JwtDecoder.isExpired(access)) {
           refreshTokens(refresh);
@@ -51,7 +53,7 @@ class Splash extends StatelessWidget {
         Future.delayed(const Duration(seconds: 1), () {
           Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: ((context) => Home())));
-        });
+        });}
       }
     }
   }
