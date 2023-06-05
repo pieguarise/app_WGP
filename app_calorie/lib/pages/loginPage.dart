@@ -34,64 +34,128 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     print('$routename built');
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          gradient: LinearGradient(
-            colors: [
-              Colors.orange.shade100,
-              const Color.fromARGB(255, 255, 255, 255)
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.center,
-          ),
-        ),
-        child: Center(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              child: Image.asset('assets/wgp.png'),
-            ),
-            SizedBox(height: 40,),
-            SizedBox(
-              width: 300,
-              child: TextField(
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
-                    labelText: "Username",
-                    labelStyle: TextStyle(
-                      fontSize: 15,
-                    ),
-                    border: OutlineInputBorder()),
-                controller: _textController1,
-              ),
-            ),
-            SizedBox(height: 15),
-            SizedBox(
-              width: 300,
-              child: TextField(
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
-                    labelText: "Password",
-                    labelStyle: TextStyle(
-                      fontSize: 15,
-                    ),
-                    border: OutlineInputBorder()),
-                controller: _textController2,
-              ),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-                child: Text('LOGIN',style: TextStyle(color: Colors.white),),
-                onPressed: () {
-                  checkUser(context);
-                }),
-          ],
-        )),
-      ),
+      body: toDisplayBody(context),
     );
   }
+
+  Container toDisplayBody(BuildContext context){
+    //SharedPreferences ps = SharedPreferences.getInstance();
+    //if (ps.getBool('firstTime') == false) {
+    return Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.rectangle,
+        gradient: LinearGradient(
+          colors: [
+            Colors.orange.shade100,
+            const Color.fromARGB(255, 255, 255, 255)
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.center,
+        ),
+      ),
+      child: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            child: Image.asset('assets/wgp.png'),
+          ),
+          SizedBox(height: 40,),
+          SizedBox(
+            width: 300,
+            child: TextField(
+              decoration: const InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                  labelText: "Username",
+                  labelStyle: TextStyle(
+                    fontSize: 15,
+                  ),
+                  border: OutlineInputBorder()),
+              controller: _textController1,
+            ),
+          ),
+          SizedBox(height: 15),
+          SizedBox(
+            width: 300,
+            child: TextField(
+              decoration: const InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                  labelText: "Password",
+                  labelStyle: TextStyle(
+                    fontSize: 15,
+                  ),
+                  border: OutlineInputBorder()),
+              controller: _textController2,
+            ),
+          ),
+          SizedBox(height: 20),
+          ElevatedButton(
+              child: Text('LOGIN',style: TextStyle(color: Colors.white),),
+              onPressed: () {
+                checkUser(context);
+              }),
+        ],
+      )),
+    );}
+    /*else {
+    return Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.rectangle,
+        gradient: LinearGradient(
+          colors: [
+            Colors.orange.shade100,
+            const Color.fromARGB(255, 255, 255, 255)
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.center,
+        ),
+      ),
+      child: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            child: Image.asset('assets/wgp.png'),
+          ),
+          SizedBox(height: 40,),
+          SizedBox(
+            width: 300,
+            child: TextField(
+              decoration: const InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                  labelText: "Username",
+                  labelStyle: TextStyle(
+                    fontSize: 15,
+                  ),
+                  border: OutlineInputBorder()),
+              controller: _textController1,
+            ),
+          ),
+          SizedBox(height: 15),
+          SizedBox(
+            width: 300,
+            child: TextField(
+              decoration: const InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                  labelText: "Password",
+                  labelStyle: TextStyle(
+                    fontSize: 15,
+                  ),
+                  border: OutlineInputBorder()),
+              controller: _textController2,
+            ),
+          ),
+          SizedBox(height: 20),
+          ElevatedButton(
+              child: Text('LOGIN',style: TextStyle(color: Colors.white),),
+              onPressed: () {
+                checkUser(context);
+              }),
+        ],
+      )),
+    );}*/
+  //}
+  
 
 // checkUser
 } //LoginPage
