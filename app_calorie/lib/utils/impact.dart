@@ -1,12 +1,10 @@
-class Impact{
-
+class Impact {
   static String baseUrl = 'https://impact.dei.unipd.it/bwthw/';
   static String tokenEndpoint = 'gate/v1/token/';
   static String refreshEndpoint = 'gate/v1/refresh/';
   static String exerciseEndpoint = 'data/v1/exercise/patients/';
-  
-  static String patientUsername = 'Jpefaq6m58';
-  static String username = 'user';
-  static String password = 'pwd';
 
+  static String patientUsername = 'Jpefaq6m58';
+  static String username = 'ciao';
+  static String password = 'bau';
 }//Impact

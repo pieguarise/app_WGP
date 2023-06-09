@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
 
-import 'package:app_calorie/models/couponsList.dart';
+import 'package:app_calorie/database/entities/entities.dart';
 import 'package:app_calorie/models/totalCal.dart';
 import 'package:app_calorie/models/training.dart';
 import 'package:app_calorie/pages/aboutUsPage.dart';
@@ -12,8 +12,10 @@ import 'package:app_calorie/pages/impactAuth.dart';
 import 'package:app_calorie/pages/loginPage.dart';
 import 'package:app_calorie/pages/splash.dart';
 import 'package:app_calorie/pages/userPage.dart';
+import 'package:app_calorie/repository/databaseRepository.dart';
 import 'package:app_calorie/utils/impact.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
@@ -115,7 +117,7 @@ class _HomeState extends State<Home> {
           actions: [
             IconButton(
                 onPressed: () async {
-                  final result = await _requestData();
+                  final result = await _requestData(context);
                   print(result);
                   final message =
                       result == null ? 'Request failed' : 'Request successful';
@@ -152,9 +154,9 @@ class _HomeState extends State<Home> {
 }
 
 //This method allows to obtain the JWT token pair from IMPACT and store it in SharedPreferences
-Future<List<Training>?> _requestData() async {
+Future<int?> _requestData(context) async {
   //Initialize the result
-  List<Training>? result;
+  int? result;
 
   //Get the stored access token (Note that this code does not work if the tokens are null)
   final sp = await SharedPreferences.getInstance();
@@ -182,13 +184,21 @@ Future<List<Training>?> _requestData() async {
   print('La risposta è: $response');
   //if OK parse the response, otherwise return null
   if (response.statusCode == 200) {
-    print('miao');
     final decodedResponse = jsonDecode(response.body);
-    result = [];
+    result = response.statusCode;
     for (var i = 0; i < decodedResponse['data']['data'].length; i++) {
-      result.add(Training.fromJson(
-          decodedResponse['data']['date'], decodedResponse['data']['data'][i]));
+      Trainings training = _generateTraining(
+          decodedResponse['data']['date'], decodedResponse['data']['data'][i]);
+      print(training.date);
+      await Provider.of<DatabaseRepository>(context, listen: false)
+          .insertTraining(training);
+      print('bau');
     } //for
+    print('miao');
+    List<Trainings> lista =
+        await Provider.of<DatabaseRepository>(context, listen: false)
+            .findAllTrainings();
+    print(lista);
   } //if
   else {
     result = null;
@@ -197,3 +207,13 @@ Future<List<Training>?> _requestData() async {
   //Return the result
   return result;
 } //_requestData
+
+Trainings _generateTraining(String day, Map<String, dynamic> json) {
+  DateTime date =
+      DateFormat('yyyy-MM-dd HH:mm:ss').parse('$day ${json["time"]}');
+  int calories = json["calories"];
+  String technique = json["activityName"];
+
+  Trainings result = Trainings(null, date, calories, technique);
+  return result;
+}

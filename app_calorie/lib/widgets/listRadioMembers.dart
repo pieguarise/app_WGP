@@ -1,6 +1,8 @@
-import 'package:app_calorie/models/coupon.dart';
-import 'package:app_calorie/models/couponsList.dart';
+import 'dart:math';
+
+import 'package:app_calorie/database/entities/entities.dart';
 import 'package:app_calorie/pages/couponsPage.dart';
+import 'package:app_calorie/repository/databaseRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,13 +24,25 @@ class listRadioMembersState extends State<ListRadioMembers> {
 
   num? currentValue;
 
-  void _couponGeneration(BuildContext context, num? val) {
+  Future<void>? _couponGeneration(BuildContext context, num? val) async {
     if (val != null) {
       double value = val as double;
-      Coupon newCoupon = generateCoupon(value);
-      Provider.of<CouponsList>(context, listen: false).addCoupon(newCoupon);
+
+      String title = "Nike";
+      if (val == 2) {
+        title = "Lowa";
+      } else if (val == 3) {
+        title = "Bottecchia";
+      }
+
+      String description = _generateRandomDescription(val);
+
+      Coupons newCoupon = Coupons(null, title, description);
+
+      await Provider.of<DatabaseRepository>(context, listen: false)
+          .insertCoupons(newCoupon);
       Navigator.of(context)
-         .push(MaterialPageRoute(builder: (context) => CouponsPage()));
+          .push(MaterialPageRoute(builder: (context) => CouponsPage()));
     } else {
       ScaffoldMessenger(
         child: Text('Choose a brand first'),
@@ -73,10 +87,48 @@ class listRadioMembersState extends State<ListRadioMembers> {
           ),
         ),
         ElevatedButton(
-          onPressed: () => _couponGeneration(context, currentValue),
+          onPressed: () {
+            _couponGeneration(context, currentValue);
+          },
           child: Icon(Icons.done),
         ),
       ],
     );
   }
+}
+
+String _generateRandomDescription(double val) {
+  int codice = Random().nextInt(2);
+  String description = '';
+  if (val == 1) {
+    // Nike
+    if (codice == 0) {
+      description = 'Get a 10% discount on shoes department';
+    } else if (codice == 1) {
+      description = 'Get a 15% discount on running department';
+    } else if (codice == 2) {
+      description = 'Ticket for the next limited edition shoes raffle';
+    }
+  } else if (val == 2) {
+    // Lowa
+    if (codice == 0) {
+      description = 'Get a 25% discount on trekking department';
+    } else if (codice == 1) {
+      description = 'Get a 15% discount on children department';
+    } else if (codice == 2) {
+      description = 'Free pair of socks on your next purchase';
+    }
+  } else if (val == 3) {
+    // Bottecchia
+    if (codice == 0) {
+      description = 'Get a 30% discount on your next e-bike purchase';
+    } else if (codice == 1) {
+      description = 'Get a 15% discount on technical clothing';
+    } else if (codice == 2) {
+      description = 'Ticket for limited edition bike lottery';
+    }
+  }
+  ;
+
+  return description;
 }

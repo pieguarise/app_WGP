@@ -1,5 +1,5 @@
-import 'package:app_calorie/models/coupon.dart';
-import 'package:app_calorie/models/couponsList.dart';
+import 'package:app_calorie/database/entities/entities.dart';
+import 'package:app_calorie/repository/databaseRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -92,51 +92,69 @@ class CouponsPage extends StatelessWidget {
                         fontSize: 28,
                         fontWeight: FontWeight.bold)),
                 SizedBox(height: 5),
-                Consumer<CouponsList>(builder: (context, totalCoupons, child) {
-                  return toDisplayCoupons(totalCoupons);}),
+                Consumer<DatabaseRepository>(builder: (context, dbr, child) {
+                  return FutureBuilder(
+                      initialData: null,
+                      future: dbr.findAllCoupons(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          final totalCoupons = snapshot.data as List<Coupons>;
+                          if (totalCoupons.isNotEmpty) {
+                            return toDisplayCoupons(totalCoupons);
+                          } else {
+                            return Center(
+                              child: Text(
+                                  "You have not collected any coupon yet",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.grey.shade700)),
+                            );
+                          }
+                        } else {
+                          return CircularProgressIndicator();
+                        }
+                        ;
+                      });
+                })
               ],
             ),
           ),
         ));
   }
 
-  Widget toDisplayCoupons(CouponsList totalCoupons) {
-    if (totalCoupons.myCoupons.length > 0) {
-      return ListView.builder(
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          itemCount: totalCoupons.myCoupons.length,
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              leading: (totalCoupons.myCoupons[index].immagine),
-              trailing: ElevatedButton(
-                  child: const Text('USE', style: TextStyle(fontSize: 13,color: Colors.white)),
-                  onPressed: () {
-                    String message =
-                        'Congratulations, you used the ${totalCoupons.myCoupons[index].title} coupon';
-                    Provider.of<CouponsList>(context, listen: false)
-                        .deleteCoupon(index);
-                    ScaffoldMessenger.of(
-                      context,
-                    )
-                      ..removeCurrentSnackBar()
-                      ..showSnackBar(SnackBar(content: Text(message)));
-                  }),
-              title: Text(
-                totalCoupons.myCoupons[index].title,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Text(totalCoupons.myCoupons[index].description),
-            );
-          });
-    } else {
-      return Center(
-        child: Text("You have not collected any coupon yet",
-            style: TextStyle(
-              fontSize: 18,
-              color: Colors.grey.shade700
-            )),
-      );
-    }
+  Widget toDisplayCoupons(totalCoupons) {
+    return ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: totalCoupons.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            leading: _imageToDisplay((totalCoupons[index].title)),
+            trailing: ElevatedButton(
+                child: const Text('USE',
+                    style: TextStyle(fontSize: 13, color: Colors.white)),
+                onPressed: () async {
+                  String message =
+                      'Congratulations, you used the ${totalCoupons[index].title} coupon';
+                  await Provider.of<DatabaseRepository>(context, listen: false)
+                      .deleteCoupons(totalCoupons[index]);
+                  ScaffoldMessenger.of(
+                    context,
+                  )
+                    ..removeCurrentSnackBar()
+                    ..showSnackBar(SnackBar(content: Text(message)));
+                }),
+            title: Text(
+              totalCoupons[index].title,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text(totalCoupons[index].description),
+          );
+        });
   }
+}
+
+Image _imageToDisplay(title) {
+  return Image.asset("assets/${title.toLowerCase()}.png",
+      width: 50, height: 50);
 }

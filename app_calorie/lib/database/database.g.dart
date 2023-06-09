@@ -63,6 +63,8 @@ class _$AppDatabase extends AppDatabase {
 
   CouponsDao? _couponsDaoInstance;
 
+  TrainingsDao? _trainingsDaoInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
@@ -86,6 +88,8 @@ class _$AppDatabase extends AppDatabase {
       onCreate: (database, version) async {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Coupons` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `Trainings` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `date` INTEGER NOT NULL, `calories` INTEGER NOT NULL, `technique` TEXT NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -96,6 +100,11 @@ class _$AppDatabase extends AppDatabase {
   @override
   CouponsDao get couponsDao {
     return _couponsDaoInstance ??= _$CouponsDao(database, changeListener);
+  }
+
+  @override
+  TrainingsDao get trainingsDao {
+    return _trainingsDaoInstance ??= _$TrainingsDao(database, changeListener);
   }
 }
 
@@ -140,12 +149,71 @@ class _$CouponsDao extends CouponsDao {
   }
 
   @override
-  Future<void> insertCoupons(Coupons coupons) async {
-    await _couponsInsertionAdapter.insert(coupons, OnConflictStrategy.abort);
+  Future<void> insertCoupons(Coupons coupon) async {
+    await _couponsInsertionAdapter.insert(coupon, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> deleteCoupons(Coupons task) async {
-    await _couponsDeletionAdapter.delete(task);
+  Future<void> deleteCoupons(Coupons coupon) async {
+    await _couponsDeletionAdapter.delete(coupon);
   }
 }
+
+class _$TrainingsDao extends TrainingsDao {
+  _$TrainingsDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _trainingsInsertionAdapter = InsertionAdapter(
+            database,
+            'Trainings',
+            (Trainings item) => <String, Object?>{
+                  'id': item.id,
+                  'date': _dateTimeConverter.encode(item.date),
+                  'calories': item.calories,
+                  'technique': item.technique
+                }),
+        _trainingsDeletionAdapter = DeletionAdapter(
+            database,
+            'Trainings',
+            ['id'],
+            (Trainings item) => <String, Object?>{
+                  'id': item.id,
+                  'date': _dateTimeConverter.encode(item.date),
+                  'calories': item.calories,
+                  'technique': item.technique
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<Trainings> _trainingsInsertionAdapter;
+
+  final DeletionAdapter<Trainings> _trainingsDeletionAdapter;
+
+  @override
+  Future<List<Trainings>> findAllTrainings() async {
+    return _queryAdapter.queryList('SELECT * FROM Trainings',
+        mapper: (Map<String, Object?> row) => Trainings(
+            row['id'] as int?,
+            _dateTimeConverter.decode(row['date'] as int),
+            row['calories'] as int,
+            row['technique'] as String));
+  }
+
+  @override
+  Future<void> insertTrainings(Trainings training) async {
+    await _trainingsInsertionAdapter.insert(training, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deleteTrainings(Trainings training) async {
+    await _trainingsDeletionAdapter.delete(training);
+  }
+}
+
+// ignore_for_file: unused_element
+final _dateTimeConverter = DateTimeConverter();
