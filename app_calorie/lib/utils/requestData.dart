@@ -62,7 +62,7 @@ Trainings _generateTraining(String day, Map<String, dynamic> json) {
   return result;
 }
 
-// Funzione che
+// Funzione che scarica dati e riempie man mano il database e ritorna statusCodes
 Future<int?> _callingUrl(
     context, String start_date, String end_date, String? access) async {
   late int? result;
