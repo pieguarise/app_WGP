@@ -33,23 +33,48 @@ Future<int?> requestData(context) async {
       await Provider.of<DatabaseRepository>(context, listen: false)
           .findAllTrainings();
 
-  final start_date_dateTime = DateTime(2023, 06, 01);
-  final start_date_string = '2023-06-01';
+  DateTime start_date_dateTime = DateTime(2023, 06, 01);
+  String start_date_string = '2023-06-01';
 
   if (lista.isNotEmpty) {
-    final start_date_dateTime = lista.last.date;
-    final start_date_string = DateFormat.yMMMMd().format(start_date_dateTime);
+    DateTime start_date_dateTime = lista.last.date;
+    String start_date_string = DateFormat.yMMMMd().format(start_date_dateTime);
   }
 
-  final end_date_dateTime = DateTime.now().subtract(const Duration(days: 1));
-  final end_date_string = DateFormat.yMMMMd().format(end_date_dateTime);
+  DateTime yesterday_dateTime = DateTime.now().subtract(const Duration(days: 1));
+  String yesterday_string = DateFormat.yMMMMd().format(yesterday_dateTime);
 
-  final Duration duration = end_date_dateTime.difference(start_date_dateTime);
+  final Duration duration = yesterday_dateTime.difference(start_date_dateTime);
+  
   if (duration.inDays <= 7) {
     // se s
     result =
+        await _callingUrl(context, start_date_string, yesterday_string, access);
+  } else {
+    List<int?> results=[];
+    int callsNumber=((duration.inDays)/7).ceil();
+    for (var i=0; i<=callsNumber-1; i++){
+      DateTime end_date_dateTime=start_date_dateTime.add(const Duration(days:7));
+     String end_date_string = DateFormat.yMMMMd().format(end_date_dateTime);
+      result =
         await _callingUrl(context, start_date_string, end_date_string, access);
-  } else {}
+      results.add(result);
+      start_date_dateTime=end_date_dateTime.add(const Duration(days:1));
+    }
+    result =
+        await _callingUrl(context, start_date_string, yesterday_string, access);
+  results.add(result);
+  for (var i=0; i<results.length; i++){
+    if (results[i]!=200){
+      result=null;
+      break;
+    }
+    result=200;
+  }
+
+
+  }
+
 } //_requestData
 
 Trainings _generateTraining(String day, Map<String, dynamic> json) {
