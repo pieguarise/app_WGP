@@ -1,5 +1,3 @@
-import 'package:app_calorie/pages/home.dart';
-import 'package:app_calorie/pages/homePage.dart';
 import 'package:app_calorie/pages/impactAuth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';

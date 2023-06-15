@@ -1,9 +1,7 @@
-import 'package:app_calorie/models/totalCal.dart';
 import 'package:flutter/material.dart';
 import 'package:app_calorie/models/training.dart';
 import 'package:app_calorie/widgets/caloriesPlot.dart';
 import 'package:app_calorie/widgets/progressBar.dart';
-import 'package:provider/provider.dart';
 
 Widget _toDisplayText(List<Training> recentTrainings) {
   if (compareTrainings(recentTrainings)) {

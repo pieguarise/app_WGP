@@ -1,7 +1,5 @@
-import 'package:app_calorie/pages/couponsPage.dart';
 import 'package:app_calorie/widgets/ListRadioMembers.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class bottomBarFullSection extends StatelessWidget {
   bottomBarFullSection({super.key});

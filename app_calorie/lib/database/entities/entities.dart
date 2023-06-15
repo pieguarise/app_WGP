@@ -1,5 +1,4 @@
 import 'package:floor/floor.dart';
-import 'package:intl/intl.dart';
 
 //Here, we are saying to floor that this is a class that defines an entity
 @entity

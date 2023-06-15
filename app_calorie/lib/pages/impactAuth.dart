@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:app_calorie/pages/home.dart';
-import 'package:app_calorie/pages/homePage.dart';
 import 'package:app_calorie/pages/userPage.dart';
 import 'package:app_calorie/utils/impact.dart';
 import 'package:flutter/material.dart';

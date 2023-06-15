@@ -1,8 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
-
 import 'package:app_calorie/database/entities/entities.dart';
-
 import 'package:app_calorie/pages/splash.dart';
 import 'package:app_calorie/repository/databaseRepository.dart';
 import 'package:app_calorie/utils/impact.dart';
@@ -38,43 +36,58 @@ Future<int?> requestData(context) async {
 
   if (lista.isNotEmpty) {
     DateTime start_date_dateTime = lista.last.date;
-    String start_date_string = DateFormat.yMMMMd().format(start_date_dateTime);
+    String start_date_string =
+        DateFormat('yyyy-MM-dd').format(start_date_dateTime);
   }
+  //print('Giorno iniziale: $start_date_string');
 
-  DateTime yesterday_dateTime = DateTime.now().subtract(const Duration(days: 1));
-  String yesterday_string = DateFormat.yMMMMd().format(yesterday_dateTime);
+  DateTime yesterday_dateTime =
+      DateTime.now().subtract(const Duration(days: 1));
+  String yesterday_string = DateFormat('yyyy-MM-dd').format(yesterday_dateTime);
+  //print('Giorno finale: $yesterday_string');
 
   final Duration duration = yesterday_dateTime.difference(start_date_dateTime);
-  
-  if (duration.inDays <= 7) {
+  print('Durata intervallo di richiesta dati: ${duration.inDays + 1}');
+  if (duration.inDays + 1 <= 7) {
     // se s
     result =
         await _callingUrl(context, start_date_string, yesterday_string, access);
   } else {
-    List<int?> results=[];
-    int callsNumber=((duration.inDays)/7).ceil();
-    for (var i=0; i<=callsNumber-1; i++){
-      DateTime end_date_dateTime=start_date_dateTime.add(const Duration(days:7));
-     String end_date_string = DateFormat.yMMMMd().format(end_date_dateTime);
-      result =
-        await _callingUrl(context, start_date_string, end_date_string, access);
+    List<int?> results = [];
+    int callsNumber = ((duration.inDays) / 7).ceil();
+
+    for (var i = 0; i <= callsNumber - 1; i++) {
+      print('Giorno iniziale: $start_date_string');
+      DateTime end_date_dateTime =
+          start_date_dateTime.add(const Duration(days: 6));
+      String end_date_string =
+          DateFormat('yyyy-MM-dd').format(end_date_dateTime);
+      print('Giorno finale: $end_date_string');
+      result = await _callingUrl(
+          context, start_date_string, end_date_string, access);
       results.add(result);
-      start_date_dateTime=end_date_dateTime.add(const Duration(days:1));
+      start_date_dateTime = end_date_dateTime.add(const Duration(days: 1));
+      start_date_string = DateFormat('yyyy-MM-dd').format(start_date_dateTime);
     }
-    result =
-        await _callingUrl(context, start_date_string, yesterday_string, access);
-  results.add(result);
-  for (var i=0; i<results.length; i++){
-    if (results[i]!=200){
-      result=null;
-      break;
+
+    // Ora devo controllare se ci sono giorni fuori dai range fatti nel for
+    // in pratica controllo se l'ultimo giorno salvato nel for è successivo o 
+    // precedente a ieri e in caso entro nell'if 
+    if (start_date_dateTime.compareTo(yesterday_dateTime)<0) {
+      result = await _callingUrl(
+          context, start_date_string, yesterday_string, access);
+      results.add(result);
     }
-    result=200;
+
+    for (var i = 0; i < results.length; i++) {
+      if (results[i] != 200) {
+        result = null;
+        break;
+      }
+      result = 200;
+    }
   }
-
-
-  }
-
+  return result;
 } //_requestData
 
 Trainings _generateTraining(String day, Map<String, dynamic> json) {
@@ -99,7 +112,7 @@ Future<int?> _callingUrl(
   final headers = {HttpHeaders.authorizationHeader: 'Bearer $access'};
 
   //Get the response
-  print('Calling: $url per richiesta dati');
+  //print('Calling: $url per richiesta dati');
   final response = await http.get(Uri.parse(url), headers: headers);
   print('body: ${response.body}');
   print('La risposta è: ${response.statusCode}');

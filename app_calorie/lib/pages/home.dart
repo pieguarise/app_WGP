@@ -1,27 +1,14 @@
-import 'dart:io';
-import 'dart:convert';
-
-import 'package:app_calorie/database/entities/entities.dart';
-import 'package:app_calorie/models/totalCal.dart';
-import 'package:app_calorie/models/training.dart';
 import 'package:app_calorie/pages/aboutUsPage.dart';
 import 'package:app_calorie/pages/achievementsPage.dart';
 import 'package:app_calorie/pages/couponsPage.dart';
 import 'package:app_calorie/pages/homePage.dart';
-import 'package:app_calorie/pages/impactAuth.dart';
 import 'package:app_calorie/pages/loginPage.dart';
-import 'package:app_calorie/pages/splash.dart';
 import 'package:app_calorie/pages/userPage.dart';
-import 'package:app_calorie/repository/databaseRepository.dart';
-import 'package:app_calorie/utils/impact.dart';
 import 'package:app_calorie/utils/requestData.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
+
 
 class Home extends StatefulWidget {
   static const route = '/home/';
