@@ -35,11 +35,12 @@ Future<int?> requestData(context) async {
   String start_date_string = '2023-06-01';
 
   if (lista.isNotEmpty) {
-    DateTime start_date_dateTime = lista.last.date;
-    String start_date_string =
+    start_date_dateTime = lista.last.date;
+    start_date_string =
         DateFormat('yyyy-MM-dd').format(start_date_dateTime);
+        print('Giorno iniziale database già popolato: $start_date_string');
   }
-  //print('Giorno iniziale: $start_date_string');
+  print('Giorno iniziale definitivo: $start_date_string');
 
   DateTime yesterday_dateTime =
       DateTime.now().subtract(const Duration(days: 1));
@@ -48,7 +49,15 @@ Future<int?> requestData(context) async {
 
   final Duration duration = yesterday_dateTime.difference(start_date_dateTime);
   print('Durata intervallo di richiesta dati: ${duration.inDays + 1}');
-  if (duration.inDays + 1 <= 7) {
+  
+  //..........................................
+  // TODO: qui forse va fatta una cosa così, sia qui che poi dopo il for
+  //if (duration.inDays==1){
+    // chiamata di un singolo giorno
+  //}
+  //..........................................
+
+  if ((duration.inDays + 1) <= 7 && duration.inDays!=1) {
     // se s
     result =
         await _callingUrl(context, start_date_string, yesterday_string, access);
@@ -73,6 +82,10 @@ Future<int?> requestData(context) async {
     // Ora devo controllare se ci sono giorni fuori dai range fatti nel for
     // in pratica controllo se l'ultimo giorno salvato nel for è successivo o 
     // precedente a ieri e in caso entro nell'if 
+
+    // TODO: qui va aggiunto il controllo se resta fuori un giorno (chiamata singola)
+    // o più giorni (e allora resta così)
+
     if (start_date_dateTime.compareTo(yesterday_dateTime)<0) {
       result = await _callingUrl(
           context, start_date_string, yesterday_string, access);
