@@ -53,21 +53,20 @@ Future<int?> requestData(context) async {
 
   // Yesterday already downloaded
   if (duration == 0) {
-    result=200;
+    result = 200;
   }
 
   // Download only 1 day
   if (duration == 1) {
-    result =
-        await _callingUrlSingle(context, start_date_string, access);
+    result = await _callingUrlSingle(context, start_date_string, access);
   }
 
   // scarico i dati se l'intervallo è compreso tra 2 e 7 compresi
-  if ((duration) <= 7 && duration >=2) {
+  if ((duration) <= 7 && duration >= 2) {
     // se s
-    result =
-        await _callingUrlRange(context, start_date_string, yesterday_string, access);
-  } 
+    result = await _callingUrlRange(
+        context, start_date_string, yesterday_string, access);
+  }
   // scarico i dati per intervalli di tempo maggiori di 7:
   else {
     List<int?> results = [];
@@ -89,20 +88,24 @@ Future<int?> requestData(context) async {
       start_date_string = DateFormat('yyyy-MM-dd').format(start_date_dateTime);
     }
 
-    int duration2=yesterday_dateTime.difference(start_date_dateTime).inDays;
-    // se avanza solo un giorno --> chiamata singola
-    if (duration2==1){
-        result =
-        await _callingUrlSingle(context, start_date_string, access);
-        results.add(result);
+    int duration2 =
+        yesterday_dateTime.difference(start_date_dateTime).inDays + 1;
+    // già presi tutti i giorni (duration era un multiplo di 7)
+    if (duration2 == 0) {
+      result = 200;
+      results.add(result);
     }
-    // avanza più di un giorno 
+    // se avanza solo un giorno --> chiamata singola
+    if (duration2 == 1) {
+      result = await _callingUrlSingle(context, start_date_string, access);
+      results.add(result);
+    }
+    // avanza più di un giorno
     else {
       result = await _callingUrlRange(
           context, start_date_string, yesterday_string, access);
       results.add(result);
     }
-    
 
     for (var i = 0; i < results.length; i++) {
       if (results[i] != 200) {
@@ -176,8 +179,7 @@ Future<int?> _callingUrlRange(
   return result;
 }
 
-Future<int?> _callingUrlSingle(
-    context, String date, String? access) async {
+Future<int?> _callingUrlSingle(context, String date, String? access) async {
   late int? result;
   final url = Impact.baseUrl +
       Impact.exerciseEndpoint +
@@ -200,17 +202,18 @@ Future<int?> _callingUrlSingle(
 
     print("data decoded response: ${decodedResponse['data']['date']}");
 
-      for (var i = 0; i < decodedResponse['data']['data'].length; i++) {
-        //lista giornaliera
+    for (var i = 0; i < decodedResponse['data']['data'].length; i++) {
+      //lista giornaliera
 
-        Trainings training = _generateTraining(
-            decodedResponse['data']['date'], //data e ora dell i esimo allenamento del j giorno
-            decodedResponse['data']['data'][i]);
-        print(training.date);
-        await Provider.of<DatabaseRepository>(context, listen: false)
-            .insertTraining(training);
-      }
-    } //for//if
+      Trainings training = _generateTraining(
+          decodedResponse['data']
+              ['date'], //data e ora dell i esimo allenamento del j giorno
+          decodedResponse['data']['data'][i]);
+      print(training.date);
+      await Provider.of<DatabaseRepository>(context, listen: false)
+          .insertTraining(training);
+    }
+  } //for//if
   else {
     result = null;
   } //else
