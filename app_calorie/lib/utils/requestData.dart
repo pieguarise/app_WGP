@@ -74,7 +74,7 @@ Future<int?> requestData(context) async {
     // 9/7=1,... --> 2 quindi farò 2 chiamate, una per i primi 7 giorni e una per gli ultimi 2
     int callsNumber = ((duration) / 7).ceil();
     // per le chiamate da 7 giorni
-    for (var i = 0; i <= callsNumber - 1; i++) {
+    for (var i = 0; i < callsNumber - 1; i++) {
       print('Giorno iniziale: $start_date_string');
       DateTime end_date_dateTime =
           start_date_dateTime.add(const Duration(days: 6));
