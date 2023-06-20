@@ -4,6 +4,7 @@ import 'package:app_calorie/database/entities/entities.dart';
 import 'package:app_calorie/pages/splash.dart';
 import 'package:app_calorie/repository/databaseRepository.dart';
 import 'package:app_calorie/utils/impact.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:provider/provider.dart';
@@ -35,36 +36,45 @@ Future<int?> requestData(context) async {
   String start_date_string = '2023-06-01';
 
   if (lista.isNotEmpty) {
-    start_date_dateTime = lista.last.date;
-    start_date_string =
-        DateFormat('yyyy-MM-dd').format(start_date_dateTime);
-        print('Giorno iniziale database già popolato: $start_date_string');
+    start_date_dateTime = lista.last.date.add(Duration(days: 1));
+    start_date_string = DateFormat('yyyy-MM-dd').format(start_date_dateTime);
+    print('Giorno inizio prendere dati (primo NO in DB): $start_date_string');
   }
-  print('Giorno iniziale definitivo: $start_date_string');
 
   DateTime yesterday_dateTime =
       DateTime.now().subtract(const Duration(days: 1));
   String yesterday_string = DateFormat('yyyy-MM-dd').format(yesterday_dateTime);
-  //print('Giorno finale: $yesterday_string');
+  print('Giorno finale (ieri): $yesterday_string');
 
-  final Duration duration = yesterday_dateTime.difference(start_date_dateTime);
-  print('Durata intervallo di richiesta dati: ${duration.inDays + 1}');
-  
-  //..........................................
-  // TODO: qui forse va fatta una cosa così, sia qui che poi dopo il for
-  //if (duration.inDays==1){
-    // chiamata di un singolo giorno
-  //}
-  //..........................................
+  final int duration =
+      yesterday_dateTime.difference(start_date_dateTime).inDays + 1;
+  // duration è l'intero che ci dice quanti giorno dobbiamo scaricare
+  print('Durata intervallo di richiesta dati: ${duration}');
 
-  if ((duration.inDays + 1) <= 7 && duration.inDays!=1) {
+  // Yesterday already downloaded
+  if (duration == 0) {
+    result=200;
+  }
+
+  // Download only 1 day
+  if (duration == 1) {
+    result =
+        await _callingUrlSingle(context, start_date_string, access);
+  }
+
+  // scarico i dati se l'intervallo è compreso tra 2 e 7 compresi
+  if ((duration) <= 7 && duration >=2) {
     // se s
     result =
-        await _callingUrl(context, start_date_string, yesterday_string, access);
-  } else {
+        await _callingUrlRange(context, start_date_string, yesterday_string, access);
+  } 
+  // scarico i dati per intervalli di tempo maggiori di 7:
+  else {
     List<int?> results = [];
-    int callsNumber = ((duration.inDays) / 7).ceil();
-
+    // in questo caso divido in blocchi di 7 giorni per eccesso
+    // 9/7=1,... --> 2 quindi farò 2 chiamate, una per i primi 7 giorni e una per gli ultimi 2
+    int callsNumber = ((duration) / 7).ceil();
+    // per le chiamate da 7 giorni
     for (var i = 0; i <= callsNumber - 1; i++) {
       print('Giorno iniziale: $start_date_string');
       DateTime end_date_dateTime =
@@ -72,25 +82,27 @@ Future<int?> requestData(context) async {
       String end_date_string =
           DateFormat('yyyy-MM-dd').format(end_date_dateTime);
       print('Giorno finale: $end_date_string');
-      result = await _callingUrl(
+      result = await _callingUrlRange(
           context, start_date_string, end_date_string, access);
       results.add(result);
       start_date_dateTime = end_date_dateTime.add(const Duration(days: 1));
       start_date_string = DateFormat('yyyy-MM-dd').format(start_date_dateTime);
     }
 
-    // Ora devo controllare se ci sono giorni fuori dai range fatti nel for
-    // in pratica controllo se l'ultimo giorno salvato nel for è successivo o 
-    // precedente a ieri e in caso entro nell'if 
-
-    // TODO: qui va aggiunto il controllo se resta fuori un giorno (chiamata singola)
-    // o più giorni (e allora resta così)
-
-    if (start_date_dateTime.compareTo(yesterday_dateTime)<0) {
-      result = await _callingUrl(
+    int duration2=yesterday_dateTime.difference(start_date_dateTime).inDays;
+    // se avanza solo un giorno --> chiamata singola
+    if (duration2==1){
+        result =
+        await _callingUrlSingle(context, start_date_string, access);
+        results.add(result);
+    }
+    // avanza più di un giorno 
+    else {
+      result = await _callingUrlRange(
           context, start_date_string, yesterday_string, access);
       results.add(result);
     }
+    
 
     for (var i = 0; i < results.length; i++) {
       if (results[i] != 200) {
@@ -114,7 +126,7 @@ Trainings _generateTraining(String day, Map<String, dynamic> json) {
 }
 
 // Funzione che scarica dati e riempie man mano il database e ritorna statusCodes
-Future<int?> _callingUrl(
+Future<int?> _callingUrlRange(
     context, String start_date, String end_date, String? access) async {
   late int? result;
   final url = Impact.baseUrl +
@@ -160,6 +172,48 @@ Future<int?> _callingUrl(
     result = null;
   } //else
 
+  //Return the result
+  return result;
+}
+
+Future<int?> _callingUrlSingle(
+    context, String date, String? access) async {
+  late int? result;
+  final url = Impact.baseUrl +
+      Impact.exerciseEndpoint +
+      Impact.patientUsername +
+      '/day/$date/';
+
+  final headers = {HttpHeaders.authorizationHeader: 'Bearer $access'};
+
+  //Get the response
+  //print('Calling: $url per richiesta dati');
+  final response = await http.get(Uri.parse(url), headers: headers);
+  print('body: ${response.body}');
+  print('La risposta è: ${response.statusCode}');
+
+  //if OK parse the response, otherwise return null
+  if (response.statusCode == 200) {
+    result = response.statusCode;
+    final decodedResponse = jsonDecode(response.body);
+    print('decoded response: ${decodedResponse}');
+
+    print("data decoded response: ${decodedResponse['data']['date']}");
+
+      for (var i = 0; i < decodedResponse['data']['data'].length; i++) {
+        //lista giornaliera
+
+        Trainings training = _generateTraining(
+            decodedResponse['data']['date'], //data e ora dell i esimo allenamento del j giorno
+            decodedResponse['data']['data'][i]);
+        print(training.date);
+        await Provider.of<DatabaseRepository>(context, listen: false)
+            .insertTraining(training);
+      }
+    } //for//if
+  else {
+    result = null;
+  } //else
   //Return the result
   return result;
 }
