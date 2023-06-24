@@ -4,14 +4,16 @@ import 'package:app_calorie/database/entities/entities.dart';
 import 'package:app_calorie/pages/splash.dart';
 import 'package:app_calorie/repository/databaseRepository.dart';
 import 'package:app_calorie/utils/impact.dart';
-import 'package:flutter/material.dart';
+import 'package:app_calorie/utils/trainingsFunctions.dart';
 import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-//This method allows to obtain the JWT token pair from IMPACT and store it in SharedPreferences
+// Function returning [result, last5trainings]
+// result will be 200 if the request is succesfull
+// last5training is a list containing last 5 trainings
 Future<int?> requestData(context) async {
   //Initialize the result
   int? result;
@@ -115,8 +117,14 @@ Future<int?> requestData(context) async {
       result = 200;
     }
   }
+
   return result;
+
 } //_requestData
+
+
+
+
 
 Trainings _generateTraining(String day, Map<String, dynamic> json) {
   DateTime date =
@@ -127,6 +135,39 @@ Trainings _generateTraining(String day, Map<String, dynamic> json) {
   Trainings result = Trainings(null, date, calories, technique);
   return result;
 }
+
+
+Future<Totalcal> _generateTotalcal(Map<String, dynamic> json, context) async {
+  
+  int calories = json["calories"];
+  late int caloriesAmountNow;
+
+  List<Trainings> listaTrainings =
+      await Provider.of<DatabaseRepository>(context, listen: false)
+          .findAllTrainings();
+  int n = listaTrainings.length;
+  
+  List<Totalcal> listaTotalCal =
+    await Provider.of<DatabaseRepository>(context, listen: false)
+        .findAllTotalCal();
+
+  if (listaTotalCal.isNotEmpty){      
+    caloriesAmountNow = listaTotalCal.last.amount; // Calorie ora      
+  } else {
+    caloriesAmountNow = 0;
+  }
+  // RADDOPPIO CALORIE
+  if (n>5){
+    List<Trainings> lastFive = last5trainings(listaTrainings, n);
+    if (compareTrainings(lastFive)){
+      calories = calories * 2;
+  }}
+
+  Totalcal result = Totalcal(null, caloriesAmountNow + calories);
+  return result;
+}
+
+
 
 // Funzione che scarica dati e riempie man mano il database e ritorna statusCodes
 Future<int?> _callingUrlRange(
@@ -166,10 +207,13 @@ Future<int?> _callingUrlRange(
         print(training.date);
         await Provider.of<DatabaseRepository>(context, listen: false)
             .insertTraining(training);
-        print('bauuuu');
+
+        Totalcal totalcal = await _generateTotalcal(decodedResponse['data'][j]['data'][i], context);
+        await Provider.of<DatabaseRepository>(context, listen: false).insertCal(totalcal);
+        
       }
     } //for
-    print('miao');
+    
   } //if
   else {
     result = null;
@@ -178,6 +222,9 @@ Future<int?> _callingUrlRange(
   //Return the result
   return result;
 }
+
+
+
 
 Future<int?> _callingUrlSingle(context, String date, String? access) async {
   late int? result;
@@ -200,7 +247,6 @@ Future<int?> _callingUrlSingle(context, String date, String? access) async {
     final decodedResponse = jsonDecode(response.body);
     print('decoded response: ${decodedResponse}');
 
-    print("data decoded response: ${decodedResponse['data']['date']}");
 
     for (var i = 0; i < decodedResponse['data']['data'].length; i++) {
       //lista giornaliera
@@ -212,6 +258,10 @@ Future<int?> _callingUrlSingle(context, String date, String? access) async {
       print(training.date);
       await Provider.of<DatabaseRepository>(context, listen: false)
           .insertTraining(training);
+
+      Totalcal totalcal = await _generateTotalcal(decodedResponse['data']['data'][i], context);
+        await Provider.of<DatabaseRepository>(context).insertCal(totalcal);
+        
     }
   } //for//if
   else {

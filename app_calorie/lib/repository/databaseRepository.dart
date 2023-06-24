@@ -48,4 +48,14 @@ class DatabaseRepository extends ChangeNotifier {
     await database.trainingsDao.deleteTrainings(training);
     notifyListeners();
   } //deleteTrainings
+
+  Future<List<Totalcal>> findAllTotalCal() async {
+    final results = await database.totalcalDao.findAllTotalCal();
+    return results;
+  }
+
+  Future<void> insertCal(Totalcal cal) async {
+    await database.totalcalDao.insertCal(cal);
+    notifyListeners();
+  }
 } //DatabaseRepository

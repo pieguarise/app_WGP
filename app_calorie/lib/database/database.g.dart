@@ -65,6 +65,8 @@ class _$AppDatabase extends AppDatabase {
 
   TrainingsDao? _trainingsDaoInstance;
 
+  TotalcalDao? _totalCalDaoInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
@@ -90,6 +92,8 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `Coupons` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Trainings` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `date` INTEGER NOT NULL, `calories` INTEGER NOT NULL, `technique` TEXT NOT NULL)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `TotalCal` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `amount` INTEGER NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -105,6 +109,11 @@ class _$AppDatabase extends AppDatabase {
   @override
   TrainingsDao get trainingsDao {
     return _trainingsDaoInstance ??= _$TrainingsDao(database, changeListener);
+  }
+
+  @override
+  TotalcalDao get totalcalDao {
+    return _totalCalDaoInstance ??= _$TotalCalDao(database, changeListener);
   }
 }
 
@@ -212,6 +221,38 @@ class _$TrainingsDao extends TrainingsDao {
   @override
   Future<void> deleteTrainings(Trainings training) async {
     await _trainingsDeletionAdapter.delete(training);
+  }
+}
+
+class _$TotalCalDao extends TotalcalDao {
+  _$TotalCalDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _totalCalInsertionAdapter = InsertionAdapter(
+            database,
+            'TotalCal',
+            (Totalcal item) =>
+                <String, Object?>{'id': item.id, 'amount': item.amount});
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<Totalcal> _totalCalInsertionAdapter;
+
+  @override
+  Future<List<Totalcal>> findAllTotalCal() async {
+    return _queryAdapter.queryList('SELECT * FROM TotalCal',
+        mapper: (Map<String, Object?> row) =>
+            Totalcal(row['id'] as int?, row['amount'] as int));
+  }
+
+  @override
+  Future<void> insertCal(Totalcal totalCal) async {
+    await _totalCalInsertionAdapter.insert(totalCal, OnConflictStrategy.abort);
   }
 }
 

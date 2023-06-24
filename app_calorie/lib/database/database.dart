@@ -12,12 +12,13 @@ import 'typeConverters/dateTimeConverter.dart';
 //The generated code will be in database.g.dart
 part 'database.g.dart';
 
-//Here we are saying that this is the first version of the Database and it has just 1 entity, i.e., Todo
+//Here we are saying that this is the first version of the Database 
 @TypeConverters([DateTimeConverter])
-@Database(version: 1, entities: [Coupons, Trainings])
+@Database(version: 1, entities: [Coupons, Trainings, Totalcal])
 abstract class AppDatabase extends FloorDatabase {
   //Add all the daos as getters here
   CouponsDao get couponsDao;
   TrainingsDao get trainingsDao;
+  TotalcalDao get totalcalDao;
 }//AppDatabase
 

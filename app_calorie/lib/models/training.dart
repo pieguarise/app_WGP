@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:app_calorie/database/entities/entities.dart';
 import 'package:intl/intl.dart';
 
 class Training {
@@ -36,7 +37,7 @@ List<Training> sessions2 = List.generate(
         technique: "Run",
         calories: Random().nextInt(180)));
 
-bool compareTrainings(List<Training> recentTrainings) {
+bool compareTraining(List<Training> recentTrainings) {
   // confronto gli allenamenti e restituisce se il più
   // recente è il migliore tra gli ultimi cinque
   bool _controllo = true;

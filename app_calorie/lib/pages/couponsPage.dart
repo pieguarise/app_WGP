@@ -113,7 +113,7 @@ class CouponsPage extends StatelessWidget {
                         } else {
                           return CircularProgressIndicator();
                         }
-                        ;
+                        
                       });
                 })
               ],
