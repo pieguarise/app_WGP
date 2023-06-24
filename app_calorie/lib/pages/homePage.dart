@@ -1,9 +1,7 @@
 import 'package:app_calorie/database/entities/entities.dart';
 import 'package:app_calorie/repository/databaseRepository.dart';
 import 'package:app_calorie/utils/trainingsFunctions.dart';
-import 'package:app_calorie/widgets/prova.dart';
 import 'package:flutter/material.dart';
-import 'package:app_calorie/models/training.dart';
 import 'package:app_calorie/widgets/caloriesPlot.dart';
 import 'package:app_calorie/widgets/progressBar.dart';
 import 'package:provider/provider.dart';

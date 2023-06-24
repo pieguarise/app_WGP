@@ -87,7 +87,11 @@ class listRadioMembersState extends State<ListRadioMembers> {
           ),
         ),
         ElevatedButton(
-          onPressed: () {
+          onPressed: () async {
+            List<Totalcal> lista = await Provider.of<DatabaseRepository>(context, listen: false).findAllTotalCal();
+            int CalAmountNow = lista.last.amount;
+            Totalcal totalcal = Totalcal(null, CalAmountNow-20000);
+            await Provider.of<DatabaseRepository>(context, listen: false).insertCal(totalcal);
             _couponGeneration(context, currentValue);
           },
           child: Icon(Icons.done),

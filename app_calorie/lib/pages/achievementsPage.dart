@@ -1,45 +1,29 @@
 import 'package:app_calorie/database/entities/entities.dart';
-import 'package:app_calorie/models/totalCal.dart';
 import 'package:app_calorie/repository/databaseRepository.dart';
 import 'package:app_calorie/widgets/bottomNotFull.dart';
 import 'package:flutter/material.dart';
 import 'package:app_calorie/widgets/radialScoreBoard.dart';
 import 'package:app_calorie/widgets/bottomBarFullSection.dart';
-import 'package:app_calorie/models/training.dart';
 import 'package:provider/provider.dart';
 
-class AchievementsPage extends StatefulWidget {
-  const AchievementsPage({Key? key}) : super(key: key);
+class AchievementsPage extends StatelessWidget {
+  AchievementsPage({Key? key}) : super(key: key);
 
   static const AchievementsPageName = 'AchievementsPage';
 
-  @override
-  State<AchievementsPage> createState() => _AchievementsPageState();
-}
+  bool _barFull = false;
 
-class _AchievementsPageState extends State<AchievementsPage> {
-  int _barFull = 0;
   //List<int> _variables = [];
+  final int _maxRange = 20000;
 
-  final int _maxRange = 180 * 5;
   // è impostato anche su radialScoreBoard quindi se messa una vriabile vanno cambiati entrambi
-
-  // qui ci va di sicuro un CONSUMER LA CUI CLASS PROVIDER è LA QUANTITà DI CALORIE CONSUMATE
-  void _onfullBar() {
-    if (sumCalLast5trainings(sessions: sessions2) == _maxRange) {
-      setState(() {
-        _barFull = 0;
-      });
-    }
-  }
-
   Widget _selectBottomSection({
-    required int fullness,
+    required bool fullness,
   }) {
     switch (fullness) {
-      case 0:
+      case false:
         return bottomBarNotFullSection();
-      case 1:
+      case true:
         return bottomBarFullSection();
       default:
         return bottomBarNotFullSection();
@@ -49,93 +33,97 @@ class _AchievementsPageState extends State<AchievementsPage> {
   @override
   Widget build(BuildContext context) {
     //print('${AchievementsPage.AchievementsPageName} built');
-    return Consumer<TotalCal>(builder: (context, TotalCalories, child) {
-      return SingleChildScrollView(
-        child: Column(children: [
-          Container(
-              width: 700,
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.orange.shade100,
-                    const Color.fromARGB(255, 255, 255, 255)
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
+    return SingleChildScrollView(
+      child: Column(children: [
+        Container(
+            width: 700,
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              gradient: LinearGradient(
+                colors: [
+                  Colors.orange.shade100,
+                  const Color.fromARGB(255, 255, 255, 255)
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 10,
+            ),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 10,
+                      ),
+                      const Text(
+                        'Your Kcal counter',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
                         ),
-                        const Text(
-                          'Your Kcal counter',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        IconButton(
-                            icon: Icon(Icons.change_circle),
-                            onPressed: () {
-                              setState(() {
-                                _barFull == 0 ? _barFull = 1 : _barFull = 0;
-                              });
-                            }),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    SizedBox(
-                        width: 280,
-                        height: 280,
-                        // se non piena, calcola il valore dalla lista degli allenamenti, altrimenti riempie la barra secondo il massimo definito in scoreBoard
-                        child: Consumer<DatabaseRepository>(
-                            builder: (context, dbr, child) {
-                          return FutureBuilder(
-                              initialData: null,
-                              future: dbr.findAllTotalCal(),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  final allTotalcal =
-                                      snapshot.data as List<Totalcal>;
-                                  int n = allTotalcal.length;
-                                  if (n > 0) {
-                                    int CalAmountNow = allTotalcal.last.amount;
-                                    scoreBoard(context,
-                                        total: _barFull == 0
-                                            ? CalAmountNow
-                                            : 20000);
-                                  } else {
-                                    return Center(
-                                      child: Text("Download data",
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.grey.shade700)),
-                                    );
-                                  }
-                                } else {
-                                  return CircularProgressIndicator();
-                                }
-                              });
-                        }))
-                  ])),
-          _selectBottomSection(fullness: _barFull),
-          SizedBox(
-            height: 5,
-          ),
-        ]),
-      );
-    });
+                      ),
+                      IconButton(
+                          icon: Icon(Icons.change_circle),
+                          onPressed: () async {
+
+                            List<Totalcal> lista = await Provider.of<DatabaseRepository>(context, listen: false).findAllTotalCal();
+                            int CalAmountNow = lista.last.amount; // solo se database non vuoto
+                            if (CalAmountNow<_maxRange){
+                              Totalcal totalcal = Totalcal(null, 20000) ;
+                              await Provider.of<DatabaseRepository>(context, listen: false).insertCal(totalcal);
+                            } else {
+                              await Provider.of<DatabaseRepository>(context, listen: false).deleteCal(lista.last);
+                          }}),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Consumer<DatabaseRepository>(
+                      builder: (context, dbr, child) {
+                    return FutureBuilder(
+                        initialData: null,
+                        future: dbr.findAllTotalCal(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            final allTotalcal =
+                                snapshot.data as List<Totalcal>;
+                            int n = allTotalcal.length;
+                            if (n > 0) {
+                              int CalAmountNow = allTotalcal.last.amount;
+                              return Column(
+                                children: [
+                                  SizedBox( width: 280, height: 280,
+                                    child: scoreBoard(context, total: CalAmountNow>=_maxRange
+                                      ? 20000 : CalAmountNow),
+                                  ),
+                                  _selectBottomSection(fullness: CalAmountNow>=_maxRange)
+                                ],
+                              );
+                            } else {
+                              return Center(
+                                child: Text("Download data",
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.grey.shade700)),
+                              );
+                            }
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        });
+                  })
+                ])),
+        
+        SizedBox(
+          height: 5,
+        ),
+      ]),
+    );
   }
 }

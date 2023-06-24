@@ -42,4 +42,8 @@ abstract class TotalcalDao {
   //Query #2: INSERT -> this allows to update the value of totalCal
   @insert
   Future<void> insertCal(Totalcal totalcal);
+
+  //Query #3: DELETE -> this allows to delete a TotalCal from the table
+  @delete
+  Future<void> deleteCal(Totalcal totalcal);
 }

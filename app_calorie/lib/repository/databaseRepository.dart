@@ -58,4 +58,9 @@ class DatabaseRepository extends ChangeNotifier {
     await database.totalcalDao.insertCal(cal);
     notifyListeners();
   }
+
+  Future<void> deleteCal(Totalcal cal) async {
+    await database.totalcalDao.deleteCal(cal);
+    notifyListeners();
+  }
 } //DatabaseRepository

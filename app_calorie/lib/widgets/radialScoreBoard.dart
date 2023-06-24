@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-Widget scoreBoard(BuildContext context, {required double totale}) {
-  const double maxRange = 180 * 5; //for graph visualization range
-
+Widget scoreBoard(BuildContext context, {required int total}) {
+  const double maxRange = 20000; //for graph visualization range
+  double totale = total.toDouble();
   return Center(
       child: SfRadialGauge(
     enableLoadingAnimation: true,

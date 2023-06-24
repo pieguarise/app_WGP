@@ -92,7 +92,7 @@ class CustomPlot extends StatelessWidget {
       minX: 0.9,
       maxX: 5,
       minY: -1,
-      maxY: 2001,
+      maxY: 2250,
 
       gridData: FlGridData(
         show:true,
@@ -116,7 +116,7 @@ class CustomPlot extends StatelessWidget {
             return touchedBarSpots.map((barSpot) {
               final flSpot = barSpot;
               return LineTooltipItem(
-                'Calories: ${listOfTrainings[5-flSpot.x.toInt()].calories} \n',
+                'Calories: ${listOfTrainings[flSpot.x.toInt()-1].calories} \n',
                 const TextStyle(
                   color: Colors.orange,
                   fontWeight: FontWeight.w600
@@ -124,21 +124,21 @@ class CustomPlot extends StatelessWidget {
                 textAlign: TextAlign.left,
                 children: [
                   TextSpan(
-                    text: 'Technique: ${listOfTrainings[5-flSpot.x.toInt()].technique} \n',
+                    text: 'Technique: ${listOfTrainings[flSpot.x.toInt()-1].technique} \n',
                     style: const TextStyle(
                       color: Colors.orange,
                       fontWeight: FontWeight.w600
                       ),
                   ),
                   TextSpan(
-                    text: 'Date: ${DateFormat('dd-MM-yyyy').format(listOfTrainings[5-flSpot.x.toInt()].date)} \n',
+                    text: 'Date: ${DateFormat('dd-MM-yyyy').format(listOfTrainings[flSpot.x.toInt()-1].date)} \n',
                     style: const TextStyle(
                       color: Colors.orange,
                       fontWeight: FontWeight.w600
                     ),
                   ),
                   TextSpan(
-                    text: 'Time: ${DateFormat.jm().format(listOfTrainings[5-flSpot.x.toInt()].date)}',
+                    text: 'Time: ${DateFormat.jm().format(listOfTrainings[flSpot.x.toInt()-1].date)}',
                     style: const TextStyle(
                       color: Colors.orange,
                       fontWeight: FontWeight.w600
@@ -154,11 +154,11 @@ class CustomPlot extends StatelessWidget {
       lineBarsData: [
         LineChartBarData(
           spots: [
-            FlSpot(1, listOfTrainings[4].calories.toDouble()),
-            FlSpot(2, listOfTrainings[3].calories.toDouble()),
+            FlSpot(1, listOfTrainings[0].calories.toDouble()),
+            FlSpot(2, listOfTrainings[1].calories.toDouble()),
             FlSpot(3, listOfTrainings[2].calories.toDouble()),
-            FlSpot(4, listOfTrainings[1].calories.toDouble()),
-            FlSpot(5, listOfTrainings[0].calories.toDouble()),
+            FlSpot(4, listOfTrainings[3].calories.toDouble()),
+            FlSpot(5, listOfTrainings[4].calories.toDouble()),
             ],
           isCurved: true,
           gradient: LinearGradient(

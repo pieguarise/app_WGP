@@ -65,7 +65,7 @@ class _$AppDatabase extends AppDatabase {
 
   TrainingsDao? _trainingsDaoInstance;
 
-  TotalcalDao? _totalCalDaoInstance;
+  TotalcalDao? _totalcalDaoInstance;
 
   Future<sqflite.Database> open(
     String path,
@@ -93,7 +93,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Trainings` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `date` INTEGER NOT NULL, `calories` INTEGER NOT NULL, `technique` TEXT NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `TotalCal` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `amount` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `Totalcal` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `amount` INTEGER NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -113,7 +113,7 @@ class _$AppDatabase extends AppDatabase {
 
   @override
   TotalcalDao get totalcalDao {
-    return _totalCalDaoInstance ??= _$TotalCalDao(database, changeListener);
+    return _totalcalDaoInstance ??= _$TotalcalDao(database, changeListener);
   }
 }
 
@@ -224,16 +224,24 @@ class _$TrainingsDao extends TrainingsDao {
   }
 }
 
-class _$TotalCalDao extends TotalcalDao {
-  _$TotalCalDao(
+class _$TotalcalDao extends TotalcalDao {
+  _$TotalcalDao(
     this.database,
     this.changeListener,
   )   : _queryAdapter = QueryAdapter(database),
-        _totalCalInsertionAdapter = InsertionAdapter(
+        _totalcalInsertionAdapter = InsertionAdapter(
             database,
-            'TotalCal',
+            'Totalcal',
             (Totalcal item) =>
-                <String, Object?>{'id': item.id, 'amount': item.amount});
+                <String, Object?>{'id': item.id, 'amount': item.amount}),
+                _totalcalDeletionAdapter = DeletionAdapter(
+            database,
+            'Totalcal',
+            ['id'],
+            (Totalcal item) => <String, Object?>{
+                  'id': item.id,
+                  'amount':item.amount
+                });
 
   final sqflite.DatabaseExecutor database;
 
@@ -241,7 +249,9 @@ class _$TotalCalDao extends TotalcalDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<Totalcal> _totalCalInsertionAdapter;
+  final InsertionAdapter<Totalcal> _totalcalInsertionAdapter;
+
+  final DeletionAdapter<Totalcal> _totalcalDeletionAdapter;
 
   @override
   Future<List<Totalcal>> findAllTotalCal() async {
@@ -251,8 +261,13 @@ class _$TotalCalDao extends TotalcalDao {
   }
 
   @override
-  Future<void> insertCal(Totalcal totalCal) async {
-    await _totalCalInsertionAdapter.insert(totalCal, OnConflictStrategy.abort);
+  Future<void> insertCal(Totalcal totalcal) async {
+    await _totalcalInsertionAdapter.insert(totalcal, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deleteCal(Totalcal totalcal) async {
+    await _totalcalDeletionAdapter.delete(totalcal);
   }
 }
 
