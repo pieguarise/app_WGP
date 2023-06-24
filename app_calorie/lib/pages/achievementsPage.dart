@@ -1,4 +1,6 @@
+import 'package:app_calorie/database/entities/entities.dart';
 import 'package:app_calorie/models/totalCal.dart';
+import 'package:app_calorie/repository/databaseRepository.dart';
 import 'package:app_calorie/widgets/bottomNotFull.dart';
 import 'package:flutter/material.dart';
 import 'package:app_calorie/widgets/radialScoreBoard.dart';
@@ -78,8 +80,9 @@ class _AchievementsPageState extends State<AchievementsPage> {
                           'Your Kcal counter',
                           style: TextStyle(
                             color: Colors.black,
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,),
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         IconButton(
                             icon: Icon(Icons.change_circle),
@@ -97,7 +100,35 @@ class _AchievementsPageState extends State<AchievementsPage> {
                         width: 280,
                         height: 280,
                         // se non piena, calcola il valore dalla lista degli allenamenti, altrimenti riempie la barra secondo il massimo definito in scoreBoard
-                        child: scoreBoard(context, totale: _barFull == 0 ? sumCalLast5trainings(sessions: sessions2) : 180*5)),
+                        child: Consumer<DatabaseRepository>(
+                            builder: (context, dbr, child) {
+                          return FutureBuilder(
+                              initialData: null,
+                              future: dbr.findAllTotalCal(),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  final allTotalcal =
+                                      snapshot.data as List<Totalcal>;
+                                  int n = allTotalcal.length;
+                                  if (n > 0) {
+                                    int CalAmountNow = allTotalcal.last.amount;
+                                    scoreBoard(context,
+                                        total: _barFull == 0
+                                            ? CalAmountNow
+                                            : 20000);
+                                  } else {
+                                    return Center(
+                                      child: Text("Download data",
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.grey.shade700)),
+                                    );
+                                  }
+                                } else {
+                                  return CircularProgressIndicator();
+                                }
+                              });
+                        }))
                   ])),
           _selectBottomSection(fullness: _barFull),
           SizedBox(

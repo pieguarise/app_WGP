@@ -1,14 +1,16 @@
-/*
 import 'package:app_calorie/database/entities/entities.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class LineChartSample extends StatelessWidget {
-  const LineChartSample({Key? key, required listOfTrainings}) : super(key: key);
+class CustomPlot extends StatelessWidget {
+  const CustomPlot({
+    Key? key,
+    required this.listOfTrainings,
+  }) : super(key: key);
   final List<Trainings> listOfTrainings;
 
-  @override
+@override
   Widget build(BuildContext context) {
    return Stack(
       children: <Widget>[
@@ -17,7 +19,7 @@ class LineChartSample extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(right: 40, left:10, bottom: 10, top: 10 ),
             child: LineChart(
-              mainData(trainingsToPlot),
+              mainData(listOfTrainings),
             ),
           ),
         ),
@@ -35,17 +37,17 @@ class LineChartSample extends StatelessWidget {
       case 0:
         text = '0';
         break;
-      case 50:
-        text = '50';
+      case 500:
+        text = '500';
         break;
-      case 100:
-        text = '100';
+      case 1000:
+        text = '1000';
         break;
-      case 150:
-        text = '150';
+      case 1500:
+        text = '1500';
         break;
-      case 200:
-        text = '200';
+      case 2000:
+        text = '2000';
         break;
       default:
         return Container();
@@ -82,7 +84,7 @@ class LineChartSample extends StatelessWidget {
             showTitles: true,
             interval: 1,
             getTitlesWidget: leftTitleWidgets,
-            reservedSize: 30,
+            reservedSize: 35,
           ),
         ),
       ),
@@ -90,11 +92,11 @@ class LineChartSample extends StatelessWidget {
       minX: 0.9,
       maxX: 5,
       minY: -1,
-      maxY: 201,
+      maxY: 2001,
 
       gridData: FlGridData(
         show:true,
-        horizontalInterval: 25,
+        horizontalInterval: 250,
         getDrawingHorizontalLine: (value) {
           return FlLine(
             color: Colors.orange.shade100,
@@ -114,7 +116,7 @@ class LineChartSample extends StatelessWidget {
             return touchedBarSpots.map((barSpot) {
               final flSpot = barSpot;
               return LineTooltipItem(
-                'Calories: ${trainingsToPlot[5-flSpot.x.toInt()].calories} \n',
+                'Calories: ${listOfTrainings[5-flSpot.x.toInt()].calories} \n',
                 const TextStyle(
                   color: Colors.orange,
                   fontWeight: FontWeight.w600
@@ -122,21 +124,21 @@ class LineChartSample extends StatelessWidget {
                 textAlign: TextAlign.left,
                 children: [
                   TextSpan(
-                    text: 'Technique: ${trainingsToPlot[5-flSpot.x.toInt()].technique} \n',
+                    text: 'Technique: ${listOfTrainings[5-flSpot.x.toInt()].technique} \n',
                     style: const TextStyle(
                       color: Colors.orange,
                       fontWeight: FontWeight.w600
                       ),
                   ),
                   TextSpan(
-                    text: 'Date: ${DateFormat('dd-MM-yyyy').format(trainingsToPlot[5-flSpot.x.toInt()].date)} \n',
+                    text: 'Date: ${DateFormat('dd-MM-yyyy').format(listOfTrainings[5-flSpot.x.toInt()].date)} \n',
                     style: const TextStyle(
                       color: Colors.orange,
                       fontWeight: FontWeight.w600
                     ),
                   ),
                   TextSpan(
-                    text: 'Time: ${DateFormat.jm().format(trainingsToPlot[5-flSpot.x.toInt()].date)}',
+                    text: 'Time: ${DateFormat.jm().format(listOfTrainings[5-flSpot.x.toInt()].date)}',
                     style: const TextStyle(
                       color: Colors.orange,
                       fontWeight: FontWeight.w600
@@ -152,11 +154,11 @@ class LineChartSample extends StatelessWidget {
       lineBarsData: [
         LineChartBarData(
           spots: [
-            FlSpot(1, trainingsToPlot[4].calories.toDouble()),
-            FlSpot(2, trainingsToPlot[3].calories.toDouble()),
-            FlSpot(3, trainingsToPlot[2].calories.toDouble()),
-            FlSpot(4, trainingsToPlot[1].calories.toDouble()),
-            FlSpot(5, trainingsToPlot[0].calories.toDouble()),
+            FlSpot(1, listOfTrainings[4].calories.toDouble()),
+            FlSpot(2, listOfTrainings[3].calories.toDouble()),
+            FlSpot(3, listOfTrainings[2].calories.toDouble()),
+            FlSpot(4, listOfTrainings[1].calories.toDouble()),
+            FlSpot(5, listOfTrainings[0].calories.toDouble()),
             ],
           isCurved: true,
           gradient: LinearGradient(
@@ -178,4 +180,3 @@ class LineChartSample extends StatelessWidget {
     );
   }
 }
-*/
