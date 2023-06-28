@@ -234,14 +234,12 @@ class _$TotalcalDao extends TotalcalDao {
             'Totalcal',
             (Totalcal item) =>
                 <String, Object?>{'id': item.id, 'amount': item.amount}),
-                _totalcalDeletionAdapter = DeletionAdapter(
+        _totalcalDeletionAdapter = DeletionAdapter(
             database,
             'Totalcal',
             ['id'],
-            (Totalcal item) => <String, Object?>{
-                  'id': item.id,
-                  'amount':item.amount
-                });
+            (Totalcal item) =>
+                <String, Object?>{'id': item.id, 'amount': item.amount});
 
   final sqflite.DatabaseExecutor database;
 
@@ -254,8 +252,8 @@ class _$TotalcalDao extends TotalcalDao {
   final DeletionAdapter<Totalcal> _totalcalDeletionAdapter;
 
   @override
-  Future<List<Totalcal>> findAllTotalCal() async {
-    return _queryAdapter.queryList('SELECT * FROM TotalCal',
+  Future<List<Totalcal>> findAllTotalcal() async {
+    return _queryAdapter.queryList('SELECT * FROM Totalcal',
         mapper: (Map<String, Object?> row) =>
             Totalcal(row['id'] as int?, row['amount'] as int));
   }

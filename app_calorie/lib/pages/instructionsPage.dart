@@ -60,7 +60,9 @@ class InstructionsPage extends StatelessWidget {
                   const Row(
                     children: [
                       SizedBox(width: 10),
-                      Icon(MdiIcons.trayArrowDown, color: Colors.orange),
+                      Icon(MdiIcons.trayArrowDown,
+                       color: Colors.orange,
+                       size: 30),
                       SizedBox(width: 25),
                       Text("Download new data",
                         style: TextStyle(
@@ -74,7 +76,9 @@ class InstructionsPage extends StatelessWidget {
                   const Row(
                     children: [
                       SizedBox(width: 10),
-                      Icon(Icons.home_outlined, color: Colors.orange),
+                      Icon(Icons.home_outlined, 
+                        color: Colors.orange,
+                        size: 30),
                       SizedBox(width: 25),
                       Text("Go to Home page,\nwhere you can see your progress",
                         style: TextStyle(
@@ -88,7 +92,9 @@ class InstructionsPage extends StatelessWidget {
                   const Row(
                     children: [
                       SizedBox(width: 10),
-                      Icon(MdiIcons.trophyOutline, color: Colors.orange),
+                      Icon(MdiIcons.trophyOutline,
+                        color: Colors.orange,
+                        size: 30),
                       SizedBox(width: 25),
                       Text("Go to Donation page,\nwhere you can get a coupon or donate",
                         style: TextStyle(
@@ -101,7 +107,9 @@ class InstructionsPage extends StatelessWidget {
                   const Row(
                     children: [
                       SizedBox(width: 10),
-                      Icon(MdiIcons.gift, color: Colors.orange),
+                      Icon(MdiIcons.gift, 
+                        color: Colors.orange,
+                        size: 30),
                       SizedBox(width: 25),
                       Text("Go to Achievement page,\nwhere you can use your coupons",
                         style: TextStyle(
@@ -115,9 +123,27 @@ class InstructionsPage extends StatelessWidget {
                   const Row(
                     children: [
                       SizedBox(width: 10),
-                      Icon(Icons.person_2_outlined, color: Colors.orange),
+                      Icon(Icons.person_2_outlined, 
+                        color: Colors.orange,
+                        size: 30),
                       SizedBox(width: 25),
-                      Text("Go to User page,\nwhere you can update your information",
+                      Text("Go to User page, where\nyou can update your information",
+                        style: TextStyle(
+                          color: Color(0xFF424242),
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500)
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  const Row(
+                    children: [
+                      SizedBox(width: 10),
+                      Icon(MdiIcons.deleteOutline,
+                        color: Colors.orange,
+                        size: 30),
+                      SizedBox(width: 25),
+                      Text("Delete all your data from the app",
                         style: TextStyle(
                           color: Color(0xFF424242),
                           fontSize: 18,

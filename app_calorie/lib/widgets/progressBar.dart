@@ -15,7 +15,7 @@ class ProgressBar extends StatelessWidget {
     return LinearPercentIndicator(
       width: 225.0,
       lineHeight: 22.0,
-      percent: consumedCal/20000,
+      percent: consumedCal<20000 ? consumedCal/20000 : 1,
       progressColor: Colors.orange,
       barRadius: const Radius.circular(10),
       trailing: Text(

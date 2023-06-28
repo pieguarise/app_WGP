@@ -36,8 +36,8 @@ abstract class TrainingsDao {
 @dao
 abstract class TotalcalDao {
   //Query #1: SELECT -> this allows to obtain all the entries of the TotalCal table
-  @Query('SELECT * FROM TotalCal')
-  Future<List<Totalcal>> findAllTotalCal();
+  @Query('SELECT * FROM Totalcal')
+  Future<List<Totalcal>> findAllTotalcal();
 
   //Query #2: INSERT -> this allows to update the value of totalCal
   @insert

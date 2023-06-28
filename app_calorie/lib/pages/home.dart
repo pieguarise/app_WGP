@@ -1,13 +1,17 @@
+import 'package:app_calorie/database/entities/entities.dart';
 import 'package:app_calorie/pages/aboutUsPage.dart';
 import 'package:app_calorie/pages/achievementsPage.dart';
 import 'package:app_calorie/pages/couponsPage.dart';
 import 'package:app_calorie/pages/homePage.dart';
 import 'package:app_calorie/pages/instructionsPage.dart';
 import 'package:app_calorie/pages/loginPage.dart';
+import 'package:app_calorie/pages/splash.dart';
 import 'package:app_calorie/pages/userPage.dart';
+import 'package:app_calorie/repository/databaseRepository.dart';
 import 'package:app_calorie/utils/requestData.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -75,8 +79,9 @@ class _HomeState extends State<Home> {
                   style: TextStyle(fontSize: 20),
                 ),
                 onTap: () async {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => LoginPage()));
+                  Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => LoginPage()));
                   SharedPreferences ps =
                       await SharedPreferences.getInstance();
                   ps.remove('login');
@@ -123,8 +128,64 @@ class _HomeState extends State<Home> {
                   'Delete me',
                   style: TextStyle(fontSize: 20),
                 ),
-                onTap: () {})
+                onTap:() {
+                  showDialog(context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20.0),
+                          ),
+                        ),
+                        title: const Text('Delete me'),
+                        content: const Text('Do you really want to delete all your data?'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () async {
+                              List<Trainings> trainings = await Provider.of<DatabaseRepository>(context, listen: false).findAllTrainings();
+                              for (var i=0; i<trainings.length; i++){
+                                await Provider.of<DatabaseRepository>(context, listen: false).deleteTraining(trainings[i]);
+                              }
+                              List<Coupons> coupons = await Provider.of<DatabaseRepository>(context, listen: false).findAllCoupons();
+                              for (var i=0; i<coupons.length; i++){
+                                await Provider.of<DatabaseRepository>(context, listen: false).deleteCoupons(coupons[i]);
+                              }
+                              List<Totalcal> totalcal = await Provider.of<DatabaseRepository>(context, listen: false).findAllTotalCal();
+                              for (var i=0; i<totalcal.length; i++){
+                                await Provider.of<DatabaseRepository>(context, listen: false).deleteCal(totalcal[i]);
+                              }
+                              
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => Splash()));
+
+                              SharedPreferences ps = await SharedPreferences.getInstance();
+                              ps.remove('login');
+                              ps.remove('access');
+                              ps.remove('refresh');
+                              ps.remove('firstTime');
+                              ps.remove('name');
+                              ps.remove('nickName');
+                              ps.remove('age');
+                              ps.remove('weigth');
+                              ps.remove('heigth');
+                            }
+                            ,
+                            child: const Text('Yes'),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text('No'),
+                          ),
+                        ],
+                      );
+                    });
+                }
+              
+              )
+              
             ],
+            
           ),
         ),
         appBar: AppBar(
