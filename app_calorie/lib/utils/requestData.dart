@@ -48,29 +48,39 @@ Future<int?> requestData(context) async {
   String yesterday_string = DateFormat('yyyy-MM-dd').format(yesterday_dateTime);
   print('Giorno finale (ieri): $yesterday_string');
 
-  final int duration =
-      yesterday_dateTime.difference(start_date_dateTime).inDays + 1;
+  print('differenza: ${yesterday_dateTime.difference(start_date_dateTime).inDays}');
+  print('prova:${Duration(hours:-22).inDays}');
+  // vedi che inDays approssima male: -25h->-1day, -23h->0days, 22h->0days
+
+  // quindi modifico duration in caso che sia positivo o negativo 
+  final differenza = yesterday_dateTime.difference(start_date_dateTime);
+  late int duration;
+  if (differenza.isNegative){
+    duration = 0;
+  } else {
+    duration = yesterday_dateTime.difference(start_date_dateTime).inDays + 1;
+  }
   // duration è l'intero che ci dice quanti giorno dobbiamo scaricare
-  print('Durata intervallo di richiesta dati: ${duration}');
+  print('Durata intervallo di richiesta dati: $duration');
 
   // Yesterday already downloaded
   if (duration == 0) {
     result = 200;
-  }
-
+  }  
+    
   // Download only 1 day
   if (duration == 1) {
     result = await _callingUrlSingle(context, start_date_string, access);
   }
-
+      
   // scarico i dati se l'intervallo è compreso tra 2 e 7 compresi
-  if ((duration) <= 7 && duration >= 2) {
-    // se s
-    result = await _callingUrlRange(
-        context, start_date_string, yesterday_string, access);
+  if (duration <= 7 && duration >=2) {
+      result = await _callingUrlRange(
+          context, start_date_string, yesterday_string, access);
   }
-  // scarico i dati per intervalli di tempo maggiori di 7:
-  else {
+  
+    // scarico i dati per intervalli di tempo maggiori di 7:
+  if (duration>7) {
     List<int?> results = [];
     // in questo caso divido in blocchi di 7 giorni per eccesso
     // 9/7=1,... --> 2 quindi farò 2 chiamate, una per i primi 7 giorni e una per gli ultimi 2
@@ -247,23 +257,21 @@ Future<int?> _callingUrlSingle(context, String date, String? access) async {
     final decodedResponse = jsonDecode(response.body);
     print('decoded response: ${decodedResponse}');
 
-    if (decodedResponse['data'].isNotEmpty){
 
-      for (var i = 0; i < decodedResponse['data']['data'].length; i++) {
-        //lista giornaliera
+    for (var i = 0; i < decodedResponse['data']['data'].length; i++) {
+      //lista giornaliera
 
-        Trainings training = _generateTraining(
-            decodedResponse['data']
-                ['date'], //data e ora dell i esimo allenamento del j giorno
-            decodedResponse['data']['data'][i]);
-        print(training.date);
-        await Provider.of<DatabaseRepository>(context, listen: false)
-            .insertTraining(training);
+      Trainings training = _generateTraining(
+          decodedResponse['data']
+              ['date'], //data e ora dell i esimo allenamento del j giorno
+          decodedResponse['data']['data'][i]);
+      print(training.date);
+      await Provider.of<DatabaseRepository>(context, listen: false)
+          .insertTraining(training);
 
-        Totalcal totalcal = await _generateTotalcal(decodedResponse['data']['data'][i], context);
-          await Provider.of<DatabaseRepository>(context).insertCal(totalcal);
-          
-      }
+      Totalcal totalcal = await _generateTotalcal(decodedResponse['data']['data'][i], context);
+        await Provider.of<DatabaseRepository>(context).insertCal(totalcal);
+        
     }
   } //for//if
   else {

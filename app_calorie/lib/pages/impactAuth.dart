@@ -6,19 +6,37 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-class ImpactAuth extends StatelessWidget {
+class ImpactAuth extends StatefulWidget {
   ImpactAuth({Key? key}) : super(key: key);
 
   static const routename = 'ImpactAuth';
 
+  @override
+  State<ImpactAuth> createState() => _ImpactAuthState();
+}
+
+class _ImpactAuthState extends State<ImpactAuth> {
+  bool isChecked = false;
   final _textController1 = TextEditingController();
   final _textController2 = TextEditingController();
 
-  void checkAuth(BuildContext context) async {
+  void checkAuth(BuildContext context, bool isChecked) async {
     final sp = await SharedPreferences.getInstance();
     String _id = _textController1.text;
     String _psw = _textController2.text;
-    if (_id == Impact.username && _psw == Impact.password) {
+
+    // caso non spunta
+    if (isChecked==false){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("It's necessary to allow appWGP to use of your data"),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    } 
+
+    // caso credenziali corrette
+    else if (_id == Impact.username && _psw == Impact.password) {
       final result = await _getAndStoreTokens();
       if (result == 200) {
         if (sp.getBool('firstTime') == null) {
@@ -35,7 +53,10 @@ class ImpactAuth extends StatelessWidget {
           ..removeCurrentSnackBar()
           ..showSnackBar(SnackBar(content: Text('Request failed')));
       }
-    } else {
+    } 
+    
+    // caso credenziali sbagliate
+    else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Wrong credentials'),
@@ -47,7 +68,7 @@ class ImpactAuth extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('$routename built');
+    print('${ImpactAuth.routename} built');
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -82,7 +103,7 @@ class ImpactAuth extends StatelessWidget {
                 controller: _textController1,
               ),
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             SizedBox(
               width: 300,
               child: TextField(
@@ -97,22 +118,41 @@ class ImpactAuth extends StatelessWidget {
                 controller: _textController2,
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
+
+            Row(
+              children: [
+                SizedBox(width: 30),
+                Checkbox(
+                  value: isChecked,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      isChecked = value ?? false;
+                    });
+                  },
+                ),
+                Text('Allow appWGP to store and process\nuse your smartwatch data',
+                  style: TextStyle(
+                    color: Color(0xFF424242),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500
+                  ),)
+              ],
+            ),
+            SizedBox(height: 14),
             ElevatedButton(
                 child: Text(
                   'AUTHENTICATE',
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () {
-                  checkAuth(context);
+                  checkAuth(context, isChecked);
                 }),
           ],
         )),
       ),
     );
   }
-
-// changeAuth
 } //ImpactAuth
 
 Future<int> _getAndStoreTokens() async {

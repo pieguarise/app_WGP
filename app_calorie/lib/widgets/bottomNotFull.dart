@@ -66,14 +66,16 @@ class bottomBarNotFullSection extends StatelessWidget {
                     )),
               ),
               const SizedBox(
-                height: 20,
+                height: 15,
               ),
               const Text(
-                'Equivalenza kcal-€ -TODO......',
-                style: TextStyle(fontSize: 20),
+                'For every 10\$ donation, WFP provides\nlifesaving meals to 35 starving people',
+                style: TextStyle(color: Color(0xFF424242),
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500),
               ),
               const SizedBox(
-                height: 10,
+                height: 7,
               ),
               ElevatedButton(
                 onPressed: () async {

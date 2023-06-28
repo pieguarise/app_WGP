@@ -9,6 +9,7 @@ class AboutUsPage extends StatelessWidget {
     //print('${AboutUsPage.AboutUspageName} built');
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.orange.shade300,
         title: Text(AboutUsPage.AboutUspageName),
       ),
       body: Center(

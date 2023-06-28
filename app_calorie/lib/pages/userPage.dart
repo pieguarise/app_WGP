@@ -1,5 +1,6 @@
 import 'package:app_calorie/pages/couponsPage.dart';
 import 'package:app_calorie/pages/home.dart';
+import 'package:app_calorie/pages/instructionsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -152,14 +153,9 @@ class _UserPageState extends State<UserPage> {
                           setState(() {});
                           // if first time using, after inputing data I go to Home, and finish firstTime
                           if (ps.getBool('firstTime') == null) {
-                            ps.setBool('firstTime', false);
-                            ScaffoldMessenger.of(context)
-                              ..removeCurrentSnackBar()
-                              ..showSnackBar(
-                                  SnackBar(content: Text("You are ready to use the app for the first time!")));
                             Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                    builder: (context) => const Home()));
+                                    builder: (context) => InstructionsPage()));
                           }
                         },
                         child: const Text(

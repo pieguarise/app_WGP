@@ -2,6 +2,7 @@ import 'package:app_calorie/pages/aboutUsPage.dart';
 import 'package:app_calorie/pages/achievementsPage.dart';
 import 'package:app_calorie/pages/couponsPage.dart';
 import 'package:app_calorie/pages/homePage.dart';
+import 'package:app_calorie/pages/instructionsPage.dart';
 import 'package:app_calorie/pages/loginPage.dart';
 import 'package:app_calorie/pages/userPage.dart';
 import 'package:app_calorie/utils/requestData.dart';
@@ -64,39 +65,65 @@ class _HomeState extends State<Home> {
                 height: 30,
               ),
               ListTile(
-                  leading: const Icon(
-                    MdiIcons.logout,
-                    color: Colors.orange,
-                    size: 35,
-                  ),
-                  title: const Text(
-                    'Logout',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  onTap: () async {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => LoginPage()));
-                    SharedPreferences ps =
-                        await SharedPreferences.getInstance();
-                    ps.remove('login');
-                    ps.remove('access');
-                    ps.remove('refresh');
-                  }),
+                leading: const Icon(
+                  MdiIcons.logout,
+                  color: Colors.orange,
+                  size: 35,
+                ),
+                title: const Text(
+                  'Logout',
+                  style: TextStyle(fontSize: 20),
+                ),
+                onTap: () async {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => LoginPage()));
+                  SharedPreferences ps =
+                      await SharedPreferences.getInstance();
+                  ps.remove('login');
+                  ps.remove('access');
+                  ps.remove('refresh');
+                }),
               ListTile(
-                  leading: const Icon(
-                    MdiIcons.informationOutline,
-                    color: Colors.orange,
-                    size: 35,
-                  ),
-                  title: const Text(
-                    'About Us',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  onTap: () => {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => AboutUsPage(),
-                        ))
-                      }),
+                leading: const Icon(
+                  MdiIcons.informationOutline,
+                  color: Colors.orange,
+                  size: 35,
+                ),
+                title: const Text(
+                  'About Us',
+                  style: TextStyle(fontSize: 20),
+                ),
+                onTap: () => {
+                  Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => AboutUsPage(),
+                  ))
+                }),
+              ListTile(
+                leading: const Icon(
+                  MdiIcons.bookOpenVariant,
+                  color: Colors.orange,
+                  size: 35,
+                ),
+                title: const Text(
+                  'Instructions',
+                  style: TextStyle(fontSize: 20),
+                ),
+                onTap: () => {
+                  Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => InstructionsPage(),
+                  ))
+                }),
+              ListTile(
+                leading: const Icon(
+                  MdiIcons.deleteOutline,
+                  color: Colors.orange,
+                  size: 35,
+                ),
+                title: const Text(
+                  'Delete me',
+                  style: TextStyle(fontSize: 20),
+                ),
+                onTap: () {})
             ],
           ),
         ),
