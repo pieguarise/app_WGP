@@ -14,7 +14,7 @@ class DonationPage extends StatelessWidget {
   bool _barFull = false;
 
   //List<int> _variables = [];
-  final int _maxRange = 20000;
+  final int _maxRange = 25000;
 
   // è impostato anche su radialScoreBoard quindi se messa una vriabile vanno cambiati entrambi
   Widget _selectBottomSection({
@@ -60,7 +60,7 @@ class DonationPage extends StatelessWidget {
                         width: 10,
                       ),
                       const Text(
-                        'Your Kcal counter',
+                        'Your kCal counter',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 28,

@@ -19,7 +19,7 @@ class ProgressBar extends StatelessWidget {
       progressColor: Colors.orange,
       barRadius: const Radius.circular(10),
       trailing: Text(
-        "${consumedCal.toInt()}/25K Cal",
+        "${consumedCal.toInt()}/25K kCal",
         style: TextStyle(color: Colors.orange, fontSize: 17, fontWeight: FontWeight.bold)),
       center: Text(
         "${(consumedCal/25000*100).toInt()}%",

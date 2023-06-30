@@ -36,22 +36,22 @@ class Splash extends StatelessWidget {
         });
       } else {
         // new tokens if refresh is expired
-        if(JwtDecoder.isExpired(refresh)){
+        if (JwtDecoder.isExpired(refresh)) {
           Future.delayed(const Duration(seconds: 1), () {
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: ((context) => ImpactAuth())));
-        });
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: ((context) => ImpactAuth())));
+          });
+        } else {
+          // refresh tokens if only access is expired
+          if (JwtDecoder.isExpired(access)) {
+            refreshTokens(refresh);
+          }
+          // if our access token isn't expired --> Home
+          Future.delayed(const Duration(seconds: 1), () {
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: ((context) => Home())));
+          });
         }
-        else {
-        // refresh tokens if only access is expired
-        if (JwtDecoder.isExpired(access)) {
-          refreshTokens(refresh);
-        }
-        // if our access token isn't expired --> Home
-        Future.delayed(const Duration(seconds: 1), () {
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: ((context) => Home())));
-        });}
       }
     }
   }
@@ -64,20 +64,39 @@ class Splash extends StatelessWidget {
         color: Colors.orange.shade100,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: const <Widget>[
-            Text(
-              'WGP: Train to Donate',
-              style: TextStyle(
-                  color: Color.fromRGBO(255, 115, 0, 1),
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold),
-            ),
-            Center(
+          children: <Widget>[
+            Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Colors.transparent,
+                    child: Image.asset('assets/wgp.png'),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Train to Donate',
+                    style: TextStyle(
+                        color: Colors.orange,
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Center(
               child: CircularProgressIndicator(
                 strokeWidth: 4,
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
               ),
             ),
+                ],
+              ),
+            ),
+            
           ],
         ),
       ),

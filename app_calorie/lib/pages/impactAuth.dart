@@ -131,7 +131,8 @@ class _ImpactAuthState extends State<ImpactAuth> {
                     });
                   },
                 ),
-                Text('Allow appWGP to store and process\nuse your smartwatch data',
+                SizedBox(width: 10),
+                Text('Allow appWGP to store and\nuse your smartwatch data',
                   style: TextStyle(
                     color: Color(0xFF424242),
                     fontSize: 16,

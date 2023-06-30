@@ -20,10 +20,7 @@ class AboutUsPage extends StatelessWidget {
           Colors.orange.shade100,
           const Color.fromARGB(255, 255, 255, 255)
         ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
-          width: 400,
-          height:
-              420, //This helps the text widget know what the maximum width is again! You may also opt to use an Expanded widget instead of a Container widget, if you want to use all remaining space.
-          child: Padding(
+           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child:  Column(children: [
               SizedBox(height: 8),
@@ -40,7 +37,7 @@ class AboutUsPage extends StatelessWidget {
                 height: 20,
               ),
               Text(
-                'Train(ed) to Donate',
+                'Train to Donate',
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.left,
               ),
@@ -49,7 +46,7 @@ class AboutUsPage extends StatelessWidget {
                 style: TextStyle(fontSize: 18),
                 textAlign: TextAlign.start,
               ),
-              SizedBox(height: 5),
+              SizedBox(height: 30),
               Text(
                 'In Collaboration With',
                 style: TextStyle(

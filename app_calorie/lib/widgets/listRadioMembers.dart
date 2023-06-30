@@ -92,7 +92,7 @@ class listRadioMembersState extends State<ListRadioMembers> {
           onPressed: () async {
             List<Totalcal> lista = await Provider.of<DatabaseRepository>(context, listen: false).findAllTotalCal();
             int CalAmountNow = lista.last.amount;
-            Totalcal totalcal = Totalcal(null, CalAmountNow-20000);
+            Totalcal totalcal = Totalcal(null, CalAmountNow-25000);
             await Provider.of<DatabaseRepository>(context, listen: false).insertCal(totalcal);
             SharedPreferences ps = await SharedPreferences.getInstance();
                     // check if i've already made a donation
