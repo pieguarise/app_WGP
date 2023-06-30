@@ -68,7 +68,8 @@ class _HomePageState extends State<HomePage> {
                                       snapshot.data as List<Trainings>;
                                   int n = allTrainings.length;
                                   if (n > 5) {
-                                    sessionsToPlot = last5trainings(allTrainings, n);
+                                    sessionsToPlot =
+                                        last5trainings(allTrainings, n);
                                     return Column(
                                       children: [
                                         const Text(
@@ -78,7 +79,8 @@ class _HomePageState extends State<HomePage> {
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        CustomPlot(listOfTrainings: sessionsToPlot),
+                                        CustomPlot(
+                                            listOfTrainings: sessionsToPlot),
                                         _toDisplayText(sessionsToPlot)
                                       ],
                                     );
@@ -108,51 +110,49 @@ class _HomePageState extends State<HomePage> {
                   Column(children: [
                     const SizedBox(height: 5),
                     Consumer<DatabaseRepository>(
-                            builder: (context, dbr, child) {
-                          return FutureBuilder(
-                              initialData: null,
-                              future: dbr.findAllTotalCal(),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  final allTotalcal = snapshot.data as List<Totalcal>;
-                                  int n = allTotalcal.length;
-                                  if (n > 0) {
-                                    int CalAmountNow = allTotalcal.last.amount;
-                                    return Column(
-                                      children: [
-                                        ProgressBar(consumedCal: CalAmountNow),const SizedBox(height: 10),
-                                        const Text(
-                                            "You can go to DONATION page to donate. \nFill the bar to get a branded COUPON and the brand will DONATE food correspondent consumed calories",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              color: Color(0xFF424242),
-                                              fontSize: 17,
-                                            )),
-                                      ],
-                                    );
-                                    
-                                  } else {
-                                    return Center(
-                                      child: Text("Download data",
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.grey.shade700)),
-                                    );
-                                  }
-                                } else {
-                                  return const SizedBox(
-                                    height: 100,
-                                    width: 100,
-                                    child: CircularProgressIndicator());
-                                }
-                              });
-                        }),
+                        builder: (context, dbr, child) {
+                      return FutureBuilder(
+                          initialData: null,
+                          future: dbr.findAllTotalCal(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              final allTotalcal =
+                                  snapshot.data as List<Totalcal>;
+                              int n = allTotalcal.length;
+                              if (n > 0) {
+                                int CalAmountNow = allTotalcal.last.amount;
+                                return Column(
+                                  children: [
+                                    ProgressBar(consumedCal: CalAmountNow),
+                                    const SizedBox(height: 10),
+                                    const Text("Fill the bar and get a coupon!",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Color(0xFF424242),
+                                          fontSize: 17,
+                                        )),
+                                  ],
+                                );
+                              } else {
+                                return Center(
+                                  child: Text("Download data",
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.grey.shade700)),
+                                );
+                              }
+                            } else {
+                              return const SizedBox(
+                                  height: 100,
+                                  width: 100,
+                                  child: CircularProgressIndicator());
+                            }
+                          });
+                    }),
                   ]),
-                  
                 ])));
   }
 }
-
 
 Widget _toDisplayText(List<Trainings> recentTrainings) {
   if (compareTrainings(recentTrainings)) {
@@ -161,6 +161,9 @@ Widget _toDisplayText(List<Trainings> recentTrainings) {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          SizedBox(
+            height: 7,
+          ),
           Text(
             "Good job!",
             style: TextStyle(
@@ -189,6 +192,9 @@ Widget _toDisplayText(List<Trainings> recentTrainings) {
     return const Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        SizedBox(
+          height: 7,
+        ),
         Text(
             "Reminder: If the most recent training session is the best among your last 5, we will DOUBLE the calories consumed in that session",
             textAlign: TextAlign.center,

@@ -14,7 +14,7 @@ class DonationPage extends StatelessWidget {
   bool _barFull = false;
 
   //List<int> _variables = [];
-  final int _maxRange = 25000;
+  final int _maxRange = 20000;
 
   // è impostato anche su radialScoreBoard quindi se messa una vriabile vanno cambiati entrambi
   Widget _selectBottomSection({
@@ -34,6 +34,7 @@ class DonationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     print('Donation page built');
     return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
       child: Column(children: [
         Container(
             width: 700,
@@ -60,7 +61,7 @@ class DonationPage extends StatelessWidget {
                         width: 10,
                       ),
                       const Text(
-                        'Your kCal counter',
+                        'Your Kcal counter',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 28,
@@ -70,39 +71,50 @@ class DonationPage extends StatelessWidget {
                       IconButton(
                           icon: Icon(Icons.change_circle),
                           onPressed: () async {
-
-                            List<Totalcal> lista = await Provider.of<DatabaseRepository>(context, listen: false).findAllTotalCal();
-                            int CalAmountNow = lista.last.amount; // solo se database non vuoto
-                            if (CalAmountNow<_maxRange){
-                              Totalcal totalcal = Totalcal(null, 25000) ;
-                              await Provider.of<DatabaseRepository>(context, listen: false).insertCal(totalcal);
+                            List<Totalcal> lista =
+                                await Provider.of<DatabaseRepository>(context,
+                                        listen: false)
+                                    .findAllTotalCal();
+                            int CalAmountNow =
+                                lista.last.amount; // solo se database non vuoto
+                            if (CalAmountNow < _maxRange) {
+                              Totalcal totalcal = Totalcal(null, 25000);
+                              await Provider.of<DatabaseRepository>(context,
+                                      listen: false)
+                                  .insertCal(totalcal);
                             } else {
-                              await Provider.of<DatabaseRepository>(context, listen: false).deleteCal(lista.last);
-                          }}),
+                              await Provider.of<DatabaseRepository>(context,
+                                      listen: false)
+                                  .deleteCal(lista.last);
+                            }
+                          }),
                     ],
                   ),
                   const SizedBox(
                     height: 5,
                   ),
-                  Consumer<DatabaseRepository>(
-                      builder: (context, dbr, child) {
+                  Consumer<DatabaseRepository>(builder: (context, dbr, child) {
                     return FutureBuilder(
                         initialData: null,
                         future: dbr.findAllTotalCal(),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            final allTotalcal =
-                                snapshot.data as List<Totalcal>;
+                            final allTotalcal = snapshot.data as List<Totalcal>;
                             int n = allTotalcal.length;
                             if (n > 0) {
                               int CalAmountNow = allTotalcal.last.amount;
                               return Column(
                                 children: [
-                                  SizedBox( width: 280, height: 280,
-                                    child: scoreBoard(context, total: CalAmountNow>=_maxRange
-                                      ? 25000 : CalAmountNow),
+                                  SizedBox(
+                                    width: 280,
+                                    height: 280,
+                                    child: scoreBoard(context,
+                                        total: CalAmountNow >= _maxRange
+                                            ? 25000
+                                            : CalAmountNow),
                                   ),
-                                  _selectBottomSection(fullness: CalAmountNow>=_maxRange)
+                                  _selectBottomSection(
+                                      fullness: CalAmountNow >= _maxRange)
                                 ],
                               );
                             } else {
@@ -119,7 +131,6 @@ class DonationPage extends StatelessWidget {
                         });
                   })
                 ])),
-        
         SizedBox(
           height: 5,
         ),

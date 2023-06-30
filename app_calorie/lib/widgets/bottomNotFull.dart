@@ -18,10 +18,6 @@ class bottomBarNotFullSection extends StatelessWidget {
       const SizedBox(
         height: 5,
       ),
-      const Text(
-        "To make a FREE DONATION and get a COUPON ",
-        style: TextStyle(fontSize: 17, color: Color(0xFF424242)),
-      ),
       const SizedBox(
         height: 18,
       ),
@@ -70,7 +66,8 @@ class bottomBarNotFullSection extends StatelessWidget {
               ),
               const Text(
                 'For every 10\$ donation, WFP provides\nlifesaving meals to 35 starving people',
-                style: TextStyle(color: Color(0xFF424242),
+                style: TextStyle(
+                    color: Color(0xFF424242),
                     fontSize: 17,
                     fontWeight: FontWeight.w500),
               ),
@@ -98,8 +95,8 @@ class bottomBarNotFullSection extends StatelessWidget {
                       ps.setDouble('donation',
                           donationAmount + double.parse(donationValue.text));
                     }
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) =>AchievementsPage()));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => AchievementsPage()));
                   }
                 },
                 child: Text('Donate',

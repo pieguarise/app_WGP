@@ -10,14 +10,15 @@ class CustomPlot extends StatelessWidget {
   }) : super(key: key);
   final List<Trainings> listOfTrainings;
 
-@override
+  @override
   Widget build(BuildContext context) {
-   return Stack(
+    return Stack(
       children: <Widget>[
         AspectRatio(
-          aspectRatio: 1.7,
+          aspectRatio: 1.5,
           child: Padding(
-            padding: const EdgeInsets.only(right: 40, left:10, bottom: 10, top: 10 ),
+            padding:
+                const EdgeInsets.only(right: 40, left: 10, bottom: 10, top: 10),
             child: LineChart(
               mainData(listOfTrainings),
             ),
@@ -58,7 +59,6 @@ class CustomPlot extends StatelessWidget {
 
   LineChartData mainData(List<Trainings> lista) {
     return LineChartData(
-           
       titlesData: FlTitlesData(
         show: true,
         rightTitles: AxisTitles(
@@ -73,12 +73,11 @@ class CustomPlot extends StatelessWidget {
         leftTitles: AxisTitles(
           axisNameWidget: const Text(
             "Calories",
-             style: 
-             TextStyle(
-              color: Colors.orange,
-              fontSize: 15,
-              fontWeight: FontWeight.bold
-              ),),
+            style: TextStyle(
+                color: Colors.orange,
+                fontSize: 15,
+                fontWeight: FontWeight.bold),
+          ),
           axisNameSize: 15,
           sideTitles: SideTitles(
             showTitles: true,
@@ -88,69 +87,54 @@ class CustomPlot extends StatelessWidget {
           ),
         ),
       ),
-      
       minX: 0.9,
       maxX: 5,
       minY: -1,
       maxY: 2250,
-
       gridData: FlGridData(
-        show:true,
-        horizontalInterval: 250,
-        getDrawingHorizontalLine: (value) {
-          return FlLine(
-            color: Colors.orange.shade100,
-            strokeWidth: 2
-          );
-        },
-        drawVerticalLine: false
-      ),
-
-      borderData: FlBorderData(show: false ),
-
-      lineTouchData: LineTouchData(
-        enabled: true,
-        touchTooltipData: LineTouchTooltipData(
-          tooltipBgColor: Colors.amber.shade50,
-          getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
-            return touchedBarSpots.map((barSpot) {
-              final flSpot = barSpot;
-              return LineTooltipItem(
-                'Calories: ${listOfTrainings[flSpot.x.toInt()-1].calories} \n',
-                const TextStyle(
-                  color: Colors.orange,
-                  fontWeight: FontWeight.w600
-                ),
-                textAlign: TextAlign.left,
-                children: [
-                  TextSpan(
-                    text: 'Technique: ${listOfTrainings[flSpot.x.toInt()-1].technique} \n',
-                    style: const TextStyle(
-                      color: Colors.orange,
-                      fontWeight: FontWeight.w600
-                      ),
-                  ),
-                  TextSpan(
-                    text: 'Date: ${DateFormat('dd-MM-yyyy').format(listOfTrainings[flSpot.x.toInt()-1].date)} \n',
-                    style: const TextStyle(
-                      color: Colors.orange,
-                      fontWeight: FontWeight.w600
-                    ),
-                  ),
-                  TextSpan(
-                    text: 'Time: ${DateFormat.jm().format(listOfTrainings[flSpot.x.toInt()-1].date)}',
-                    style: const TextStyle(
-                      color: Colors.orange,
-                      fontWeight: FontWeight.w600
-                    ),
-                  ),
-                ],
-              );
-            }).toList();
+          show: true,
+          horizontalInterval: 250,
+          getDrawingHorizontalLine: (value) {
+            return FlLine(color: Colors.orange.shade100, strokeWidth: 2);
           },
-        )
-      ),
-      
+          drawVerticalLine: false),
+      borderData: FlBorderData(show: false),
+      lineTouchData: LineTouchData(
+          enabled: true,
+          touchTooltipData: LineTouchTooltipData(
+            tooltipBgColor: Colors.amber.shade50,
+            getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
+              return touchedBarSpots.map((barSpot) {
+                final flSpot = barSpot;
+                return LineTooltipItem(
+                  'Calories: ${listOfTrainings[flSpot.x.toInt() - 1].calories} \n',
+                  const TextStyle(
+                      color: Colors.orange, fontWeight: FontWeight.w600),
+                  textAlign: TextAlign.left,
+                  children: [
+                    TextSpan(
+                      text:
+                          'Technique: ${listOfTrainings[flSpot.x.toInt() - 1].technique} \n',
+                      style: const TextStyle(
+                          color: Colors.orange, fontWeight: FontWeight.w600),
+                    ),
+                    TextSpan(
+                      text:
+                          'Date: ${DateFormat('dd-MM-yyyy').format(listOfTrainings[flSpot.x.toInt() - 1].date)} \n',
+                      style: const TextStyle(
+                          color: Colors.orange, fontWeight: FontWeight.w600),
+                    ),
+                    TextSpan(
+                      text:
+                          'Time: ${DateFormat.jm().format(listOfTrainings[flSpot.x.toInt() - 1].date)}',
+                      style: const TextStyle(
+                          color: Colors.orange, fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                );
+              }).toList();
+            },
+          )),
       lineBarsData: [
         LineChartBarData(
           spots: [
@@ -159,22 +143,19 @@ class CustomPlot extends StatelessWidget {
             FlSpot(3, listOfTrainings[2].calories.toDouble()),
             FlSpot(4, listOfTrainings[3].calories.toDouble()),
             FlSpot(5, listOfTrainings[4].calories.toDouble()),
-            ],
+          ],
           isCurved: true,
           gradient: LinearGradient(
-            colors: [Colors.orange.shade300, Colors.orange.shade700]),
+              colors: [Colors.orange.shade300, Colors.orange.shade700]),
           belowBarData: BarAreaData(
             show: true,
-            gradient: LinearGradient(
-            colors: [Colors.orange.shade300.withOpacity(0.3), Colors.orange.shade800.withOpacity(0.3)]),
-
+            gradient: LinearGradient(colors: [
+              Colors.orange.shade300.withOpacity(0.3),
+              Colors.orange.shade800.withOpacity(0.3)
+            ]),
           ),
-
           barWidth: 10,
-          dotData: FlDotData(
-            show: true
-          ),
-
+          dotData: FlDotData(show: true),
         ),
       ],
     );
