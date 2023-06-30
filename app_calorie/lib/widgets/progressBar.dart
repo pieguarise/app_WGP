@@ -15,14 +15,14 @@ class ProgressBar extends StatelessWidget {
     return LinearPercentIndicator(
       width: 225.0,
       lineHeight: 22.0,
-      percent: consumedCal<20000 ? consumedCal/20000 : 1,
+      percent: consumedCal<25000 ? consumedCal/25000 : 1,
       progressColor: Colors.orange,
       barRadius: const Radius.circular(10),
       trailing: Text(
-        "${consumedCal.toInt()}/20K Cal",
+        "${consumedCal.toInt()}/25K Cal",
         style: TextStyle(color: Colors.orange, fontSize: 17, fontWeight: FontWeight.bold)),
       center: Text(
-        "${(consumedCal/20000*100).toInt()}%",
+        "${(consumedCal/25000*100).toInt()}%",
         style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold) 
         ),
       

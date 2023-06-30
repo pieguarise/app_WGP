@@ -6,6 +6,7 @@ import 'package:app_calorie/pages/achievementsPage.dart';
 import 'package:app_calorie/repository/databaseRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ListRadioMembers extends StatefulWidget {
   const ListRadioMembers({super.key});
@@ -93,6 +94,16 @@ class listRadioMembersState extends State<ListRadioMembers> {
             int CalAmountNow = lista.last.amount;
             Totalcal totalcal = Totalcal(null, CalAmountNow-20000);
             await Provider.of<DatabaseRepository>(context, listen: false).insertCal(totalcal);
+            SharedPreferences ps = await SharedPreferences.getInstance();
+                    // check if i've already made a donation
+                    if (ps.getInt("counter") == null) {
+                      ps.setInt(
+                          'counter', 1);
+                    } else {
+                      int counter = ps.getInt("counter")!;
+                      ps.setInt('counter',
+                          counter + 1);
+                    }
             _couponGeneration(context, currentValue);
           },
           child: Icon(Icons.done),

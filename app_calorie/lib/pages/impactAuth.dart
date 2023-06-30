@@ -29,7 +29,7 @@ class _ImpactAuthState extends State<ImpactAuth> {
     if (isChecked==false){
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("It's necessary to allow appWGP to use of your data"),
+          content: Text("It's necessary to allow appWGP to use your data"),
           duration: const Duration(seconds: 2),
         ),
       );

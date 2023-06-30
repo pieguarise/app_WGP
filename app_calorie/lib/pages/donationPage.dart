@@ -74,7 +74,7 @@ class DonationPage extends StatelessWidget {
                             List<Totalcal> lista = await Provider.of<DatabaseRepository>(context, listen: false).findAllTotalCal();
                             int CalAmountNow = lista.last.amount; // solo se database non vuoto
                             if (CalAmountNow<_maxRange){
-                              Totalcal totalcal = Totalcal(null, 20000) ;
+                              Totalcal totalcal = Totalcal(null, 25000) ;
                               await Provider.of<DatabaseRepository>(context, listen: false).insertCal(totalcal);
                             } else {
                               await Provider.of<DatabaseRepository>(context, listen: false).deleteCal(lista.last);
@@ -100,7 +100,7 @@ class DonationPage extends StatelessWidget {
                                 children: [
                                   SizedBox( width: 280, height: 280,
                                     child: scoreBoard(context, total: CalAmountNow>=_maxRange
-                                      ? 20000 : CalAmountNow),
+                                      ? 25000 : CalAmountNow),
                                   ),
                                   _selectBottomSection(fullness: CalAmountNow>=_maxRange)
                                 ],

@@ -171,6 +171,7 @@ class _HomeState extends State<Home> {
                               ps.remove('weigth');
                               ps.remove('heigth');
                               ps.remove('donation');
+                              ps.remove('counter');
                             }
                             ,
                             child: const Text('Yes'),

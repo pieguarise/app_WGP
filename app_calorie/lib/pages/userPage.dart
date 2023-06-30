@@ -59,8 +59,8 @@ class _UserPageState extends State<UserPage> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Text(
-                      '${nameController.text} (${nickNameController.text})',
+                    
+                    Text('${nickNameController.text=='' ? '${nameController.text}' : '${nameController.text} (${nickNameController.text})'}',
                       style: const TextStyle(
                           fontSize: 30, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.start,
@@ -71,7 +71,7 @@ class _UserPageState extends State<UserPage> {
                     CircleAvatar(
                       radius: 70,
                       child: Image.asset(
-                        'assets/avatar.png',
+                        'assets/batman.webp',
                       ),
                     ),
                   ])),
