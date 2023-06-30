@@ -6,7 +6,7 @@ class AboutUsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //print('${AboutUsPage.AboutUspageName} built');
+    print('${AboutUsPage.AboutUspageName} built');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange.shade300,
@@ -45,9 +45,9 @@ class AboutUsPage extends StatelessWidget {
                     CircleAvatar(
                       radius: 50,
                       backgroundColor: Colors.transparent,
-                      child: Image.asset('assets/bottecchia.png')),
+                      child: Image.asset('assets/wfp.png')),
                     
-                    SizedBox(width: 100),
+                    SizedBox(width: 50),
 
                     CircleAvatar(
                       radius: 50,
@@ -56,11 +56,23 @@ class AboutUsPage extends StatelessWidget {
                     )
                   ],
                 ),
-                Center(child: CircleAvatar(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
                       radius: 50,
                       backgroundColor: Colors.transparent,
-                      child: Image.asset('assets/lowa.png'),
-                    ),)
+                      child: Image.asset('assets/bottecchia.png')),
+                    
+                    SizedBox(width: 50),
+
+                    CircleAvatar(
+                          radius: 50,
+                          backgroundColor: Colors.transparent,
+                          child: Image.asset('assets/lowa.png'),
+                        ),
+                  ],
+                )
               ],
             )
           ],

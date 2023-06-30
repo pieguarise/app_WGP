@@ -1,4 +1,4 @@
-import 'package:app_calorie/pages/couponsPage.dart';
+import 'package:app_calorie/pages/achievementsPage.dart';
 import 'package:app_calorie/pages/home.dart';
 import 'package:app_calorie/pages/instructionsPage.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +29,7 @@ class _UserPageState extends State<UserPage> {
 
   @override
   Widget build(BuildContext context) {
-    //print('${UserPage.UserpageName} built');
+    print('${UserPage.UserpageName} built');
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.orange.shade300,
@@ -71,7 +71,7 @@ class _UserPageState extends State<UserPage> {
                     CircleAvatar(
                       radius: 70,
                       child: Image.asset(
-                        'assets/batman.webp',
+                        'assets/avatar.png',
                       ),
                     ),
                   ])),
@@ -151,7 +151,7 @@ class _UserPageState extends State<UserPage> {
                           ps.setString('heigth', heigthController.text);
 
                           setState(() {});
-                          // if first time using, after inputing data I go to Home, and finish firstTime
+                          // if first time using, after inputing data I go to InstructionsPage
                           if (ps.getBool('firstTime') == null) {
                             Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(

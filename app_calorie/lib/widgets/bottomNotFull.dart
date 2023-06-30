@@ -1,4 +1,4 @@
-import 'package:app_calorie/pages/couponsPage.dart';
+import 'package:app_calorie/pages/achievementsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -99,7 +99,7 @@ class bottomBarNotFullSection extends StatelessWidget {
                           donationAmount + double.parse(donationValue.text));
                     }
                     Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => CouponsPage()));
+                        MaterialPageRoute(builder: (context) =>AchievementsPage()));
                   }
                 },
                 child: Text('Donate',

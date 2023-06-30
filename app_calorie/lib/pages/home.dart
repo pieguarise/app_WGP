@@ -1,7 +1,7 @@
 import 'package:app_calorie/database/entities/entities.dart';
 import 'package:app_calorie/pages/aboutUsPage.dart';
+import 'package:app_calorie/pages/donationPage.dart';
 import 'package:app_calorie/pages/achievementsPage.dart';
-import 'package:app_calorie/pages/couponsPage.dart';
 import 'package:app_calorie/pages/homePage.dart';
 import 'package:app_calorie/pages/instructionsPage.dart';
 import 'package:app_calorie/pages/loginPage.dart';
@@ -34,8 +34,8 @@ class _HomeState extends State<Home> {
       label: 'Home',
     ),
     const BottomNavigationBarItem(
-      icon: Icon(MdiIcons.trophyOutline),
-      label: 'Achievements',
+      icon: Icon(MdiIcons.currencyUsd),
+      label: 'Donation',
     ),
   ];
 
@@ -52,7 +52,7 @@ class _HomeState extends State<Home> {
       case 0:
         return const HomePage();
       case 1:
-        return AchievementsPage();
+        return DonationPage();
       default:
         return const HomePage();
     }
@@ -60,6 +60,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    print('${Home.routeDisplayName} built');
     return Scaffold(
         backgroundColor: Colors.white,
         drawer: Drawer(
@@ -169,6 +170,7 @@ class _HomeState extends State<Home> {
                               ps.remove('age');
                               ps.remove('weigth');
                               ps.remove('heigth');
+                              ps.remove('donation');
                             }
                             ,
                             child: const Text('Yes'),
@@ -205,9 +207,9 @@ class _HomeState extends State<Home> {
             IconButton(
                 onPressed: () {
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => CouponsPage()));
+                      MaterialPageRoute(builder: (context) => AchievementsPage()));
                 },
-                icon: Icon(MdiIcons.gift)),
+                icon: Icon(MdiIcons.giftOutline)),
             IconButton(
                 onPressed: () {
                   Navigator.of(context).push(

@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                                       children: [
                                         ProgressBar(consumedCal: CalAmountNow),const SizedBox(height: 10),
                                         const Text(
-                                            "You can go to ACHIEVEMENTS to donate. \nFill the bar to get a branded COUPON and the brand will DONATE food correspondent consumed calories",
+                                            "You can go to DONATION page to donate. \nFill the bar to get a branded COUPON and the brand will DONATE food correspondent consumed calories",
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: Color(0xFF424242),
@@ -140,7 +140,10 @@ class _HomePageState extends State<HomePage> {
                                     );
                                   }
                                 } else {
-                                  return CircularProgressIndicator();
+                                  return const SizedBox(
+                                    height: 100,
+                                    width: 100,
+                                    child: CircularProgressIndicator());
                                 }
                               });
                         }),

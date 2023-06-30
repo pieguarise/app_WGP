@@ -16,7 +16,7 @@ class bottomBarFullSection extends StatelessWidget {
         ),
         SizedBox(height: 8),
         Text(
-          'Choose which brand will help World Food Program, donating 900 Kcal of food. You will get a Coupon!',
+          'Choose which brand will help World Food Program, donating 20K Kcal of food. You will get a Coupon!',
           style: TextStyle(fontSize: 17, color: Color(0xFF424242)),
           textAlign: TextAlign.center,
         ),

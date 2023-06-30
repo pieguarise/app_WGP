@@ -1,7 +1,8 @@
 import 'dart:math';
 
 import 'package:app_calorie/database/entities/entities.dart';
-import 'package:app_calorie/pages/couponsPage.dart';
+import 'package:app_calorie/pages/achievementsPage.dart';
+
 import 'package:app_calorie/repository/databaseRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +43,7 @@ class listRadioMembersState extends State<ListRadioMembers> {
       await Provider.of<DatabaseRepository>(context, listen: false)
           .insertCoupons(newCoupon);
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => CouponsPage()));
+          .push(MaterialPageRoute(builder: (context) => AchievementsPage()));
     } else {
       ScaffoldMessenger(
         child: Text('Choose a brand first'),

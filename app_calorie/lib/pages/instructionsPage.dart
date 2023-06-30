@@ -10,6 +10,7 @@ class InstructionsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('${InstructionsPage.InstructionspageName} built');
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.orange.shade300,
@@ -44,7 +45,7 @@ class InstructionsPage extends StatelessWidget {
                           fontWeight: FontWeight.bold)),
                   const SizedBox(height: 10),
                   Text(
-                    "Train and consume calories to fill the bar.\nWhen you get to 20K Kcal you can choose which brand will make a donation equal to 20K kcal in meals via WFP.\nYou will get a coupon of the chosen brand",
+                    "Train and consume calories to fill the bar.\nWhen you get to 20K Kcal you can choose which brand will make a donation equal to 20K kcal in meals via WFP.\nYou will get a coupon of the chosen brand.",
                     style: TextStyle(
                       color: Colors.orange.shade600,
                       fontSize: 18,
@@ -92,7 +93,7 @@ class InstructionsPage extends StatelessWidget {
                   const Row(
                     children: [
                       SizedBox(width: 10),
-                      Icon(MdiIcons.trophyOutline,
+                      Icon(MdiIcons.currencyUsd,
                         color: Colors.orange,
                         size: 30),
                       SizedBox(width: 25),
@@ -107,7 +108,7 @@ class InstructionsPage extends StatelessWidget {
                   const Row(
                     children: [
                       SizedBox(width: 10),
-                      Icon(MdiIcons.gift, 
+                      Icon(MdiIcons.giftOutline, 
                         color: Colors.orange,
                         size: 30),
                       SizedBox(width: 25),

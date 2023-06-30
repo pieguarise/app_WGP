@@ -257,21 +257,23 @@ Future<int?> _callingUrlSingle(context, String date, String? access) async {
     final decodedResponse = jsonDecode(response.body);
     print('decoded response: ${decodedResponse}');
 
+    if (decodedResponse['data'].isNotEmpty){
 
-    for (var i = 0; i < decodedResponse['data']['data'].length; i++) {
-      //lista giornaliera
+      for (var i = 0; i < decodedResponse['data']['data'].length; i++) {
+        //lista giornaliera
 
-      Trainings training = _generateTraining(
-          decodedResponse['data']
-              ['date'], //data e ora dell i esimo allenamento del j giorno
-          decodedResponse['data']['data'][i]);
-      print(training.date);
-      await Provider.of<DatabaseRepository>(context, listen: false)
-          .insertTraining(training);
+        Trainings training = _generateTraining(
+            decodedResponse['data']
+                ['date'], //data e ora dell i esimo allenamento del j giorno
+            decodedResponse['data']['data'][i]);
+        print(training.date);
+        await Provider.of<DatabaseRepository>(context, listen: false)
+            .insertTraining(training);
 
-      Totalcal totalcal = await _generateTotalcal(decodedResponse['data']['data'][i], context);
-        await Provider.of<DatabaseRepository>(context).insertCal(totalcal);
-        
+        Totalcal totalcal = await _generateTotalcal(decodedResponse['data']['data'][i], context);
+          await Provider.of<DatabaseRepository>(context, listen: false).insertCal(totalcal);
+          
+      }
     }
   } //for//if
   else {

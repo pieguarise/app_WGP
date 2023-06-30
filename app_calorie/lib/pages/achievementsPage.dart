@@ -1,129 +1,160 @@
 import 'package:app_calorie/database/entities/entities.dart';
 import 'package:app_calorie/repository/databaseRepository.dart';
-import 'package:app_calorie/widgets/bottomNotFull.dart';
 import 'package:flutter/material.dart';
-import 'package:app_calorie/widgets/radialScoreBoard.dart';
-import 'package:app_calorie/widgets/bottomBarFullSection.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AchievementsPage extends StatelessWidget {
   AchievementsPage({Key? key}) : super(key: key);
-
-  static const AchievementsPageName = 'AchievementsPage';
-
-  bool _barFull = false;
-
-  //List<int> _variables = [];
-  final int _maxRange = 20000;
-
-  // è impostato anche su radialScoreBoard quindi se messa una vriabile vanno cambiati entrambi
-  Widget _selectBottomSection({
-    required bool fullness,
-  }) {
-    switch (fullness) {
-      case false:
-        return bottomBarNotFullSection();
-      case true:
-        return bottomBarFullSection();
-      default:
-        return bottomBarNotFullSection();
-    }
-  }
+  
+  static const AchievementsPageName = 'Achievements';
 
   @override
   Widget build(BuildContext context) {
-    //print('${AchievementsPage.AchievementsPageName} built');
-    return SingleChildScrollView(
-      child: Column(children: [
-        Container(
-            width: 700,
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              gradient: LinearGradient(
-                colors: [
-                  Colors.orange.shade100,
-                  const Color.fromARGB(255, 255, 255, 255)
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 10,
-                      ),
-                      const Text(
-                        'Your Kcal counter',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      IconButton(
-                          icon: Icon(Icons.change_circle),
-                          onPressed: () async {
-
-                            List<Totalcal> lista = await Provider.of<DatabaseRepository>(context, listen: false).findAllTotalCal();
-                            int CalAmountNow = lista.last.amount; // solo se database non vuoto
-                            if (CalAmountNow<_maxRange){
-                              Totalcal totalcal = Totalcal(null, 20000) ;
-                              await Provider.of<DatabaseRepository>(context, listen: false).insertCal(totalcal);
-                            } else {
-                              await Provider.of<DatabaseRepository>(context, listen: false).deleteCal(lista.last);
-                          }}),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Consumer<DatabaseRepository>(
-                      builder: (context, dbr, child) {
-                    return FutureBuilder(
-                        initialData: null,
-                        future: dbr.findAllTotalCal(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            final allTotalcal =
-                                snapshot.data as List<Totalcal>;
-                            int n = allTotalcal.length;
-                            if (n > 0) {
-                              int CalAmountNow = allTotalcal.last.amount;
-                              return Column(
-                                children: [
-                                  SizedBox( width: 280, height: 280,
-                                    child: scoreBoard(context, total: CalAmountNow>=_maxRange
-                                      ? 20000 : CalAmountNow),
-                                  ),
-                                  _selectBottomSection(fullness: CalAmountNow>=_maxRange)
-                                ],
-                              );
-                            } else {
-                              return Center(
-                                child: Text("Download data",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.grey.shade700)),
-                              );
-                            }
-                          } else {
-                            return CircularProgressIndicator();
-                          }
-                        });
-                  })
-                ])),
-        
-        SizedBox(
-          height: 5,
+    print('${AchievementsPage.AchievementsPageName} built');
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.orange.shade300,
         ),
-      ]),
-    );
+        body: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [
+            Colors.orange.shade100,
+            const Color.fromARGB(255, 255, 255, 255)
+          ], begin: Alignment.topCenter, end: Alignment.center)),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 5,
+                ),
+                const Text(
+                  'Achievements',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text('Donations',
+                    style: TextStyle(
+                        color: Colors.grey.shade700,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold)),
+                SizedBox(height: 5),
+                Center(
+                  child: FutureBuilder(
+                      future: SharedPreferences.getInstance(),
+                      builder: ((context, snapshot) {
+                        if (snapshot.hasData) {
+                          final sp = snapshot.data as SharedPreferences;
+                          if (sp.getDouble('donation') == null) {
+                            sp.setDouble('donation', 0);
+                            return const Text(
+                              "You've totally donated:  0\$",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.orange,
+                              ),
+                            );
+                          } else {
+                            final donat = sp.getDouble('donation')!;
+                            return Text(
+                              "You've totally donated:  $donat\$",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.orange,
+                              ),
+                            );
+                          }
+                        } else {
+                          return const Text(
+                            "You've totally donated:  0\$",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.orange,
+                            ),
+                          );
+                        }
+                      })),
+                ),
+                SizedBox(height: 20),
+                Text('Coupons',
+                    style: TextStyle(
+                        color: Colors.grey.shade700,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold)),
+                SizedBox(height: 5),
+                Consumer<DatabaseRepository>(builder: (context, dbr, child) {
+                  return FutureBuilder(
+                      initialData: null,
+                      future: dbr.findAllCoupons(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          final totalCoupons = snapshot.data as List<Coupons>;
+                          if (totalCoupons.isNotEmpty) {
+                            return toDisplayCoupons(totalCoupons);
+                          } else {
+                            return Center(
+                              child: Text(
+                                  "You have not collected any coupon yet",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.grey.shade700)),
+                            );
+                          }
+                        } else {
+                          return CircularProgressIndicator();
+                        }
+                        
+                      });
+                })
+              ],
+            ),
+          ),
+        ));
   }
+
+  Widget toDisplayCoupons(totalCoupons) {
+    return ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: totalCoupons.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            leading: _imageToDisplay((totalCoupons[index].title)),
+            trailing: ElevatedButton(
+                child: const Text('USE',
+                    style: TextStyle(fontSize: 13, color: Colors.white)),
+                onPressed: () async {
+                  String message =
+                      'Congratulations, you used the ${totalCoupons[index].title} coupon';
+                  await Provider.of<DatabaseRepository>(context, listen: false)
+                      .deleteCoupons(totalCoupons[index]);
+                  ScaffoldMessenger.of(
+                    context,
+                  )
+                    ..removeCurrentSnackBar()
+                    ..showSnackBar(SnackBar(content: Text(message)));
+                }),
+            title: Text(
+              totalCoupons[index].title,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text(totalCoupons[index].description),
+          );
+        });
+  }
+}
+
+Image _imageToDisplay(title) {
+  return Image.asset("assets/${title.toLowerCase()}.png",
+      width: 50, height: 50);
 }
