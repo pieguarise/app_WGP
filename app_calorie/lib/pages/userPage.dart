@@ -149,8 +149,8 @@ class _UserPageState extends State<UserPage> {
                           ps.setString('age', ageController.text);
                           ps.setString('weigth', weigthController.text);
                           ps.setString('heigth', heigthController.text);
-
                           setState(() {});
+                          
                           // if first time using, after inputing data I go to InstructionsPage
                           if (ps.getBool('firstTime') == null) {
                             Navigator.of(context).pushReplacement(

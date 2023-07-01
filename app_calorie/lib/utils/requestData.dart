@@ -48,8 +48,7 @@ Future<int?> requestData(context) async {
   String yesterday_string = DateFormat('yyyy-MM-dd').format(yesterday_dateTime);
   print('Giorno finale (ieri): $yesterday_string');
 
-  print('differenza: ${yesterday_dateTime.difference(start_date_dateTime).inDays}');
-  print('prova:${Duration(hours:-22).inDays}');
+  //print('differenza: ${yesterday_dateTime.difference(start_date_dateTime).inDays}');
   // vedi che inDays approssima male: -25h->-1day, -23h->0days, 22h->0days
 
   // quindi modifico duration in caso che sia positivo o negativo 

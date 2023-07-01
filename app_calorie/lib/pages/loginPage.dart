@@ -37,8 +37,6 @@ class LoginPage extends StatelessWidget {
   }
 
   Container toDisplayBody(BuildContext context){
-    //SharedPreferences ps = SharedPreferences.getInstance();
-    //if (ps.getBool('firstTime') == false) {
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
